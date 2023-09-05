@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/bottomnavi_home_selection"
+        android:title="홈"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_ranking"
+        android:icon="@drawable/bottomnavi_ranking_selection"
+        android:title="랭킹"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_place"
+        android:icon="@drawable/bottomnavi_place_selection"
+        android:title="동네대결장"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_chatting"
+        android:icon="@drawable/bottomnavi_chatting_selection"
+        android:title="채팅"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/menu_mypage"
+        android:icon="@drawable/bottomnavi_mypage_selection"
+        android:title="마이페이지"
+        android:enabled="true"/>
+</menu>
