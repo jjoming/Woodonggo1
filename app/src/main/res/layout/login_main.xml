@@ -10,33 +10,157 @@
         android:src="@drawable/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="120sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
+
     <TextView
         android:id="@+id/title"
+        android:fontFamily="@font/font_signiture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="우리동네고수"
-        android:layout_marginTop="30dp"
-        android:textSize="50dp"
+        android:layout_marginTop="30sp"
+        android:textSize="42sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/imgView"
         app:layout_constraintBottom_toBottomOf="@id/imgView"
+        android:textColor="@color/navy"
         />
+
     <TextView
         android:id="@+id/title_sub"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="우리 집 근처에서 즐길 수 있는 각종 스포츠!"
-        android:textSize="18dp"
+        android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
+        android:textColor="@color/navy"
         />
 
+    <LinearLayout
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_sub"
+        android:layout_marginTop="120sp"
+        android:gravity="left"
+        android:background="@drawable/edittext_custom"
+        android:id="@+id/layout1"
+        >
+        <EditText
+            android:id="@+id/loginId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="아이디 입력"
+            android:layout_marginLeft="10sp"
+            android:background="null"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout1"
+        android:layout_marginTop="20sp"
+        android:gravity="left"
+        android:background="@drawable/edittext_custom"
+        android:id="@+id/layout2"
+        >
+        <EditText
+            android:background="null"
+            android:id="@+id/loginPw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호 입력"
+            android:layout_marginLeft="10sp"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/check_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:text="자동 로그인 "
+        app:layout_constraintLeft_toLeftOf="@id/layout2"
+        app:layout_constraintTop_toBottomOf="@+id/layout2"
+        android:textSize="15sp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:layout_marginLeft="-15sp"
+        />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
+        android:background="@drawable/loginbutton_custom"
+        android:text="로그인"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/check_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="5sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/login_button"
+        android:layout_marginTop="10sp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/findId"
+            android:text="아이디 찾기"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   I   "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 찾기"
+            android:id="@+id/findPw"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   I   " />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:id="@+id/signUp"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout3"
+        android:text=" SNS 로그인 "
+        android:layout_marginTop="10sp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
