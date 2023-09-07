@@ -170,7 +170,7 @@
         app:layout_constraintLeft_toRightOf="@+id/view1"
         app:layout_constraintRight_toLeftOf="@id/view2"
         app:layout_constraintTop_toBottomOf="@+id/layout3"
-        android:text=" SNS 로그인 "
+        android:text=" SNS 로그 "
         android:layout_marginTop="10sp" />
 
     <View
