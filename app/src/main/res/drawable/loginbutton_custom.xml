@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 일반 상태 (기본 상태) -->
+    <item>
+        <shape>
+            <solid android:color="@color/navy" />
+            <stroke android:width="2dp" android:color="@color/blue"/>
+            <corners android:radius="6dp"/>
+        </shape>
+    </item>
+</selector>
