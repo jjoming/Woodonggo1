@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavi = findViewById(R.id.bottomNavi);
 
+        // 초기 화면으로 Fragment_home을 설정
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_home).commit();
+
         //BottomNavi 처리
         bottomNavi.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

@@ -34,6 +34,8 @@ public class Fragment_home extends Fragment {
 
         // 툴바 초기화 및 설정
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+
+
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -112,6 +114,8 @@ public class Fragment_home extends Fragment {
             startActivity(intent);
         } else {
             // TODO: 필요한 작업 수행
+            Intent intent = new Intent(getContext(), Home_notification.class);
+            startActivity(intent);
         }
         return false;
     }

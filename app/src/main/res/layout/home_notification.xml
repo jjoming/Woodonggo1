@@ -4,33 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--TODO:우동고에 툴바 아이콘들 옮겨야함.-->
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:menu="@menu/toolbar_home"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView"
-            android:text="동네 이름"
-            android:textColor="@color/black"
-            android:textSize="21sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left" />
-
-        <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="27dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="27dp"
-            android:src="@drawable/icon_more_neighbor" />
-    </androidx.appcompat.widget.Toolbar>
+        app:menu="@menu/toolbar_home_notification"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
@@ -41,23 +21,21 @@
         app:tabIndicatorColor="@color/navy">
 
         <com.google.android.material.tabs.TabItem
+            android:text="좋아요 알림"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="팀"/>
+            android:layout_height="wrap_content"/>
 
         <com.google.android.material.tabs.TabItem
+            android:text="대결 신청 알림"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="개인"/>
+            android:layout_height="wrap_content"/>
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
