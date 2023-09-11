@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class Home_Fragment_Personal extends Fragment {
+
+    FloatingActionButton floatingBtn;
 
     @Nullable
     @Override
@@ -31,6 +36,16 @@ public class Home_Fragment_Personal extends Fragment {
 
         Home_Adapter adapter = new Home_Adapter(testDataSet);
         recyclerView.setAdapter(adapter);
+
+        //플로팅 버튼
+        floatingBtn = rootView.findViewById(R.id.floatingBtn);
+        floatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Home_posting.class);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
