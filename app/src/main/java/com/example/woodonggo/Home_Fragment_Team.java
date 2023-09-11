@@ -18,8 +18,6 @@ import java.util.ArrayList;
 
 public class Home_Fragment_Team extends Fragment {
 
-    FloatingActionButton floatingBtn;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,16 +34,6 @@ public class Home_Fragment_Team extends Fragment {
 
         Home_Adapter adapter = new Home_Adapter(testDataSet);
         recyclerView.setAdapter(adapter);
-
-        //플로팅버튼
-        floatingBtn = rootView.findViewById(R.id.floatingBtn);
-        floatingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Home_posting.class);
-                startActivity(intent);
-            }
-        });
 
         return rootView;
     }
