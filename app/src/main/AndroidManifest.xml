@@ -22,9 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home_category"/>
-        <activity android:name=".Home_search"/>
+        <activity android:name=".Home_category"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Home_search"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Home_notification"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Home_posting"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

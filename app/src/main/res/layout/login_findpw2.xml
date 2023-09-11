@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:hint="새 비밀번호"
             android:layout_marginLeft="10sp"
-            android:background="null"
+            android:background="@null"
             android:layout_gravity="center"
             />
     </LinearLayout>
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10sp"
-            android:background="null"
+            android:background="@null"
             android:hint="새 비밀번호 확인" />
     </LinearLayout>
 
