@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imglogo"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/logo"
+        android:layout_marginLeft="10sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:fontFamily="@font/font_signiture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="마이프로필 설정 "
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="10sp"
+        android:textSize="32sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imglogo"
+        app:layout_constraintBottom_toBottomOf="@id/imglogo"
+        android:textColor="@color/navy"
+        />
+    
+    <ImageView
+        android:id="@+id/profile"
+        android:layout_width="80sp"
+        android:layout_height="80sp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="150sp"
+        android:background="@drawable/icon_person_line"
+        />
+
+    <LinearLayout
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile"
+        android:layout_marginTop="110sp"
+        android:gravity="left"
+        android:background="@drawable/edittext_custom"
+        android:id="@+id/layout1"
+        >
+        
+        <EditText
+            android:id="@+id/loginId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="사용하실 닉네암을 입력해주세요."
+            android:layout_marginLeft="10sp"
+            android:background="@null"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

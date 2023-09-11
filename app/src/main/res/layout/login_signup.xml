@@ -15,21 +15,176 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/title"
-        android:fontFamily="@font/font_signiture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="회원 가입 "
-        android:layout_marginTop="20sp"
-        android:layout_marginLeft="10sp"
-        android:textSize="32sp"
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="100sp"
+        android:layout_height="40sp"
+        android:gravity="center"
+        android:layout_marginTop="70sp"
+        android:background="@drawable/edittext_custom"
+        app:layout_constraintTop_toBottomOf="@+id/imglogo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imglogo"
-        app:layout_constraintBottom_toBottomOf="@id/imglogo"
-        android:textColor="@color/navy"
+        app:layout_constraintBottom_toTopOf="@id/layout2"
+        android:layout_marginRight="200sp"
+        >
+
+        <EditText
+            android:id="@+id/name_edit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="null"
+            android:hint="  이름   "
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
+        android:gravity="center"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/edittext_custom"
+        app:layout_constraintTop_toBottomOf="@+id/layout1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+
+
+        <EditText
+            android:id="@+id/id_edit"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:layout_gravity="center"
+            android:background="null"
+            android:hint="  아이디 입력  "
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout1"
+        android:layout_marginTop="110sp"
+        android:gravity="left"
+        android:background="@drawable/edittext_custom"
+        android:id="@+id/layout1_1"
+        >
+        <EditText
+            android:id="@+id/newpw_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호 입력"
+            android:layout_marginLeft="10sp"
+            android:background="null"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2_1"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/edittext_custom"
+        android:gravity="left"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout1_1">
+
+        <EditText
+            android:id="@+id/newpw_et2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10sp"
+            android:background="null"
+            android:hint="비밀번호 확인" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout3"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
+        android:gravity="center"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/edittext_custom"
+        app:layout_constraintTop_toBottomOf="@+id/layout2_1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+        <EditText
+            android:id="@+id/phone_edit"
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:layout_gravity="center"
+            android:background="null"
+            android:hint="  전화번호 입력  "
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/send_btn"
+        android:layout_width="150sp"
+        android:layout_height="50sp"
+        android:layout_gravity="right"
+        android:text="인증번호 받기"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout3"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="150sp"
+        android:background="@drawable/loginbutton_custom"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         />
+
+    <LinearLayout
+        android:id="@+id/layout4"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
+        android:gravity="center"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/edittext_custom"
+        app:layout_constraintTop_toBottomOf="@+id/send_btn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+
+
+        <EditText
+            android:id="@+id/certification_edit"
+            android:layout_width="300sp"
+            android:layout_height="40sp"
+            android:layout_gravity="center"
+            android:background="null"
+            android:hint="  인증번호를 입력해 주세요." />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/certification_btn"
+        android:layout_width="150sp"
+        android:layout_height="50sp"
+        android:layout_gravity="right"
+        android:text="인증번호 인증"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout4"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="150sp"
+        android:background="@drawable/loginbutton_custom"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
