@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--에디트 텍스트 포커스 false-->
+    <item android:state_focused="false">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid
+                android:color="@android:color/transparent"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/gray"/>
+            <corners
+                android:radius="6dp"/>
+        </shape>
+    </item>
+
+    <!--에디트 텍스트 포커스 true-->
+    <item android:state_focused="true">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <stroke
+                android:width="2dp"
+                android:color="@color/blue"/>
+            <solid
+                android:color="@color/white"/>
+            <corners
+                android:radius="6dp"/>
+        </shape>
+    </item>
+</selector>
