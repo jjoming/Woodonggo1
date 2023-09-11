@@ -211,7 +211,6 @@
             android:layout_width="54sp"
             android:layout_height="54sp"
             android:background="@drawable/naverlogo" />
-
     </LinearLayout>
 
 

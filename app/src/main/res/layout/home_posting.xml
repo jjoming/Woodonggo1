@@ -35,4 +35,17 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
+    <EditText
+        android:id="@+id/edt_content"
+        android:hint="게시글 내용"
+        android:textColorHint="@color/gray"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/edt_title"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
