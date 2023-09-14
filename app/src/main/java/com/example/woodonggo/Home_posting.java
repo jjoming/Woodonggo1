@@ -62,7 +62,7 @@ public class Home_posting extends AppCompatActivity {
 
         edt_title = findViewById(R.id.edt_title);
         edt_content = findViewById(R.id.edt_content);
-        //TODO: text_content에 글자 수 제한 두기
+
 
     }
 }
