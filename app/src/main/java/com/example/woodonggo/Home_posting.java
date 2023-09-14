@@ -55,7 +55,7 @@ public class Home_posting extends AppCompatActivity {
         imgView_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Fragment_home.class);
+                Intent intent = new Intent(Home_posting.this, Fragment_home.class);
                 startActivity(intent);
             }
         });
