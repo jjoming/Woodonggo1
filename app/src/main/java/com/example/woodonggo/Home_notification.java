@@ -34,7 +34,7 @@ public class Home_notification extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == android.R.id.home) {
-            Intent intent = new Intent(getApplicationContext(), Fragment_home.class);
+            Intent intent = new Intent(Home_notification.this, Fragment_home.class);
             startActivity(intent);
         } else if (itemId == R.id.editer) {
             // "편집" 메뉴 아이템 클릭 시 "편집" 모드로 전환
