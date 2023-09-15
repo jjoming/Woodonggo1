@@ -46,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
         fragment_home = new Fragment_home();
         fragment_ranking = new Fragment_ranking();
         fragment_place = new Fragment_place();

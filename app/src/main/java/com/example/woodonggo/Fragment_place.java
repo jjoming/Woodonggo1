@@ -22,20 +22,44 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.util.ArrayList;
+
 public class Fragment_place extends Fragment {
 
     private MapView mapView;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    RecyclerView recyclerView;
+    Place_RecyclerView_Adapter adapter;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place, container, false);
+
+        //데이터 모델리스트
+        ArrayList<DataModel> dataModels = new ArrayList<>();
+
+        dataModels.add(new DataModel("data0", "data0", "data0"));
+        dataModels.add(new DataModel("data1", "data1", "data1"));
+        dataModels.add(new DataModel("data2", "data2", "data2"));
+        dataModels.add(new DataModel("data3", "data3", "data3"));
+        dataModels.add(new DataModel("data4", "data4", "data4"));
+        dataModels.add(new DataModel("data5", "data5", "data5"));
+        dataModels.add(new DataModel("data6", "data6", "data6"));
+
+        recyclerView = view.findViewById(R.id.recyclerViewPlace);
+        adapter = new Place_RecyclerView_Adapter(getActivity(), dataModels);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
         mapView = view.findViewById(R.id.mapView);
         mapView.setDaumMapApiKey("bZQKT24rFf7O9Z1G1n4CupNWBY4=");
@@ -101,7 +125,13 @@ public class Fragment_place extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        stopTracking();
+        if (mapView != null) {
+            mapView.removeAllPOIItems();
+            mapView.removeAllPolylines();
+            mapView.removeAllCircles();
+            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+            mapView = null;
+        }
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
