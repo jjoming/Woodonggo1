@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -27,6 +29,9 @@ import java.util.ArrayList;
 
 public class Fragment_home extends Fragment {
 
+    FloatingActionButton floatingBtn;
+
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +44,17 @@ public class Fragment_home extends Fragment {
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        //플로팅 버튼
+        floatingBtn = rootView.findViewById(R.id.floatingBtn);
+        floatingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Home_posting.class);
+                startActivity(intent);
+            }
+        });
 
         // 뷰페이저, 탭 레이아웃 초기화
         ViewPager2 viewPager = rootView.findViewById(R.id.viewPager);

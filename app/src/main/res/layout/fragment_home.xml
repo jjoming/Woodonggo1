@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--TODO:우동고에 툴바 아이콘들 옮겨야함.-->
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -58,6 +56,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingBtn"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/navy"
+        android:src="@drawable/icon_plus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
