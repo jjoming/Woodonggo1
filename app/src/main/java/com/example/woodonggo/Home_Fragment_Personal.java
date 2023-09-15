@@ -1,6 +1,5 @@
 package com.example.woodonggo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -33,7 +30,7 @@ public class Home_Fragment_Personal extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager); // 리니어 레이아웃 매니저 설정
 
-        Home_Adapter adapter = new Home_Adapter(testDataSet);
+        Adapter_home adapter = new Adapter_home(testDataSet);
         recyclerView.setAdapter(adapter);
 
         return rootView;
