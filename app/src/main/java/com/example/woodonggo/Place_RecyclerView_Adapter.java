@@ -46,7 +46,7 @@ public class Place_RecyclerView_Adapter extends RecyclerView.Adapter {
         Log.d(TAG,"onCreateViewHolder");
 
         //자신이 만든 itemview를 inflate한 다음 뷰홀더 생성
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_place,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_recyclerview_item,parent,false);
         MyViewHolder viewHolder = new MyViewHolder(view);
 
 
