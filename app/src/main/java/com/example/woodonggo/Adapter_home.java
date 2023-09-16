@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Home_Adapter extends RecyclerView.Adapter<Home_Adapter.ViewHolder> {
+public class Adapter_home extends RecyclerView.Adapter<Adapter_home.ViewHolder> {
     private ArrayList<String> localDataSet;
 
-    public Home_Adapter(ArrayList<String> dataSet) {
+    public Adapter_home(ArrayList<String> dataSet) {
         localDataSet = dataSet;
     }
 
