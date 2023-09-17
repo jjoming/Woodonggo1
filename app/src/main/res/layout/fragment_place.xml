@@ -34,14 +34,49 @@
         android:minWidth="0dp"
         android:minHeight="0dp"
         android:id="@+id/golf"
+        android:drawableLeft="@drawable/golf_icon"
         android:text="골프"
-        android:textColor="#00ff00"
+        android:textColor="#00ff33"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:backgroundTint="@color/white"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="8dp"
+        app:cornerRadius="100dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:id="@+id/tennis"
+        android:drawableLeft="@drawable/tennis_icon"
+        android:text="테니스"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintLeft_toRightOf="@id/golf"
+        android:layout_marginStart="8dp"
+        app:cornerRadius="100dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:id="@+id/basketball"
+        android:drawableLeft="@drawable/basketball_icon"
+        android:text="농구"
+        android:textColor="#000000"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintLeft_toRightOf="@id/tennis"
+        android:layout_marginStart="8dp"
         app:cornerRadius="100dp"/>
 
     <net.daum.mf.map.api.MapView
