@@ -8,4 +8,6 @@
     <color name="pink">#FE7BE5</color>
     <color name="blue">#0E25A1</color>
 
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#ffffff</color>
 </resources>
