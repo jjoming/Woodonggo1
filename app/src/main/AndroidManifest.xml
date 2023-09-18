@@ -32,7 +32,7 @@
         <activity android:name=".Home_posting"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Fragment_place"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.MaterialTheme"/>
 
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713"/>
