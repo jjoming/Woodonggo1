@@ -22,9 +22,9 @@
 
         <ImageView
             android:id="@+id/imgView"
-            android:layout_width="27dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="27dp"
+            android:layout_width="33dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="19dp"
             android:src="@drawable/icon_more_neighbor" />
     </androidx.appcompat.widget.Toolbar>
 

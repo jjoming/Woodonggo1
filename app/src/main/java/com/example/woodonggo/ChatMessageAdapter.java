@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*
 public class ChatMessageAdapter extends ArrayAdapter {
+
     List msgs = new ArrayList();
 
     public ChatMessageAdapter(Context context, int textViewResourceId) {
@@ -56,4 +57,4 @@ public class ChatMessageAdapter extends ArrayAdapter {
 
         return row;
     }
-}
+}*/

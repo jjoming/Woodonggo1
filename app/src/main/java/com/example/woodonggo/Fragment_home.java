@@ -15,21 +15,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-
 public class Fragment_home extends Fragment {
 
     FloatingActionButton floatingBtn;
+    ImageView imgView;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -40,11 +38,9 @@ public class Fragment_home extends Fragment {
         // 툴바 초기화 및 설정
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
 
-
         AppCompatActivity activity = (AppCompatActivity) requireActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 
         //플로팅 버튼
         floatingBtn = rootView.findViewById(R.id.floatingBtn);
@@ -64,7 +60,7 @@ public class Fragment_home extends Fragment {
         String[] tabTitles = {"팀", "개인"};
 
         // ViewPager2 어댑터 설정
-        Home_TabAdapter home_tabAdapter = new Home_TabAdapter(requireActivity());
+        TabAdapter_main home_tabAdapter = new TabAdapter_main(requireActivity());
         viewPager.setAdapter(home_tabAdapter);
 
         // TabLayout에 ViewPager2 연결
@@ -98,12 +94,12 @@ public class Fragment_home extends Fragment {
         // 텍스트뷰
         TextView textView = rootView.findViewById(R.id.textView);
 
-        // 이미지뷰
+        // 팝업 메뉴
         ImageView imgView = rootView.findViewById(R.id.imgView);
         imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 바텀시트다이얼로그 나오게 하기
+                showPopupMenu(v);
             }
         });
 
@@ -111,6 +107,31 @@ public class Fragment_home extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
+    }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+        MenuInflater menuInflater = popupMenu.getMenuInflater();
+        menuInflater.inflate(R.menu.home_location_menu, popupMenu.getMenu());
+
+        //팝업 메뉴 클릭 이벤트
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if(itemId == R.id.neighborhood) {
+                    //TODO: 우리 동네
+                }
+                else if(itemId == R.id.list_team) {
+                    //TODO: 팀 목록
+                }
+                else {
+                    //TODO:우리 동네 설정
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 
     @Override

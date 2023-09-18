@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="63dp"
+        android:layout_height="63dp"
+        android:layout_margin="24dp"
+        android:background="@mipmap/ic_launcher_round"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--TODO:아이디 폰트는 볼드로 해주기-->
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:text="아이디"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toRightOf="@+id/imgView"
+        app:layout_constraintTop_toTopOf="@+id/imgView" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="님이 대결을 신청했습니다."
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@+id/text_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_name" />
+
+    <TextView
+        android:id="@+id/text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:text="1분 전"
+        android:textColor="@color/dark_gray"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/imgView"
+        app:layout_constraintLeft_toRightOf="@+id/imgView" />
+    
+    <Button
+        android:id="@+id/btn_ok"
+        android:background="@drawable/btn_fight_ok"
+        android:text="수락"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:layout_width="63dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="6dp"
+        app:layout_constraintTop_toTopOf="@+id/imgView"
+        app:layout_constraintRight_toLeftOf="@+id/btn_reject"
+        app:layout_constraintBottom_toBottomOf="@+id/imgView"/>
+
+    <Button
+        android:id="@+id/btn_reject"
+        android:background="@drawable/btn_fight_reject"
+        android:text="거절"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_width="63dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="24dp"
+        app:layout_constraintTop_toTopOf="@+id/btn_ok"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <View
+        android:id="@+id/view"
+        android:background="@color/light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/imgView"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

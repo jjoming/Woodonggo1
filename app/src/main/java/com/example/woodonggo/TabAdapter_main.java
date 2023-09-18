@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class Home_TabAdapter extends FragmentStateAdapter {
-    public Home_TabAdapter(@NonNull FragmentActivity fragmentActivity) {
+public class TabAdapter_main extends FragmentStateAdapter {
+    public TabAdapter_main(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
     @NonNull
