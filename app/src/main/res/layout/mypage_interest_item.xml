@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="240sp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -13,21 +14,21 @@
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="80sp"
-            android:layout_height="80sp"
+            android:layout_width="90sp"
+            android:layout_height="90sp"
             android:src="@drawable/medal"
             app:civ_border_width="2dp"
             app:civ_border_color="#FFFFFF"
-            android:layout_marginLeft="20sp"
-            android:layout_marginTop="20sp"
-            android:layout_marginBottom="20sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
             android:layout_gravity="center"
             />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="20sp"
+            android:layout_marginLeft="10sp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -61,5 +62,31 @@
                 android:background="@drawable/popup_menu"/>
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout1"
+        >
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="245sp"
+        android:layout_height="wrap_content"
+        android:text="오늘 저녁 7시 XX스크린 골프장에서 같이 하실 있으시면 채팅 주세요~~"
+        android:maxLength="55"
+        android:maxLines="3"
+        app:layout_constraintTop_toBottomOf="@id/layout1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="110sp"
+        android:layout_marginRight="20sp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:ellipsize="end"
+        />
+
+
+<!--    TODO 서연이가 하트 작업할거임.-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

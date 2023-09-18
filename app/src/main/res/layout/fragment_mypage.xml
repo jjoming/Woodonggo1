@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
-    </Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
 
@@ -56,10 +56,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="130sp"
+                    android:layout_marginLeft="110sp"
                     android:text="프로필 보기"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:layout_marginRight="10sp"
                     />
             </LinearLayout>
 
