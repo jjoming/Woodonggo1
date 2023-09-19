@@ -11,19 +11,20 @@ import java.util.ArrayList;
 
 public class TabAdapter_notification extends FragmentStateAdapter {
 
-    public TabAdapter_notification(@NonNull FragmentActivity fragmentActivity) {
+    private Home_notification home_notification; // 프래그먼트를 멤버 변수로 선언
+
+    public TabAdapter_notification(@NonNull FragmentActivity fragmentActivity, Home_notification home_notification) {
         super(fragmentActivity);
+        this.home_notification = home_notification; // home_notification 객체 초기화
     }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new Home_notification_like();
-            //TODO: 편집 메뉴 보이게 하기
-        }
-        else {
+        } else {
             return new Home_notification_fight();
-            //TODO: 편집 메뉴 안 보이게 하기
         }
     }
 

@@ -113,7 +113,7 @@
                                 android:layout_height="22sp"
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="20sp"
-                                android:background="@drawable/icon_heart"/>
+                                android:background="@drawable/selector_icon_heart"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
