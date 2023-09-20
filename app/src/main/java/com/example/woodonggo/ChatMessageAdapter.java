@@ -82,16 +82,16 @@ public class ChatMessageAdapter extends BaseAdapter {
 
             // 홀더 생성 및 Tag로 등록
             holder = new CustomHolder();
-            holder.m_TextView   = text;
+            holder.m_TextView = text;
             holder.layout = layout;
             holder.viewRight = viewRight;
             holder.viewLeft = viewLeft;
             convertView.setTag(holder);
         }
         else {
-            holder  = (CustomHolder) convertView.getTag();
-            text    = holder.m_TextView;
-            layout  = holder.layout;
+            holder = (CustomHolder) convertView.getTag();
+            text = holder.m_TextView;
+            layout = holder.layout;
             viewRight = holder.viewRight;
             viewLeft = holder.viewLeft;
         }
@@ -101,12 +101,15 @@ public class ChatMessageAdapter extends BaseAdapter {
 
         if( m_List.get(position).type == 0 ) {
             text.setBackgroundResource(R.drawable.chat_1);
-            layout.setGravity(Gravity.LEFT);
+            text.setPadding(20, 0, 0, 0);
+            layout.setGravity(Gravity.START);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(m_List.get(position).type == 1){
             text.setBackgroundResource(R.drawable.chat_2);
-            layout.setGravity(Gravity.RIGHT);
+            text.setTextColor(Color.WHITE);
+            text.setPadding(20, 0, 0, 0);
+            layout.setGravity(Gravity.END);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         }else if(m_List.get(position).type == 2){
