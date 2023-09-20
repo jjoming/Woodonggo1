@@ -30,6 +30,7 @@ public class ChatMessageAdapter extends BaseAdapter {
     public ChatMessageAdapter() {
         m_List = new ArrayList<>();
     }
+
     // 외부에서 아이템 추가 요청 시 사용
     public void add(String _msg,int _type) {
 
@@ -40,6 +41,7 @@ public class ChatMessageAdapter extends BaseAdapter {
     public void remove(int _position) {
         m_List.remove(_position);
     }
+
     @Override
     public int getCount() {
         return m_List.size();
