@@ -1,6 +1,7 @@
 package com.example.woodonggo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,10 +61,11 @@ public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
         MyViewHolder myViewHolder = (MyViewHolder)holder;
 
         myViewHolder.name_chat.setText(dataModels.get(position).getName());
-        myViewHolder.name_chat.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // todo : 채팅창으로 이동
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Chat_Details.class);
+                context.startActivity(intent);
             }
         });
     }

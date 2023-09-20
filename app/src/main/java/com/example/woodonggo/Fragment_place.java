@@ -62,7 +62,7 @@ public class Fragment_place extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
         mapView = view.findViewById(R.id.mapView);
-        mapView.setDaumMapApiKey("bZQKT24rFf7O9Z1G1n4CupNWBY4=");
+        mapView.setDaumMapApiKey("6e57980f9050faf730dbb4af45ab8602");
 
         // 위치 권한 확인 및 요청
         if (shouldRequestLocationPermission()) {
@@ -122,17 +122,13 @@ public class Fragment_place extends Fragment {
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mapView != null) {
-            mapView.removeAllPOIItems();
-            mapView.removeAllPolylines();
-            mapView.removeAllCircles();
-            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-            mapView = null;
-        }
+        stopTracking();
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -143,4 +139,5 @@ public class Fragment_place extends Fragment {
         }
         return false;
     }
+
 }
