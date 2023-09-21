@@ -65,7 +65,7 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
         myViewHolder.rank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // todo : 상세페이지로 이동
+                // 랭킹을 눌렀을 때 나오는 화면
             }
         });
     }
