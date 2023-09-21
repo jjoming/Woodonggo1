@@ -1,11 +1,11 @@
 package com.example.woodonggo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
+public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
 
     /*
   어댑터의 동작원리 및 순서
@@ -27,11 +27,11 @@ public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
     String TAG = "RecyclerViewAdapter";
 
     //리사이클러뷰에 넣을 데이터 리스트
-    ArrayList<DataModel_chat> dataModels;
+    ArrayList<DataModel_Rank> dataModels;
     Context context;
 
     //생성자를 통하여 데이터 리스트 context를 받음
-    public Chat_RecyclerView_Adapter(FragmentActivity context, ArrayList<DataModel_chat> dataModels) {
+    public Ranking_RecyclerView_Adapter(FragmentActivity context, ArrayList<DataModel_Rank> dataModels) {
         this.dataModels = dataModels;
         this.context = context;
     }
@@ -47,8 +47,9 @@ public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
         Log.d(TAG,"onCreateViewHolder");
 
         //자신이 만든 itemview를 inflate한 다음 뷰홀더 생성
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_recyclerview_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_recyclerview_item,parent,false);
         MyViewHolder viewHolder = new MyViewHolder(view);
+
 
         //생선된 뷰홀더를 리턴하여 onBindViewHolder에 전달한다.
         return viewHolder;
@@ -60,29 +61,25 @@ public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
 
         MyViewHolder myViewHolder = (MyViewHolder)holder;
 
-        myViewHolder.name_chat.setText(dataModels.get(position).getName());
-        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.rank.setText(dataModels.get(position).getRanking());
+        myViewHolder.rank.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, Chat_Details.class);
-                context.startActivity(intent);
+            public void onClick(View v) {
+                // 랭킹을 눌렀을 때 나오는 화면
             }
         });
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name_chat;
-        TextView chat_chat;
-        TextView add_chat;
-        TextView time_chat;
-        int img_source;
+        TextView rank;
+        ImageView imgView_rank;
+        TextView nick_rank;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            name_chat =  itemView.findViewById(R.id.name_chat);
-            chat_chat = itemView.findViewById(R.id.chat_chat);
-            add_chat = itemView.findViewById(R.id.add_chat);
-            time_chat = itemView.findViewById(R.id.time_chat);
+            rank =  itemView.findViewById(R.id.rank);
+            imgView_rank = itemView.findViewById(R.id.imgView_rank);
+            nick_rank = itemView.findViewById(R.id.nick_rank);
         }
     }
 

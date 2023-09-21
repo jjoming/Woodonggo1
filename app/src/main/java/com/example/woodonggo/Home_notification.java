@@ -36,7 +36,7 @@ public class Home_notification extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
 
         // ViewPager2 어댑터 설정
-        TabAdapter_notification tabAdapter_notification = new TabAdapter_notification(this);
+        TabAdapter_notification tabAdapter_notification = new TabAdapter_notification(this, this);
         viewPager.setAdapter(tabAdapter_notification);
 
         // 탭의 이름을 설정하기 위한 문자열 배열

@@ -35,7 +35,7 @@ public class Adapter_home extends RecyclerView.Adapter<Adapter_home.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String text = localDataSet.get(position);
-        holder.text.setText(text);
+        holder.text_name.setText(text);
 
         // more ImageView에 클릭 리스너 추가
         holder.more.setOnClickListener(new View.OnClickListener() {
@@ -77,17 +77,42 @@ public class Adapter_home extends RecyclerView.Adapter<Adapter_home.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder { // 뷰홀더 클래스
-        private TextView text;
-        private ImageView more;
+        private TextView text_name, text_time, text_content, text_like;
+        private ImageView img_profile, more, img_category;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.text);
+            text_name = itemView.findViewById(R.id.text_name);
+            text_time = itemView.findViewById(R.id.text_time);
+            text_content = itemView.findViewById(R.id.text_content);
+            text_like = itemView.findViewById(R.id.text_like);
+            img_profile = itemView.findViewById(R.id.img_profile);
             more = itemView.findViewById(R.id.more);
+            img_category = itemView.findViewById(R.id.img_category);
         }
 
-        public TextView getText() {
-            return text;
+        public TextView getText_name() {
+            return text_name;
+        }
+
+        public TextView getText_time() {
+            return text_time;
+        }
+
+        public TextView getText_content() {
+            return text_content;
+        }
+
+        public TextView getText_like() {
+            return text_like;
+        }
+
+        public ImageView getImg_profile() {
+            return img_profile;
+        }
+
+        public ImageView getImg_category() {
+            return img_category;
         }
     }
 }
