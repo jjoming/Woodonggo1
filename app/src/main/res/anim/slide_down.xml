@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+        <!--애니메이션의 시작값  android:valueFrom-->
+        <!--애니메이션의 종료값  android:valueTo-->
+        <!--애니메이션 지속 시간  android:duration-->
+        <objectAnimator
+            android:propertyName="translationY"
+            android:valueFrom="0"
+            android:valueTo="480"
+            android:duration="1000"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator" />
+</set>
