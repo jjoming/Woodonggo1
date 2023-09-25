@@ -21,7 +21,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Splash"
             android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -30,6 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Home_category"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Home_search"
