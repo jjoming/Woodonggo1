@@ -29,7 +29,7 @@ public class Splash extends AppCompatActivity {
 
         // 두 번째 텍스트 이동 애니메이션
         ObjectAnimator translateY2 = ObjectAnimator.ofFloat(textView, "translationY", 540, 960);
-        translateY2.setDuration(3000); // 애니메이션 간격을 2000ms(2초)로 변경
+        translateY2.setDuration(2000); // 애니메이션 간격을 2000ms(2초)로 변경
 
         // 첫 번째 텍스트 색상 변경 애니메이션
         ObjectAnimator textColorAnimator1 = ObjectAnimator.ofArgb(textView, "textColor",
