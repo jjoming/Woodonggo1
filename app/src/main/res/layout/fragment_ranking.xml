@@ -73,10 +73,10 @@
 
     <TextView
         android:id="@+id/text_rank2"
-        android:fontFamily="@font/font_signiture"
         android:text="2"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/icon_rank2"
@@ -123,10 +123,10 @@
 
     <TextView
         android:id="@+id/text_rank3"
-        android:fontFamily="@font/font_signiture"
         android:text="3"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/icon_rank3"
