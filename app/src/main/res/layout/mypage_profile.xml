@@ -22,8 +22,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
-            android:layout_width="80sp"
-            android:layout_height="80sp"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
             android:src="@drawable/medal"
             app:civ_border_width="2dp"
             app:civ_border_color="#FFFFFF"
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="도구리"
-            android:textSize="30sp"
+            android:textSize="23sp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_gravity="center"
@@ -52,14 +52,14 @@
         android:id="@+id/edit_btn"
         android:layout_width="380sp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/layout1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:text="프로필 수정"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_marginTop="20sp" />
+        android:layout_marginTop="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/layout1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 
 <!--    밑줄은 액티비티에서. -->
@@ -78,7 +78,7 @@
                 android:text="매너온도"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="26sp"
+                android:textSize="18sp"
                 android:layout_marginTop="6sp"
                 android:layout_marginLeft="20sp" />
             <LinearLayout
@@ -93,7 +93,7 @@
                     android:textColor="@color/blue"
                     android:layout_gravity="right"
                     android:layout_marginRight="10sp"
-                    android:textSize="28sp" />
+                    android:textSize="18sp" />
                 <ImageView
                     android:layout_width="28sp"
                     android:layout_height="28sp"
@@ -136,8 +136,7 @@
             android:layout_height="wrap_content"
             android:text="· 홍은동 10회 인증 (최근30일)"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
         <TextView
             android:layout_marginBottom="20sp"
             android:layout_marginLeft="20sp"
@@ -145,8 +144,7 @@
             android:layout_height="wrap_content"
             android:text="· 최근 3일 이내 활동 (2023년 3월 1일 가입)"
             android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -162,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:text="활동 뱃지"
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         <View
             android:layout_width="0dp"
@@ -197,7 +195,7 @@
             android:layout_height="wrap_content"
             android:text="매칭 게시글"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
         <View
             android:layout_width="0dp"
@@ -232,7 +230,7 @@
             android:layout_height="wrap_content"
             android:text="받은 매너 평가"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
         <View
             android:layout_width="0dp"
