@@ -70,4 +70,18 @@
             />
     </LinearLayout>
 
+    <Button
+        android:layout_width="78sp"
+        android:layout_height="36sp"
+        android:text="설정 완료"
+        app:layout_constraintRight_toRightOf="@id/layout1"
+        app:layout_constraintTop_toBottomOf="@id/layout1"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/loginbutton_custom"
+        android:textColor="@color/white"
+        />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

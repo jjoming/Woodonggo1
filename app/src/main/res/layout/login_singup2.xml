@@ -30,41 +30,75 @@
         app:layout_constraintBottom_toBottomOf="@id/imglogo"
         android:textColor="@color/navy"
         />
-    
+
     <ImageView
         android:id="@+id/profile"
-        android:layout_width="80sp"
-        android:layout_height="80sp"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="80sp"
+        android:src="@drawable/profile"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="150sp"
-        android:background="@drawable/icon_person_line"
-        />
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:layout_marginTop="-30sp"
+        android:background="@drawable/camera"
+        app:layout_constraintHorizontal_bias="0.579"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="56dp"
+        android:layout_marginBottom="12sp"
+        android:text="닉네임"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/layout1"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <LinearLayout
         android:layout_width="300sp"
-        android:layout_height="45sp"
+        android:layout_height="36sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile"
+        app:layout_constraintTop_toBottomOf="@id/picture"
         android:layout_marginTop="110sp"
         android:gravity="left"
         android:background="@drawable/edittext_custom"
         android:id="@+id/layout1"
         >
-        
+
         <EditText
             android:id="@+id/loginId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="사용하실 닉네암을 입력해주세요."
+            android:hint="사용하실 닉네임을 입력해주세요."
             android:layout_marginLeft="10sp"
             android:background="@null"
             android:layout_gravity="center"
             />
     </LinearLayout>
 
-
+    <Button
+        android:layout_width="78sp"
+        android:layout_height="36sp"
+        android:text="설정 완료"
+        app:layout_constraintRight_toRightOf="@id/layout1"
+        app:layout_constraintTop_toBottomOf="@id/layout1"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/loginbutton_custom"
+        android:textColor="@color/white"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
