@@ -169,6 +169,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".88"/>
 
+    <!--TODO: background 수정-->
     <ImageView
         android:id="@+id/myrank_bg"
         android:layout_width="match_parent"

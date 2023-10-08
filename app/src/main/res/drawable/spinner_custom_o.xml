@@ -4,12 +4,12 @@
         <layer-list>
             <item>
                 <shape android:shape="rectangle">
-                    <solid android:color="@color/white"/>
+                    <solid android:color="@color/navy"/>
                     <stroke android:color="@color/navy" android:width="2dp"/>
                     <corners android:radius="12dp"/>
                 </shape>
             </item>
-            <item android:drawable="@drawable/icon_arrow_dropdown"
+            <item android:drawable="@drawable/icon_arrow_dropdown_w"
                 android:gravity="right|center" android:start="24dp">
             </item>
         </layer-list>
