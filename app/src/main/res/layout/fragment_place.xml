@@ -28,63 +28,53 @@
             android:src="@drawable/icon_more_neighbor" />
     </androidx.appcompat.widget.Toolbar>
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:id="@+id/golf"
-        android:drawableLeft="@drawable/golf_icon"
-        android:text="골프"
-        android:textColor="#000000"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/btnLayout"
+        android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="8dp"
-        app:cornerRadius="100dp"/>
-
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:id="@+id/tennis"
-        android:drawableLeft="@drawable/tennis_icon"
-        android:text="테니스"
-        android:textColor="#000000"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintLeft_toRightOf="@id/golf"
-        android:layout_marginStart="8dp"
-        app:cornerRadius="100dp"/>
-
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:id="@+id/basketball"
-        android:drawableLeft="@drawable/basketball_icon"
-        android:text="농구"
-        android:textColor="#000000"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:backgroundTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintLeft_toRightOf="@id/tennis"
-        android:layout_marginStart="8dp"
-        app:cornerRadius="100dp"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:layout_width="70dp"
+                android:layout_height="56dp"
+                android:textAlignment="center"
+                android:text="골프"
+                android:textSize="22sp"
+                android:id="@+id/radioGolf"
+                android:background="@drawable/radiobutton_layout"
+                android:textColor="@drawable/radiobutton_text"
+                android:button="@null"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="테니스"
+                android:id="@+id/radioTennis"
+                android:background="@drawable/radiobutton_layout"
+                android:textColor="@drawable/radiobutton_text"
+                android:button="@null"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="당구"
+                android:id="@+id/radioBilli"
+                android:background="@drawable/radiobutton_layout"
+                android:textColor="@drawable/radiobutton_text"
+                android:button="@null"/>
+        </RadioGroup>
+    </LinearLayout>
 
     <net.daum.mf.map.api.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPlace"
