@@ -20,6 +20,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.woodonggo.Home.Home_category;
+import com.example.woodonggo.Home.Home_notification;
+import com.example.woodonggo.Home.Home_posting;
+import com.example.woodonggo.Home.Home_search;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

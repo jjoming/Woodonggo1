@@ -36,13 +36,13 @@
         </activity>
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Home_category"
+        <activity android:name=".Home.Home_category"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Home_search"
+        <activity android:name=".Home.Home_search"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Home_notification"
+        <activity android:name=".Home.Home_notification"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Home_posting"
+        <activity android:name=".Home.Home_posting"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Fragment_place"
             android:theme="@style/AppTheme.MaterialTheme"/>
@@ -55,6 +55,8 @@
         <activity android:name=".Mypage_match"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Mypage_interest"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Login_Signup"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"

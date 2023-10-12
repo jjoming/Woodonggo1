@@ -50,6 +50,11 @@ public class Place_RecyclerView_Adapter extends RecyclerView.Adapter {
         MyViewHolder viewHolder = new MyViewHolder(view);
 
 
+//        if (viewType == 1) {
+//            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.place_recyclerview_item,parent,false);
+//            MyViewHolder viewHolder = new MyViewHolder(view);
+//
+//        }
         //생선된 뷰홀더를 리턴하여 onBindViewHolder에 전달한다.
         return viewHolder;
     }
