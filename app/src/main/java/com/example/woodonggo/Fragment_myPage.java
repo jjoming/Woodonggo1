@@ -16,12 +16,16 @@ public class Fragment_myPage extends Fragment {
 
     Button profile_btn;
     LinearLayout mypage_interest_layout;
+
+    LinearLayout mypage_match_layout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_mypage, container, false);
         Button profile_btn = rootView.findViewById(R.id.profile_btn);
         LinearLayout mypage_interest_layout = rootView.findViewById(R.id.mypage_interest_layout);
+        LinearLayout mypage_match_layout = rootView.findViewById(R.id.mypage_match_layout);
 
 
         profile_btn.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +40,14 @@ public class Fragment_myPage extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Mypage_interest.class);
+                startActivity(intent);
+            }
+        });
+
+        mypage_match_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Mypage_match.class);
                 startActivity(intent);
             }
         });

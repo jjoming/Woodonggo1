@@ -55,7 +55,7 @@ public class Splash extends AppCompatActivity {
         textView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(Splash.this, MainActivity.class));
+                startActivity(new Intent(Splash.this, Login_main.class));
                 finish();
             }
         }, 2000); // 2초 후에 메인 화면으로 이동 (원하는 대로 조정 가능)

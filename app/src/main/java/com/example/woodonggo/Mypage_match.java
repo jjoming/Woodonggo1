@@ -5,6 +5,10 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class Mypage_match extends AppCompatActivity {
     @Override
@@ -16,6 +20,26 @@ public class Mypage_match extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // ViewPager2와 TabLayout을 초기화
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+
+        // ViewPager2와 TabLayout을 연결
+        Mypage_match_Adapter pagerAdapter = new Mypage_match_Adapter(this);
+        viewPager.setAdapter(pagerAdapter);
+
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> {
+                    if (position == 0) {
+                        tab.setText("매칭 중");
+                    } else if (position == 1) {
+                        tab.setText("매칭완료");
+                    } else if (position == 2) {
+                        tab.setText("숨김");
+                    }
+                }
+        ).attach();
 
     }
 }
