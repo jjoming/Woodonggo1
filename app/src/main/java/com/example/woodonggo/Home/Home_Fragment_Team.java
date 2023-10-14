@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Home;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,6 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.woodonggo.Adapter_home;
+import com.example.woodonggo.R;
 
 import java.util.ArrayList;
 

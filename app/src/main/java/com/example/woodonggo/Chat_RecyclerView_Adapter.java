@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
-
     /*
   어댑터의 동작원리 및 순서
   1.(getItemCount) 데이터 개수를 세어 어댑터가 만들어야 할 총 아이템 개수를 얻는다.

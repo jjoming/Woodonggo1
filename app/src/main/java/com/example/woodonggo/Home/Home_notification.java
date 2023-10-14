@@ -1,14 +1,16 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Home;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.woodonggo.Adapter_notify_like;
+import com.example.woodonggo.R;
+import com.example.woodonggo.TabAdapter_notification;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 

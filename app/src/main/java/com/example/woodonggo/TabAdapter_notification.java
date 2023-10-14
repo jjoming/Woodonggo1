@@ -1,13 +1,13 @@
 package com.example.woodonggo;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import java.util.ArrayList;
+import com.example.woodonggo.Home.Home_notification;
+import com.example.woodonggo.Home.Home_notification_fight;
+import com.example.woodonggo.Home.Home_notification_like;
 
 public class TabAdapter_notification extends FragmentStateAdapter {
 

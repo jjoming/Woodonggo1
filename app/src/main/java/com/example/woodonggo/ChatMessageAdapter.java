@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatMessageAdapter extends BaseAdapter {
+    final int MY_MESSAGE = 0;
+    final int OTHER_MESSAGE = 1;
+    final int DATE_MESSAGE = 2;
     public class ListContents{
         String msg;
         int type;
@@ -35,6 +38,17 @@ public class ChatMessageAdapter extends BaseAdapter {
     public void add(String _msg,int _type) {
 
         m_List.add(new ListContents(_msg,_type));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (m_List.get(position).type == 0) {
+            return OTHER_MESSAGE;
+        } else if (m_List.get(position).type == 1) {
+            return MY_MESSAGE;
+        } else {
+            return DATE_MESSAGE;
+        }
     }
 
     // 외부에서 아이템 삭제 요청 시 사용
