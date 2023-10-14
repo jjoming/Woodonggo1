@@ -31,7 +31,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login_main">
+        <activity android:name=".Login_main"
+            android:theme="@style/AppTheme.NoActionBar">
             <!-- 인텐트 필터와 기타 설정 추가 -->
         </activity>
         <activity android:name=".MainActivity"

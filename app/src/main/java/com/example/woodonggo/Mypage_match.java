@@ -29,6 +29,8 @@ public class Mypage_match extends AppCompatActivity {
         Mypage_match_Adapter pagerAdapter = new Mypage_match_Adapter(this);
         viewPager.setAdapter(pagerAdapter);
 
+
+
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
                     if (position == 0) {
