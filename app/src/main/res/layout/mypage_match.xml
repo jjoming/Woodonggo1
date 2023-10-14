@@ -39,7 +39,7 @@
 
     <ImageView
         android:id="@+id/img_profile"
-        android:src="@drawable/medal"
+        android:src="@drawable/bedge_icon"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginRight="24dp"
