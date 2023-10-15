@@ -28,24 +28,57 @@
             android:src="@drawable/icon_more_neighbor" />
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:id="@+id/btnLayout"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-        
-    </LinearLayout>
+        app:layout_constraintBottom_toTopOf="@+id/mapView"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/btnGolf"
+            android:text="골프"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_custom"/>
+        <RadioButton
+            android:id="@+id/btnBowling"
+            android:text="볼링"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_custom"/>
+        <RadioButton
+            android:id="@+id/btnPingpong"
+            android:text="탁구"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_custom"/>
+
+    </RadioGroup>
 
     <net.daum.mf.map.api.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPlace"

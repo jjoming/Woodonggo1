@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -14,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +37,8 @@ import java.util.ArrayList;
 public class Fragment_place extends Fragment {
 
     private MapView mapView;
+    private RadioGroup radioGroup;
+    private RadioButton btnGolf, btnBowling, btnPingpong;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     RecyclerView recyclerView;
     Place_RecyclerView_Adapter adapter;
@@ -44,6 +49,30 @@ public class Fragment_place extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place, container, false);
+
+        radioGroup = view.findViewById(R.id.radioGroup);
+        btnGolf = view.findViewById(R.id.btnGolf);
+        btnBowling = view.findViewById(R.id.btnBowling);
+        btnPingpong = view.findViewById(R.id.btnPingpong);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.btnGolf) {
+                    btnGolf.setTextColor(Color.WHITE);
+                    btnBowling.setTextColor(Color.DKGRAY);
+                    btnPingpong.setTextColor(Color.DKGRAY);
+                } else if (checkedId == R.id.btnBowling) {
+                    btnBowling.setTextColor(Color.WHITE);
+                    btnGolf.setTextColor(Color.DKGRAY);
+                    btnPingpong.setTextColor(Color.DKGRAY);
+                } else if (checkedId == R.id.btnPingpong) {
+                    btnPingpong.setTextColor(Color.WHITE);
+                    btnGolf.setTextColor(Color.DKGRAY);
+                    btnBowling.setTextColor(Color.DKGRAY);
+                }
+            }
+        });
 
         //데이터 모델리스트
         ArrayList<DataModel> dataModels = new ArrayList<>();
