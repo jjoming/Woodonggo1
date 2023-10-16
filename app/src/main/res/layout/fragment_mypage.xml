@@ -4,14 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
-    </androidx.appcompat.widget.Toolbar>
-
     <ScrollView
 
         android:id="@+id/scrollView"
@@ -199,105 +191,7 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20sp"
-                        android:layout_marginTop="10sp"
-                        android:textColor="@color/black"
-                        android:text="팀 매치"
-                        android:textSize="23sp"
-                        android:textStyle="bold" />
 
-                    <!--            리스트입니다. -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60sp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10sp">
-
-                        <ImageView
-                            android:layout_width="24sp"
-                            android:layout_height="24sp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20sp"
-                            android:background="@drawable/group_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="24sp"
-                            android:textColor="@color/black"
-                            android:text="나의 팀 목록"
-                            android:textSize="21sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60sp"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="24sp"
-                            android:layout_height="24sp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20sp"
-                            android:background="@drawable/docs_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="21sp"
-                            android:text="팀 매치글 게시내역"
-                            android:textColor="@color/black"
-                            android:textSize="21sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60sp"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="24sp"
-                            android:layout_height="24sp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20sp"
-                            android:background="@drawable/message_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="21sp"
-                            android:textColor="@color/black"
-                            android:text="팀 도전장 발신내역"
-                            android:textSize="21sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="60sp"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="24sp"
-                            android:layout_height="24sp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20sp"
-                            android:background="@drawable/bedge_icon" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="21sp"
-                            android:textColor="@color/black"
-                            android:text="팀 랭킹"
-                            android:textSize="21sp" />
-                    </LinearLayout>
 
 
                 </LinearLayout>
