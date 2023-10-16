@@ -22,7 +22,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.woodonggo.Home.Home_category;
 import com.example.woodonggo.Home.Home_notification;
-import com.example.woodonggo.Home.Home_posting;
 import com.example.woodonggo.Home.Home_search;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -51,7 +50,7 @@ public class Fragment_home extends Fragment {
         floatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Home_posting.class);
+                Intent intent = new Intent(getContext(), com.example.woodonggo.Home.Home_posting.class);
                 startActivity(intent);
             }
         });

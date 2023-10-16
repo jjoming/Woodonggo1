@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -7,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +25,8 @@ public class Fragment_ranking extends Fragment {
 
     RecyclerView recyclerView;
     Ranking_RecyclerView_Adapter adapter;
+    RadioGroup radioGroup;
+    RadioButton btnGolf, btnBowling, btnPingpong;
 
     @Nullable
     @Override
@@ -32,6 +37,31 @@ public class Fragment_ranking extends Fragment {
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //라디오
+        radioGroup = rootView.findViewById(R.id.radioGroup);
+        btnGolf = rootView.findViewById(R.id.btnGolf);
+        btnBowling = rootView.findViewById(R.id.btnBowling);
+        btnPingpong = rootView.findViewById(R.id.btnPingpong);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.btnGolf) {
+                    btnGolf.setTextColor(Color.WHITE);
+                    btnBowling.setTextColor(Color.DKGRAY);
+                    btnPingpong.setTextColor(Color.DKGRAY);
+                } else if (checkedId == R.id.btnBowling) {
+                    btnBowling.setTextColor(Color.WHITE);
+                    btnGolf.setTextColor(Color.DKGRAY);
+                    btnPingpong.setTextColor(Color.DKGRAY);
+                } else if (checkedId == R.id.btnPingpong) {
+                    btnPingpong.setTextColor(Color.WHITE);
+                    btnGolf.setTextColor(Color.DKGRAY);
+                    btnBowling.setTextColor(Color.DKGRAY);
+                }
+            }
+        });
 
         ArrayList<DataModel_Rank> dataModels = new ArrayList<>();
 

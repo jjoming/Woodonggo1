@@ -30,8 +30,7 @@ public class Home_search extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == android.R.id.home) {
-            Intent intent = new Intent(Home_search.this, Fragment_home.class);
-            startActivity(intent);
+            onBackPressed();
         }
         return false;
     }

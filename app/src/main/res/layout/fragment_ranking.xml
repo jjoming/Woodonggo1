@@ -22,6 +22,52 @@
             android:textSize="21sp" />
     </androidx.appcompat.widget.Toolbar>
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/btnGolf"
+            android:text="골프"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_custom"/>
+        <RadioButton
+            android:id="@+id/btnBowling"
+            android:text="볼링"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_custom"/>
+        <RadioButton
+            android:id="@+id/btnPingpong"
+            android:text="탁구"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_custom"/>
+
+    </RadioGroup>
+
+
+
     <ImageView
         android:id="@+id/img_profile1"
         android:src="@drawable/imgview_category_bg_custom"
@@ -151,7 +197,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/gl2"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".3"/>
+        app:layout_constraintGuide_percent=".35"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRank"
@@ -169,7 +215,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent=".88"/>
 
-    <!--TODO: background 수정-->
     <ImageView
         android:id="@+id/myrank_bg"
         android:layout_width="match_parent"
@@ -222,7 +267,7 @@
         android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/myrank_bg"
+        app:layout_constraintTop_toTopOf="@+id/gl3"
         app:layout_constraintLeft_toLeftOf="@+id/gl5"
         app:layout_constraintBottom_toBottomOf="@+id/myrank_bg"/>
 
