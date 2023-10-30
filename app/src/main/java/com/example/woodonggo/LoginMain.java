@@ -27,6 +27,8 @@ public class LoginMain extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginMain.this, MainActivity.class);
                 startActivity(intent);
+
+                // todo : 아이디 패스워드 서버와 일치하는지 확인
             }
         });
 
