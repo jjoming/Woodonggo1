@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class ChatDetails extends Activity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
@@ -23,16 +27,18 @@ public class ChatDetails extends Activity {
         // ListView에 어댑터 연결
         recyclerViewChat.setAdapter(adapter);
 
-        adapter.add("이건 뭐지",1);
-        adapter.add("쿨쿨",1);
-        adapter.add("쿨쿨쿨쿨",0);
-        adapter.add("재미있게",1);
-        adapter.add("놀자라구나힐힐 감사합니다. 동해물과 백두산이 마르고 닳도록 놀자 놀자 우리 놀자",1);
-        adapter.add("재미있게",1);
-        adapter.add("재미있게",0);
-        adapter.add("2015/11/20",2);
-        adapter.add("재미있게",1);
-        adapter.add("재미있게",1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date currentTime = new Date();
 
+        DataModelMessage myMessage = new DataModelMessage("This is my message", true, false, currentTime, currentTime);
+        DataModelMessage otherMessage = new DataModelMessage("This is another person's message", false, false, currentTime, currentTime);
+        DataModelMessage dateMessage = new DataModelMessage("2023-10-30 00:00:00", false, true, currentTime, currentTime);
+
+        adapter.add(myMessage);
+        adapter.add(otherMessage);
+        adapter.add(dateMessage);
+
+        // 어댑터 갱신
+        adapter.notifyDataSetChanged();
     }
 }
