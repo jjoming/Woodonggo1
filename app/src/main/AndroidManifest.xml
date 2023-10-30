@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login_main"
+        <activity android:name=".LoginMain"
             android:theme="@style/AppTheme.NoActionBar">
             <!-- 인텐트 필터와 기타 설정 추가 -->
         </activity>
@@ -45,9 +45,9 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Home.Home_posting"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Fragment_place"
+        <activity android:name=".FragmentPlace"
             android:theme="@style/AppTheme.MaterialTheme"/>
-        <activity android:name=".Chat_Details"
+        <activity android:name=".ChatDetails"
             android:theme="@style/AppTheme.MaterialTheme"/>
         <activity android:name=".Mypage_profile"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -57,7 +57,7 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Mypage_interest"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Login_Signup"
+        <activity android:name=".LoginSignup"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"

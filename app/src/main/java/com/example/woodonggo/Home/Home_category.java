@@ -1,6 +1,5 @@
 package com.example.woodonggo.Home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.GridView;
@@ -12,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.woodonggo.Adapter_home_category1;
 import com.example.woodonggo.Adapter_home_category2;
-import com.example.woodonggo.Fragment_home;
 import com.example.woodonggo.R;
 
 public class Home_category extends AppCompatActivity {

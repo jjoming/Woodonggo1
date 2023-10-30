@@ -19,11 +19,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
 
-    Fragment_home fragment_home;
-    Fragment_ranking fragment_ranking;
-    Fragment_place fragment_place;
-    Fragment_chatting fragment_chatting;
-    Fragment_myPage fragment_myPage;
+    FragmentHome fragment_home;
+    FragmentRanking fragment_ranking;
+    FragmentPlace fragment_place;
+    FragmentChatting fragment_chatting;
+    FragmentMyPage fragment_myPage;
     BottomNavigationView bottomNavi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        fragment_home = new Fragment_home();
-        fragment_ranking = new Fragment_ranking();
-        fragment_place = new Fragment_place();
-        fragment_chatting = new Fragment_chatting();
-        fragment_myPage = new Fragment_myPage();
+        fragment_home = new FragmentHome();
+        fragment_ranking = new FragmentRanking();
+        fragment_place = new FragmentPlace();
+        fragment_chatting = new FragmentChatting();
+        fragment_myPage = new FragmentMyPage();
 
         bottomNavi = findViewById(R.id.bottomNavi);
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.menu_mypage) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_myPage).commit();
                 } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Fragment_home()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
                 }
 
                 return true;

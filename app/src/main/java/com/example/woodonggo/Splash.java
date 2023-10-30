@@ -1,15 +1,10 @@
 package com.example.woodonggo;
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.TimeInterpolator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 public class Splash extends AppCompatActivity {
@@ -55,7 +50,7 @@ public class Splash extends AppCompatActivity {
         textView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(Splash.this, Login_main.class));
+                startActivity(new Intent(Splash.this, LoginMain.class));
                 finish();
             }
         }, 2000); // 2초 후에 메인 화면으로 이동 (원하는 대로 조정 가능)

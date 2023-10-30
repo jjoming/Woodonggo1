@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class Fragment_myPage extends Fragment {
+public class FragmentMyPage extends Fragment {
 
     Button profile_btn;
     LinearLayout mypage_interest_layout;

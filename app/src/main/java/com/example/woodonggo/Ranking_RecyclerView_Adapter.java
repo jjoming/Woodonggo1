@@ -27,11 +27,11 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
     String TAG = "RecyclerViewAdapter";
 
     //리사이클러뷰에 넣을 데이터 리스트
-    ArrayList<DataModel_Rank> dataModels;
+    ArrayList<DataModelRank> dataModels;
     Context context;
 
     //생성자를 통하여 데이터 리스트 context를 받음
-    public Ranking_RecyclerView_Adapter(FragmentActivity context, ArrayList<DataModel_Rank> dataModels) {
+    public Ranking_RecyclerView_Adapter(FragmentActivity context, ArrayList<DataModelRank> dataModels) {
         this.dataModels = dataModels;
         this.context = context;
     }

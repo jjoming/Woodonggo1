@@ -1,6 +1,6 @@
 package com.example.woodonggo;
 
-public class DataModel_Rank {
+public class DataModelRank {
     String ranking;
     int img;
     String nick;
@@ -29,7 +29,7 @@ public class DataModel_Rank {
         this.nick = nick;
     }
 
-    public DataModel_Rank(String ranking, int img, String nick) {
+    public DataModelRank(String ranking, int img, String nick) {
         this.ranking = ranking;
         this.img = img;
         this.nick = nick;

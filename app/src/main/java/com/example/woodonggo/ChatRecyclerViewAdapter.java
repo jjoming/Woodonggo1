@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
+public class ChatRecyclerViewAdapter extends RecyclerView.Adapter {
     /*
   어댑터의 동작원리 및 순서
   1.(getItemCount) 데이터 개수를 세어 어댑터가 만들어야 할 총 아이템 개수를 얻는다.
@@ -26,11 +26,11 @@ public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
     String TAG = "RecyclerViewAdapter";
 
     //리사이클러뷰에 넣을 데이터 리스트
-    ArrayList<DataModel_chat> dataModels;
+    ArrayList<DataModelChat> dataModels;
     Context context;
 
     //생성자를 통하여 데이터 리스트 context를 받음
-    public Chat_RecyclerView_Adapter(FragmentActivity context, ArrayList<DataModel_chat> dataModels) {
+    public ChatRecyclerViewAdapter(FragmentActivity context, ArrayList<DataModelChat> dataModels) {
         this.dataModels = dataModels;
         this.context = context;
     }
@@ -63,7 +63,7 @@ public class Chat_RecyclerView_Adapter extends RecyclerView.Adapter {
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, Chat_Details.class);
+                Intent intent = new Intent(context, ChatDetails.class);
                 context.startActivity(intent);
             }
         });

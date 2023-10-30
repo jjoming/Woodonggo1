@@ -2,7 +2,7 @@ package com.example.woodonggo;
 
 import androidx.fragment.app.Fragment;
 
-public class Local_Fragment_Main extends Fragment {
+public class LocalFragmentMain extends Fragment {
 /*
     private MapView mapView;
     private static final int REQUEST_LOCATION_PERMISSION = 1;

@@ -1,6 +1,6 @@
 package com.example.woodonggo;
 
-public class DataModel_chat {
+public class DataModelChat {
     int img_source;
     String name;
     String chat;
@@ -47,7 +47,7 @@ public class DataModel_chat {
         this.time = time;
     }
 
-    public DataModel_chat(int img_source, String name, String chat, String add, String time) {
+    public DataModelChat(int img_source, String name, String chat, String add, String time) {
         this.img_source = img_source;
         this.name = name;
         this.chat = chat;

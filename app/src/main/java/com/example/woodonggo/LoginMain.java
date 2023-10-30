@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 // Class 명에 _(언더스코어 금지!!!!!)
-public class Login_main extends AppCompatActivity {
+public class LoginMain extends AppCompatActivity {
 
     Button login_btn;
     TextView signUpTextView;
@@ -25,7 +25,7 @@ public class Login_main extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login_main.this, MainActivity.class);
+                Intent intent = new Intent(LoginMain.this, MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -33,7 +33,7 @@ public class Login_main extends AppCompatActivity {
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login_main.this, Login_Signup.class);
+                Intent intent = new Intent(LoginMain.this, LoginSignup.class);
                 startActivity(intent);
             }
         });

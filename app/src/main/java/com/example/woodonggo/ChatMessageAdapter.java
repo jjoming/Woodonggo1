@@ -1,50 +1,93 @@
 package com.example.woodonggo;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ChatMessageAdapter extends BaseAdapter {
+import java.util.ArrayList;
+
+public class ChatMessageAdapter extends RecyclerView.Adapter {
     final int MY_MESSAGE = 0;
     final int OTHER_MESSAGE = 1;
     final int DATE_MESSAGE = 2;
     public class ListContents{
         String msg;
         int type;
-        ListContents(String _msg,int _type)
+        ListContents(String msg,int type)
         {
-            this.msg = _msg;
-            this.type = _type;
+            this.msg = msg;
+            this.type = type;
         }
     }
 
-    private ArrayList<ListContents> m_List;
+    private ArrayList<ListContents> chatList;
     public ChatMessageAdapter() {
-        m_List = new ArrayList<>();
+        chatList = new ArrayList<>();
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        //자신이 만든 itemview를 inflate한 다음 뷰홀더 생성
+        View view;
+        switch (viewType) {
+            case MY_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_right_text, parent, false);
+                return new MyMessageViewHolder(view);
+            case OTHER_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_left_text, parent, false);
+                return new OtherMessageViewHolder(view);
+            case DATE_MESSAGE:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_date_item, parent, false);
+                return new DateViewHolder(view);
+        }
+        return null;
+
+        //생선된 뷰홀더를 리턴하여 onBindViewHolder에 전달한다.
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.d(TAG,"onBindViewHolder");
+
+        MyViewHolder myViewHolder = (MyViewHolder)holder;
+
+        /* myViewHolder.name_chat.setText(dataModels.get(position).getName());
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, Chat_Details.class);
+                context.startActivity(intent);
+            }
+        }); */
     }
 
     // 외부에서 아이템 추가 요청 시 사용
     public void add(String _msg,int _type) {
-
-        m_List.add(new ListContents(_msg,_type));
+        chatList.add(new ListContents(_msg,_type));
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (m_List.get(position).type == 0) {
+        if (chatList.get(position).type == 0) {
             return OTHER_MESSAGE;
-        } else if (m_List.get(position).type == 1) {
+        } else if (chatList.get(position).type == 1) {
             return MY_MESSAGE;
         } else {
             return DATE_MESSAGE;
@@ -53,22 +96,27 @@ public class ChatMessageAdapter extends BaseAdapter {
 
     // 외부에서 아이템 삭제 요청 시 사용
     public void remove(int _position) {
-        m_List.remove(_position);
+        chatList.remove(_position);
     }
 
     @Override
     public int getCount() {
-        return m_List.size();
+        return chatList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return m_List.get(position);
+        return chatList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
     }
 
     @Override
@@ -88,12 +136,7 @@ public class ChatMessageAdapter extends BaseAdapter {
         if ( convertView == null ) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.chatting_message, parent, false);
-
-            layout    = (LinearLayout) convertView.findViewById(R.id.layout);
-            text    = (TextView) convertView.findViewById(R.id.text);
-            viewRight    = (View) convertView.findViewById(R.id.imageViewright);
-            viewLeft    = (View) convertView.findViewById(R.id.imageViewleft);
+            convertView = inflater.inflate(R.layout.chatting_detail, parent, false);
 
 
             // 홀더 생성 및 Tag로 등록
@@ -113,37 +156,24 @@ public class ChatMessageAdapter extends BaseAdapter {
         }
 
         // Text 등록
-        text.setText(m_List.get(position).msg);
+        text.setText(chatList.get(position).msg);
 
-        if( m_List.get(position).type == 0 ) {
-            text.setBackgroundResource(R.drawable.chat_1);
-            text.setPadding(20, 0, 0, 0);
-            layout.setGravity(Gravity.START);
-            viewRight.setVisibility(View.GONE);
-            viewLeft.setVisibility(View.GONE);
-        }else if(m_List.get(position).type == 1){
-            text.setBackgroundResource(R.drawable.chat_2);
-            text.setTextColor(Color.WHITE);
-            text.setPadding(20, 0, 0, 0);
-            layout.setGravity(Gravity.END);
-            viewRight.setVisibility(View.GONE);
-            viewLeft.setVisibility(View.GONE);
-        }else if(m_List.get(position).type == 2){
-            text.setBackgroundResource(R.drawable.datebg);
-            layout.setGravity(Gravity.CENTER);
-            viewRight.setVisibility(View.VISIBLE);
-            viewLeft.setVisibility(View.VISIBLE);
+        if(chatList.get(position).type == 0 ) {
+
+        } else if(chatList.get(position).type == 1){
+
+        } else if(chatList.get(position).type == 2){
+
         }
 
 
 
         // 리스트 아이템을 터치 했을 때 이벤트 발생
         convertView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 클릭 : "+m_List.get(pos), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "리스트 클릭 : " + chatList.get(pos), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -151,11 +181,10 @@ public class ChatMessageAdapter extends BaseAdapter {
 
         // 리스트 아이템을 길게 터치 했을때 이벤트 발생
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
-
             @Override
             public boolean onLongClick(View v) {
                 // 터치 시 해당 아이템 이름 출력
-                Toast.makeText(context, "리스트 롱 클릭 : "+m_List.get(pos), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "리스트 롱 클릭 : " + chatList.get(pos), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -164,9 +193,25 @@ public class ChatMessageAdapter extends BaseAdapter {
     }
 
     private class CustomHolder {
-        TextView    m_TextView;
-        LinearLayout    layout;
+        TextView m_TextView;
+        LinearLayout layout;
         View viewRight;
         View viewLeft;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView name_chat;
+        TextView chat_chat;
+        TextView add_chat;
+        TextView time_chat;
+        int img_source;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name_chat =  itemView.findViewById(R.id.name_chat);
+            chat_chat = itemView.findViewById(R.id.chat_chat);
+            add_chat = itemView.findViewById(R.id.add_chat);
+            time_chat = itemView.findViewById(R.id.time_chat);
+        }
     }
 }

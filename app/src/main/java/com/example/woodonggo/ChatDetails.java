@@ -2,10 +2,11 @@ package com.example.woodonggo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ListView;
 
-public class Chat_Details extends Activity {
-    ListView listView;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class ChatDetails extends Activity {
+    RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
 
     @Override
@@ -17,10 +18,10 @@ public class Chat_Details extends Activity {
         adapter = new ChatMessageAdapter();
 
         // Xml에서 추가한 ListView 연결
-        listView = (ListView) findViewById(R.id.listView);
+        recyclerViewChat = (RecyclerView) findViewById(R.id.recyclerViewChat);
 
         // ListView에 어댑터 연결
-        listView.setAdapter(adapter);
+        recyclerViewChat.setAdapter(adapter);
 
         adapter.add("이건 뭐지",1);
         adapter.add("쿨쿨",1);
