@@ -211,6 +211,7 @@
     <Button
         android:layout_width="375sp"
         android:layout_height="45sp"
+        android:id="@+id/joinConfirm"
         android:text="가입완료"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

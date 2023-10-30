@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class LoginSignup extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText nameEdit, idEdit, passwordEdit, passwordCheckEdit, phoneEdit, certificationNumEdit;
-    Button idCheckBtn, phoneCheckBtn, confirm;
+    Button idCheckBtn, phoneCheckBtn, certiConfirm, joinConfirm;
     TextView cautionText, pwCautionText;
 
     @Override
@@ -37,9 +37,11 @@ public class LoginSignup extends AppCompatActivity {
         certificationNumEdit = findViewById(R.id.phone_chk_edit);
         idCheckBtn = findViewById(R.id.id_chk_btn);
         phoneCheckBtn = findViewById(R.id.phone_chk_btn);
-        confirm = findViewById(R.id.certification_btn);
+        certiConfirm = findViewById(R.id.certification_btn);
+        joinConfirm = findViewById(R.id.joinConfirm);
         cautionText = findViewById(R.id.caution_text);
         pwCautionText = findViewById(R.id.pw_caution_text);
+
 
         idCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +68,22 @@ public class LoginSignup extends AppCompatActivity {
 
             }
         });
+
+        phoneCheckBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // todo : 인증번호 보내기
+            }
+        });
+
+        joinConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // todo : 로그인화면으로 넘어가기
+            }
+        });
+
+
 
         // 파이어베이스에 값 불러오기
         readUser();
