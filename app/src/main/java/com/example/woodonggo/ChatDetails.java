@@ -37,8 +37,5 @@ public class ChatDetails extends Activity {
         adapter.add(myMessage);
         adapter.add(otherMessage);
         adapter.add(dateMessage);
-
-        // 어댑터 갱신
-        adapter.notifyDataSetChanged();
     }
 }

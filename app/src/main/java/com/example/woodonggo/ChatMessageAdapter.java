@@ -73,15 +73,12 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch (viewType) {
             case MY_MESSAGE:
-                // 내가 보낸 메시지 뷰 홀더 설정
                 ((MyMessageViewHolder) holder).bind(message);
                 break;
             case OTHER_MESSAGE:
-                // 상대방이 보낸 메시지 뷰 홀더 설정
                 ((OtherMessageViewHolder) holder).bind(message);
                 break;
             case DATE_MESSAGE:
-                // 날짜 메시지 뷰 홀더 설정
                 ((DateViewHolder) holder).bind(message);
                 break;
         }
@@ -157,7 +154,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public MyMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.chatTextOther);
-            timeText = itemView.findViewById(R.id.timeText);
+            timeText = itemView.findViewById(R.id.timeTextOther);
         }
 
         public void bind(DataModelMessage message) {
@@ -175,7 +172,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public OtherMessageViewHolder(@NonNull View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.chatTextMy);
-            timeText = itemView.findViewById(R.id.timeText);
+            timeText = itemView.findViewById(R.id.timeTextMy);
         }
 
         public void bind(DataModelMessage message) {

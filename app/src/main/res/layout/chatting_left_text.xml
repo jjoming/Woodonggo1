@@ -23,7 +23,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/timeText"
+        android:id="@+id/timeTextOther"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toRightOf="@id/chatTextOther"
