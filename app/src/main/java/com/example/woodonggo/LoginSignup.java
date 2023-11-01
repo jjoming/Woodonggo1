@@ -50,7 +50,10 @@ public class LoginSignup extends AppCompatActivity {
         idCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo : 아이디 중복확인
+                // 아이디 중복확인
+                idFound = false;
+                cautionText.setVisibility(View.INVISIBLE);  // 설정 초기화
+
                 id = idEdit.getText().toString();   //id 입력받은 값 가져와서 변수에 저장
                 // 파이어베이스에 값 불러오기
                 readUser(id);
@@ -138,7 +141,6 @@ public class LoginSignup extends AppCompatActivity {
                         if (!idFound) {
                             cautionText.setText("사용할 수 있는 아이디입니다.");
                             cautionText.setVisibility(View.VISIBLE);
-                            idCheckBtn.setEnabled(false);
                         }
                     }
                 });
