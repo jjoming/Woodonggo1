@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,8 +26,9 @@ public class LoginSignup extends AppCompatActivity {
     Button idCheckBtn, phoneCheckBtn, certiConfirm, joinConfirm;
     TextView cautionText, pwCautionText;
 
-    String id, pw;
+    String id, pw, phone;
     boolean idFound = false;    //해당아이디가 있을 경유 true로 변환
+    boolean idConfirm = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,6 @@ public class LoginSignup extends AppCompatActivity {
                 // 아이디 중복확인
                 idFound = false;
                 cautionText.setVisibility(View.INVISIBLE);  // 설정 초기화
-
                 id = idEdit.getText().toString();   //id 입력받은 값 가져와서 변수에 저장
                 // 파이어베이스에 값 불러오기
                 readUser(id);
@@ -89,28 +90,19 @@ public class LoginSignup extends AppCompatActivity {
         joinConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo : 로그인화면으로 넘어가기
+                if (idConfirm) {  //todo : 비밀번호확인 변수 검사, 인증확인 변수 검사
+                    // 아이디와 비밀번호 넘겨주기, 프로필 설정으로 넘어가기
+                    Intent intent = new Intent(LoginSignup.this, LoginSignup2.class);
+                    intent.putExtra("id", id);
+                    //intent.putExtra("password", pw);
+                    //intent.putExtra("phone", phone);
+                    startActivity(intent);
+                }
             }
         });
     }
 
     private void readUser(String id) {
-        /*db.collection("User")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("MJC", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w("MJC", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-         */
-
         db.collection("User")
                 .whereEqualTo("id", id)
                 .get()
@@ -129,6 +121,7 @@ public class LoginSignup extends AppCompatActivity {
                                     cautionText.setVisibility(View.VISIBLE);
                                     Toast.makeText(getApplicationContext(), "사용할 수 없는 아이디입니다.", Toast.LENGTH_SHORT).show();
                                     idFound = true;
+                                    idConfirm = false;
                                     break;
                                 }
                             }
@@ -141,6 +134,8 @@ public class LoginSignup extends AppCompatActivity {
                         if (!idFound) {
                             cautionText.setText("사용할 수 있는 아이디입니다.");
                             cautionText.setVisibility(View.VISIBLE);
+                            idFound = false;
+                            idConfirm = true;
                         }
                     }
                 });
