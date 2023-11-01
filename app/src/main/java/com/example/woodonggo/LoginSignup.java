@@ -105,4 +105,29 @@ public class LoginSignup extends AppCompatActivity {
                     }
                 });
     }
+
+
+    /*
+     db.collection("User")
+    .whereEqualTo("fieldName", "exampleValue")
+    .get()
+    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        @Override
+        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d("MJC", document.getId() + " => " + document.getData());
+                    // 여기서 document.getData()로 가져온 값과 원하는 값 비교
+                    // 예를 들어, document.getString("fieldToCompare")를 통해 특정 필드 값을 가져와서 비교
+                    String valueToCompare = document.getString("fieldToCompare");
+                    if (valueToCompare.equals("YourValueToCompare")) {
+                        // 비교하고자 하는 값과 일치할 때 처리
+                    }
+                }
+            } else {
+                Log.w("MJC", "Error getting documents.", task.getException());
+            }
+        }
+    });
+     */
 }
