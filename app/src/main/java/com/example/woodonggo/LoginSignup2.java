@@ -27,6 +27,10 @@ public class LoginSignup2 extends AppCompatActivity {
 
         Intent inIntent = getIntent();
         id = inIntent.getStringExtra("id");
+        //pw = inIntent.getStringExtra("password");
+        //phoneNum = inIntent.getIntExtra("phone");
+
+
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
