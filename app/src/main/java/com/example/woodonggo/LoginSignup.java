@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,13 +25,16 @@ public class LoginSignup extends AppCompatActivity {
     Button idCheckBtn, phoneCheckBtn, certiConfirm, joinConfirm;
     TextView cautionText, pwCautionText;
 
+    String id, pw;
+    boolean idFound = false;    //해당아이디가 있을 경유 true로 변환
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_signup);
 
-        nameEdit  = findViewById(R.id.name_edit);
-        idEdit = findViewById(R.id.id_edit);
+        nameEdit  = findViewById(R.id.name_edit);   //이름 입력
+        idEdit = findViewById(R.id.id_edit);        //id 입력
         passwordEdit = findViewById(R.id.password_edit);
         passwordCheckEdit = findViewById(R.id.password_chk_edit);
         phoneEdit = findViewById(R.id.phone_edit);
@@ -47,6 +51,9 @@ public class LoginSignup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // todo : 아이디 중복확인
+                id = idEdit.getText().toString();   //id 입력받은 값 가져와서 변수에 저장
+                // 파이어베이스에 값 불러오기
+                readUser(id);
             }
         });
 
@@ -82,15 +89,10 @@ public class LoginSignup extends AppCompatActivity {
                 // todo : 로그인화면으로 넘어가기
             }
         });
-
-
-
-        // 파이어베이스에 값 불러오기
-        readUser();
     }
 
-    private void readUser() {
-        db.collection("User")
+    private void readUser(String id) {
+        /*db.collection("User")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -104,30 +106,46 @@ public class LoginSignup extends AppCompatActivity {
                         }
                     }
                 });
+         */
+
+        db.collection("User")
+                .whereEqualTo("id", id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("MJC", document.getId() + " => " + document.getData());
+                                // 여기서 document.getData()로 가져온 값과 원하는 값 비교
+                                // 예를 들어, document.getString("fieldToCompare")를 통해 특정 필드 값을 가져와서 비교
+                                String valueToCompare = document.getString("id");
+                                if (valueToCompare.equals(id)) {
+                                    // 비교하고자 하는 값과 일치할 때 처리
+                                    cautionText.setText("사용할 수 없는 아이디입니다. 다시 입력해주세요");
+                                    cautionText.setVisibility(View.VISIBLE);
+                                    Toast.makeText(getApplicationContext(), "사용할 수 없는 아이디입니다.", Toast.LENGTH_SHORT).show();
+                                    idFound = true;
+                                    break;
+                                }
+                            }
+
+
+                        } else {
+                            Log.w("MJC", "Error getting documents.", task.getException());
+                        }
+
+                        if (!idFound) {
+                            cautionText.setText("사용할 수 있는 아이디입니다.");
+                            cautionText.setVisibility(View.VISIBLE);
+                            idCheckBtn.setEnabled(false);
+                        }
+                    }
+                });
     }
 
 
     /*
-     db.collection("User")
-    .whereEqualTo("fieldName", "exampleValue")
-    .get()
-    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-        @Override
-        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d("MJC", document.getId() + " => " + document.getData());
-                    // 여기서 document.getData()로 가져온 값과 원하는 값 비교
-                    // 예를 들어, document.getString("fieldToCompare")를 통해 특정 필드 값을 가져와서 비교
-                    String valueToCompare = document.getString("fieldToCompare");
-                    if (valueToCompare.equals("YourValueToCompare")) {
-                        // 비교하고자 하는 값과 일치할 때 처리
-                    }
-                }
-            } else {
-                Log.w("MJC", "Error getting documents.", task.getException());
-            }
-        }
-    });
+
      */
 }
