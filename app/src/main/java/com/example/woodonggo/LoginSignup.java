@@ -16,9 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.PhoneAuthOptions;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.concurrent.TimeUnit;
 
 public class LoginSignup extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -61,7 +65,7 @@ public class LoginSignup extends AppCompatActivity {
             }
         });
 
-
+        //passwordEdit.
 
         passwordCheckEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -72,6 +76,7 @@ public class LoginSignup extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // 비밀번호 재입력 텍스트 입력중에 표시
+
             }
 
             @Override
@@ -83,7 +88,9 @@ public class LoginSignup extends AppCompatActivity {
         phoneCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                phoneAuth();
                 // todo : 인증번호 보내기
+
             }
         });
 
@@ -141,8 +148,17 @@ public class LoginSignup extends AppCompatActivity {
                 });
     }
 
-
-    /*
-
-     */
+    private void phoneAuth() {
+        /*
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber(phoneNumber)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // (optional) Activity for callback binding
+                        // If no activity is passed, reCAPTCHA verification can not be used.
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+        */
+    }
 }

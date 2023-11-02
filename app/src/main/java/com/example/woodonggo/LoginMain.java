@@ -65,6 +65,7 @@ public class LoginMain extends AppCompatActivity {
                 String accessToken = NaverIdLoginSDK.INSTANCE.getAccessToken();
 
                 // 로그인 성공 시 처리
+                // todo : 로그인 성공시 아이디와 전화번호 LoginSignup2로 전달하기
                 Intent intent = new Intent(LoginMain.this, MainActivity.class);
                 startActivity(intent);
             }
