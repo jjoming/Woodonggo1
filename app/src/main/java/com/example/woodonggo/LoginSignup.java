@@ -39,6 +39,7 @@ public class LoginSignup extends AppCompatActivity {
     TextView cautionText, pwCautionText;
 
     String id, pw, phone;
+    String mVerificationId;
     boolean idFound = false;    //해당아이디가 있을 경유 true로 변환
     boolean idConfirm = false;
     boolean pwConfirm = false;
@@ -144,7 +145,9 @@ public class LoginSignup extends AppCompatActivity {
                             public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                 // SMS가 성공적으로 전송된 후 호출됩니다.
                                 // 사용자로부터 SMS 코드를 입력받아 수신된 코드(verificationId)를 사용해 직접 인증합니다.
-                                String mVerificationId = verificationId;
+                                Toast.makeText(LoginSignup.this, "인증번호 발송이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                mVerificationId = verificationId;
                             }
                         });
                 }
@@ -156,6 +159,19 @@ public class LoginSignup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // todo : 서버 인증번호와 입력된 인증번호가 같은지 확인
+                String code = certificationNumEdit.getText().toString();
+
+                if (code.isEmpty()) {
+                    Toast.makeText(LoginSignup.this, "인증 코드를 입력하세요.", Toast.LENGTH_SHORT).show();
+                } else if (mVerificationId != null) {
+                    // Firebase에 저장된 인증 코드와 사용자가 입력한 코드를 비교하여 인증을 시도합니다.
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, code);
+
+                    // signInWithPhoneAuthCredential 메소드로 전달하여 사용자를 인증합니다.
+                    signInWithPhoneAuthCredential(credential);
+                } else {
+                    Toast.makeText(LoginSignup.this, "인증번호를 먼저 요청하세요.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -240,6 +256,7 @@ public class LoginSignup extends AppCompatActivity {
                             // 인증이 실패한 경우
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // 올바르지 않은 코드가 입력된 경우
+                                Toast.makeText(LoginSignup.this, "올바르지 않은 코드입니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
