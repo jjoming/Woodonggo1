@@ -206,11 +206,12 @@
             android:layout_height="54sp"
             android:background="@drawable/kakaologo"
             android:layout_marginRight="50sp"/>
-        <ImageButton
+
+        <com.navercorp.nid.oauth.view.NidOAuthLoginButton
             android:id="@+id/naver_Login"
             android:layout_width="54sp"
             android:layout_height="54sp"
-            android:background="@drawable/naverlogo" />
+             />
     </LinearLayout>
 
 
