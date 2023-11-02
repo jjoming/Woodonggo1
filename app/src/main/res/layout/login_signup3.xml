@@ -41,41 +41,39 @@
 
     <Button
         android:id="@+id/townButton1"
-        android:layout_width="183dp"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="@id/townCheckBtn"
         app:layout_constraintTop_toBottomOf="@id/mapView"
         app:layout_constraintRight_toLeftOf="@+id/townButton2"
         android:text="+"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:layout_marginTop="12dp"
         />
 
     <Button
         android:id="@+id/townButton2"
-        android:layout_width="183dp"
-        android:layout_height="wrap_content"
+        android:layout_width="185dp"
+        android:layout_height="45dp"
         app:layout_constraintLeft_toRightOf="@id/townButton1"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toRightOf="@id/townCheckBtn"
         app:layout_constraintTop_toBottomOf="@id/mapView"
         android:text="+"
-        android:textSize="24sp"
-        t
+        android:textSize="20sp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="12dp"
         />
 
     <Button
         android:id="@+id/townCheckBtn"
-        android:layout_width="375dp"
-        android:layout_height="wrap_content"
+        android:layout_width="376sp"
+        android:layout_height="45sp"
         app:layout_constraintLeft_toRightOf="@id/townButton1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/townButton1"
         android:text="내 동네 인증하기"
         android:textColor="@color/white"
-        android:textSize="18sp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="12dp"
@@ -83,20 +81,33 @@
         />
 
     <TextView
-        android:id="@+id/password_edit"
-        android:layout_width="375sp"
+        android:id="@+id/address_tv"
+        android:layout_width="376sp"
         android:layout_height="45sp"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:background="@drawable/edittext_custom"
         android:gravity="center"
         android:text="경기도 남양주시 와부읍"
-        android:textSize="20sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/townCheckBtn" />
 
-
+    <Button
+        android:id="@+id/townCorrectBtn"
+        android:layout_width="376sp"
+        android:layout_height="45sp"
+        app:layout_constraintLeft_toRightOf="@id/townButton1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_tv"
+        android:text="확인"
+        android:textColor="@color/white"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/loginbutton_custom"
+        />
 
 
 
