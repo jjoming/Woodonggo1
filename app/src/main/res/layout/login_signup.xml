@@ -118,7 +118,7 @@
         android:id="@+id/pw_caution_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="최소 10자 이상 입력해주세요."
+        android:text="비밀번호가 일치하지 않습니다."
         android:visibility="invisible"
         android:textSize="12sp"
         android:layout_marginLeft="20sp"

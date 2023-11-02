@@ -1,7 +1,5 @@
 package com.example.woodonggo;
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,16 +9,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
 
-import org.json.JSONObject;
-
 // Class 명에 _(언더스코어 금지!!!!!)
 public class LoginMain extends AppCompatActivity {
     private static final String TAG = "LoginMain";
-    private Context context;
     Button login_btn;
     TextView signUpTextView;
     private String naver_client_id = "AlrQlFUIJfEvBysmrJ2_";
