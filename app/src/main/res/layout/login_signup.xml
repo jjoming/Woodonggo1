@@ -105,30 +105,16 @@
 
     <EditText
         android:id="@+id/password_chk_edit"
-        android:layout_width="242sp"
+        android:layout_width="375sp"
         android:layout_height="45sp"
         android:layout_gravity="center"
-        android:layout_marginLeft="18sp"
         android:layout_marginTop="10sp"
         android:background="@drawable/edittext_custom"
         android:hint="비밀번호 재입력"
         android:paddingLeft="10sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/pw_chk_btn"
+        app:layout_constraintLeft_toLeftOf="@id/password_edit"
         app:layout_constraintTop_toBottomOf="@id/password_edit" />
 
-    <Button
-        android:id="@+id/pw_chk_btn"
-        android:layout_width="118sp"
-        android:layout_height="45sp"
-        android:text="확인"
-        android:textColor="@color/white"
-        android:layout_marginTop="10sp"
-        android:layout_marginLeft="12sp"
-        app:layout_constraintLeft_toRightOf="@id/password_chk_edit"
-        app:layout_constraintRight_toRightOf="@id/password_edit"
-        app:layout_constraintTop_toBottomOf="@id/password_edit"
-        android:background="@drawable/loginbutton_custom" />
 
     <TextView
         android:id="@+id/pw_caution_text"
