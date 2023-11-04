@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.kakao.sdk:v2-user:2.15.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0' //원형 프로필
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'

@@ -10,6 +10,7 @@
 
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -66,6 +67,21 @@
             android:value="ca-app-pub-3940256099942544~3347511713"/>
         <meta-data android:name="com.kakao.sdk.Appkey"
             android:value="6e57980f9050faf730dbb4af45ab8602"/>
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!--                <!— Redirect URI: "kakao{NATIVE_APP_KEY}://oauth" —>-->
+                <data
+                    android:host="oauth"
+                    android:scheme="kakaocbcd0f31a70352a954647060b9576612" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
