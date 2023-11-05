@@ -1,6 +1,7 @@
 package com.example.woodonggo;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,17 @@ public class Mypage_match extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if(itemId == android.R.id.home) {
+                    onBackPressed();
+                }
+                return false;
+            }
+        });
+
         // ViewPager2와 TabLayout을 초기화
         ViewPager2 viewPager = findViewById(R.id.viewPager);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -28,8 +40,6 @@ public class Mypage_match extends AppCompatActivity {
         // ViewPager2와 TabLayout을 연결
         Mypage_match_Adapter pagerAdapter = new Mypage_match_Adapter(this);
         viewPager.setAdapter(pagerAdapter);
-
-
 
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {

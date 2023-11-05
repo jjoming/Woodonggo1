@@ -26,9 +26,7 @@ public class Mypage_profile_edit extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == android.R.id.home) {
-            //TODO: 이전화면 만든 후 매니페스트까지 설정해주세요!
-            //Intent intent = new Intent(Mypage_profile_edit.this, 이전화면 자바클래스.class);
-            //startActivity(intent);
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
