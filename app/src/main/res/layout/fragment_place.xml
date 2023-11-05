@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
-            android:background="@drawable/radiobtn_custom"/>
+            android:background="@drawable/radiobtn_category_custom"/>
         <RadioButton
             android:id="@+id/btnBowling"
             android:text="볼링"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
-            android:background="@drawable/radiobtn_custom"/>
+            android:background="@drawable/radiobtn_category_custom"/>
         <RadioButton
             android:id="@+id/btnPingpong"
             android:text="탁구"
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
-            android:background="@drawable/radiobtn_custom"/>
+            android:background="@drawable/radiobtn_category_custom"/>
 
     </RadioGroup>
 

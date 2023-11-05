@@ -5,16 +5,43 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.95"/>
+
     <ImageView
         android:id="@+id/imglogo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="28dp"
         android:src="@drawable/logo"
         android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/guidelineTop" />
 
     <TextView
         android:id="@+id/title"
@@ -34,29 +61,28 @@
 
     <EditText
         android:id="@+id/name_edit"
-        android:layout_width="375dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:background="@drawable/edittext_custom"
         android:hint="이름"
         android:paddingLeft="10sp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/imglogo" />
 
     <EditText
         android:id="@+id/id_edit"
-        android:layout_width="242dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:background="@drawable/edittext_custom"
         android:paddingLeft="10sp"
         android:hint="아이디 입력"
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginRight="9dp"
         app:layout_constraintRight_toLeftOf="@id/id_chk_btn"
         app:layout_constraintTop_toBottomOf="@id/name_edit"
-        app:layout_constraintLeft_toLeftOf="@id/name_edit"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
         />
 
     <Button
@@ -65,9 +91,9 @@
         android:layout_height="45dp"
         android:text="중복 확인"
         android:textColor="@color/white"
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="12sp"
         android:layout_marginLeft="12sp"
-        app:layout_constraintLeft_toRightOf="@id/id_edit"
+        app:layout_constraintRight_toRightOf="@+id/guidelineRight"
         app:layout_constraintTop_toBottomOf="@id/name_edit"
         android:background="@drawable/loginbutton_custom" />
 
@@ -87,7 +113,6 @@
 
     <EditText
         android:id="@+id/password_edit"
-        android:layout_width="375dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
@@ -96,20 +121,21 @@
         android:paddingLeft="10sp"
         android:inputType="textPassword"
         app:layout_constraintLeft_toLeftOf="@id/id_edit"
-        app:layout_constraintTop_toBottomOf="@id/caution_text" />
+        app:layout_constraintTop_toBottomOf="@id/caution_text"
+        app:layout_constraintRight_toRightOf="@+id/guidelineRight"/>
 
     <EditText
         android:id="@+id/password_chk_edit"
-        android:layout_width="375dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginTop="10sp"
         android:background="@drawable/edittext_custom"
         android:hint="비밀번호 재입력"
-        android:paddingLeft="10sp"
+        android:paddingLeft="12sp"
         android:inputType="textPassword"
-        app:layout_constraintLeft_toLeftOf="@id/password_edit"
-        app:layout_constraintTop_toBottomOf="@id/password_edit" />
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/password_edit"
+        app:layout_constraintRight_toRightOf="@+id/guidelineRight"/>
 
 
     <TextView
@@ -133,22 +159,22 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="15sp"
-        android:layout_marginLeft="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/pw_caution_text"
         />
 
     <EditText
         android:id="@+id/phone_edit"
-        android:layout_width="242dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginTop="10sp"
         android:background="@drawable/edittext_custom"
         android:hint="'-'없이 숫자만 입력"
         android:paddingLeft="10sp"
-        app:layout_constraintLeft_toLeftOf="@id/name_edit"
-        app:layout_constraintTop_toBottomOf="@id/tel" />
+        android:layout_marginRight="9dp"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/tel"
+        app:layout_constraintRight_toLeftOf="@id/phone_chk_btn"/>
 
     <Button
         android:id="@+id/phone_chk_btn"
@@ -157,21 +183,22 @@
         android:text="인증번호받기"
         android:textColor="@color/white"
         android:layout_marginTop="10sp"
-        app:layout_constraintRight_toRightOf="@id/id_chk_btn"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight"
         app:layout_constraintTop_toBottomOf="@id/tel"
         android:background="@drawable/loginbutton_custom" />
 
     <EditText
         android:id="@+id/phone_chk_edit"
-        android:layout_width="242dp"
         android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/edittext_custom"
         android:hint="인증번호 입력"
-        android:paddingLeft="10sp"
-        app:layout_constraintLeft_toLeftOf="@id/name_edit"
-        app:layout_constraintTop_toBottomOf="@id/phone_edit" />
+        android:paddingLeft="12sp"
+        android:layout_marginRight="9dp"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/phone_edit"
+        app:layout_constraintRight_toLeftOf="@+id/certification_btn"/>
 
     <Button
         android:id="@+id/certification_btn"
@@ -179,19 +206,18 @@
         android:layout_height="45dp"
         android:text="인증확인"
         android:textColor="@color/white"
-        android:layout_marginTop="10sp"
-        app:layout_constraintRight_toRightOf="@id/id_chk_btn"
+        android:layout_marginTop="12sp"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight"
         app:layout_constraintTop_toBottomOf="@id/phone_chk_btn"
         android:background="@drawable/loginbutton_custom" />
 
     <Button
-        android:layout_width="375dp"
         android:layout_height="45dp"
         android:id="@+id/joinConfirm"
         android:text="가입완료"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight"
+        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
         android:layout_marginTop="320sp"
         android:layout_marginBottom="20sp"
         android:textSize="15sp"

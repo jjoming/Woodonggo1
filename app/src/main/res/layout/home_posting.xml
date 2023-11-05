@@ -31,13 +31,77 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="match_parent"
+        android:id="@+id/radioGroupCategory"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="9dp"
         app:layout_constraintTop_toBottomOf="@+id/textChooseCategory"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/btnTeam"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="팀"
+            android:textColor="@color/dark_gray"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_category_custom"
+            android:button="@null"
+            android:drawableRight="@drawable/arrow_right_radiobtn"/>
+
+        <RadioButton
+            android:id="@+id/btnPersonal"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="개인"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/dark_gray"
+            android:button="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:background="@drawable/radiobtn_category_custom"
+            android:drawableRight="@drawable/arrow_right_radiobtn"/>
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:visibility="invisible"
+        android:id="@+id/radioGroupTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/radioGroupCategory"
+        app:layout_constraintLeft_toRightOf="@+id/radioGroupCategory"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupPersonal"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/btnPingpong"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="탁구"
+            android:textColor="@color/dark_gray"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:button="@null"
+            android:background="@drawable/radiobtn_sports_custom"/>
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:visibility="invisible"
+        android:id="@+id/radioGroupPersonal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupTeam"
+        app:layout_constraintBottom_toBottomOf="@+id/radioGroupCategory"
+        app:layout_constraintLeft_toRightOf="@+id/radioGroupCategory"
         android:orientation="horizontal">
 
         <RadioButton
@@ -46,38 +110,23 @@
             android:text="골프"
             android:textColor="@color/dark_gray"
             android:textSize="15sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
-            android:background="@drawable/radiobtn_custom"
-            android:button="@null" />
+            android:button="@null"
+            android:background="@drawable/radiobtn_sports_custom"/>
 
         <RadioButton
             android:id="@+id/btnBowling"
             android:fontFamily="@font/pretendard_medium"
             android:text="볼링"
-            android:textStyle="bold"
-            android:textSize="15sp"
             android:textColor="@color/dark_gray"
-            android:button="@null"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
-            android:background="@drawable/radiobtn_custom"/>
-        <RadioButton
-            android:id="@+id/btnPingpong"
-            android:fontFamily="@font/pretendard_medium"
-            android:text="탁구"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:textColor="@color/dark_gray"
             android:button="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="9dp"
-            android:background="@drawable/radiobtn_custom"/>
-
+            android:background="@drawable/radiobtn_sports_custom"/>
     </RadioGroup>
 
     <TextView
@@ -90,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:layout_marginLeft="18dp"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupCategory"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
@@ -219,7 +268,7 @@
 
     <Button
         android:id="@+id/btnPost"
-        android:fontFamily="@font/pretendard_extra_bold"
+        android:fontFamily="@font/pretendard_bold"
         android:text="게시글 올리기"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -229,7 +278,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textPlace"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/light_gray"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
