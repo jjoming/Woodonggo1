@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import static com.kakao.util.maps.helper.Utility.getKeyHash;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
@@ -27,6 +29,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import com.kakao.sdk.user.UserApiClient;
+
 
 public class LoginMain extends AppCompatActivity {
     private static final String TAG = "LoginMain";
@@ -46,7 +50,7 @@ public class LoginMain extends AppCompatActivity {
         setContentView(R.layout.login_main); // 액티비티의 레이아웃 파일을 설정합니다.
 
         Context context = LoginMain.this;
-        //Log.d("getKeyHash", "" + getKeyHash(LoginMain.this));
+        Log.d("getKeyHash", "" + getKeyHash(LoginMain.this));
 
         login_btn = findViewById(R.id.login_button);
         signUpTextView = findViewById(R.id.signUp);
