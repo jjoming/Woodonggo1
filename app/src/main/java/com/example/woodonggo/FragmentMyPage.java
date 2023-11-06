@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,18 +16,15 @@ import androidx.fragment.app.Fragment;
 public class FragmentMyPage extends Fragment {
 
     Button profile_btn;
-    LinearLayout mypage_interest_layout;
-
-    LinearLayout mypage_match_layout;
+    TextView textLikeList, textMatchList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_mypage, container, false);
-        Button profile_btn = rootView.findViewById(R.id.profile_btn);
-        LinearLayout mypage_interest_layout = rootView.findViewById(R.id.mypage_interest_layout);
-        LinearLayout mypage_match_layout = rootView.findViewById(R.id.mypage_match_layout);
-
+        profile_btn = rootView.findViewById(R.id.profile_btn);
+        textLikeList = rootView.findViewById(R.id.textLikeList);
+        textMatchList = rootView.findViewById(R.id.textMatchList);
 
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +34,8 @@ public class FragmentMyPage extends Fragment {
             }
         });
 
-        mypage_interest_layout.setOnClickListener(new View.OnClickListener() {
+
+        textLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Mypage_interest.class);
@@ -44,7 +43,7 @@ public class FragmentMyPage extends Fragment {
             }
         });
 
-        mypage_match_layout.setOnClickListener(new View.OnClickListener() {
+        textMatchList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Mypage_match.class);

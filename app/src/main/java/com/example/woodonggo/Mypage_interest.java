@@ -1,6 +1,7 @@
 package com.example.woodonggo;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -40,6 +41,17 @@ public class Mypage_interest extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         dataList = getDataList(); // 데이터 목록 초기화
         adapter = new Mypage_interest_RecyclerView_Adapter(dataList); // 어댑터 초기화
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if(itemId == android.R.id.home) {
+                    onBackPressed();
+                }
+                return false;
+            }
+        });
 
         matchGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
