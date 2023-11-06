@@ -1,8 +1,11 @@
 package com.example.woodonggo;
 
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 public class LoginSignup extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    static final int SMS_SEND_PERMISSION = 1;
     EditText nameEdit, idEdit, passwordEdit, passwordCheckEdit, phoneEdit, certificationNumEdit;
     Button idCheckBtn, phoneCheckBtn, certiConfirm, joinConfirm;
     TextView cautionText, pwCautionText;
@@ -62,6 +68,17 @@ public class LoginSignup extends AppCompatActivity {
         cautionText = findViewById(R.id.caution_text);
         pwCautionText = findViewById(R.id.pw_caution_text);
 
+        /*int permissionCheck = ContextCompat.checkSelfPermission(LoginSignup.this, Manifest.permission.SEND_SMS);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            // 문자보내기 권한 거부
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginSignup.this, Manifest.permission.SEND_SMS)) {
+                Toast.makeText(getApplicationContext(), "SMS 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }
+            // 문자 보내기 권한 허용
+            ActivityCompat.requestPermissions(LoginSignup.this, new String[]{Manifest.permission.SEND_SMS}, SMS_SEND_PERMISSION);
+        }
+        */
 
         idCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +96,7 @@ public class LoginSignup extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 pw = passwordEdit.getText().toString();     //비밀번호 입력창에 입력된 텍스트 가져오기
-                return true;
+                return false;
             }
         });
 
@@ -114,7 +131,8 @@ public class LoginSignup extends AppCompatActivity {
         phoneCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                phoneAuth();
+                //phoneAuth(phoneEdit.getText().toString(), "메시지 전송 테스트");
+
                 phone = phoneEdit.getText().toString();
                 if (phone.isEmpty()) {
                     Toast.makeText(LoginSignup.this, "전화번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -122,6 +140,8 @@ public class LoginSignup extends AppCompatActivity {
                     Toast.makeText(LoginSignup.this, "숫자로만 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     // todo : 인증번호 보내기
+                    String ph = "+82";
+                    ph += phone.substring(1);
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
                         phone, // 사용자 전화번호
                         60, // 타임아웃 시간
@@ -229,7 +249,12 @@ public class LoginSignup extends AppCompatActivity {
                 });
     }
 
-    private void phoneAuth() {
+    private void phoneAuth(String phoneNumber, String message) {
+        PendingIntent pi = PendingIntent.getActivity(LoginSignup.this, 0, new Intent(LoginSignup.this, LoginSignup.this.getClass()), PendingIntent.FLAG_IMMUTABLE);
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, pi, null);
+
+        Toast.makeText(LoginSignup.this, "메시지가 전송되었습니다.", Toast.LENGTH_SHORT).show();
         /*
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
@@ -251,6 +276,7 @@ public class LoginSignup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 사용자가 성공적으로 인증됨
                             AuthResult result = task.getResult();
+                            Toast.makeText(LoginSignup.this, "인증되었습니다. 가입완료 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
                             // 이후의 작업을 수행
                         } else {
                             // 인증이 실패한 경우
