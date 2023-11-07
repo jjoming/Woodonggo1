@@ -45,18 +45,17 @@ public class LoginSignup extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
     private String storedVerificationId = "";
-    private PhoneAuthProvider.ForceResendingToken resendToken;
+    //private PhoneAuthProvider.ForceResendingToken resendToken;
 
-    //static final int SMS_SEND_PERMISSION = 1;
     EditText nameEdit, idEdit, passwordEdit, passwordCheckEdit, phoneEdit, certificationNumEdit;
     Button idCheckBtn, phoneCheckBtn, certiConfirm, joinConfirm;
     TextView cautionText, pwCautionText;
 
     String id, pw, phone;
-    String mVerificationId;
     boolean idFound = false;    //해당아이디가 있을 경유 true로 변환
     boolean idConfirm = false;
     boolean pwConfirm = false;
+    boolean authConfirm = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,8 +147,6 @@ public class LoginSignup extends AppCompatActivity {
                     public void onVerificationCompleted(PhoneAuthCredential credential) {
                         Toast.makeText(LoginSignup.this, "인증코드가 전송되었습니다. 60초 이내에 입력해주세요 :)", Toast.LENGTH_SHORT).show();
                         Log.d("Auth", "onVerificationCompleted:" + credential);
-
-                        //signInWithPhoneAuthCredential(credential);
                     }
 
                     @Override
@@ -219,12 +216,12 @@ public class LoginSignup extends AppCompatActivity {
         joinConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (idConfirm && pwConfirm) {  //todo : 비밀번호확인 변수 검사, 인증확인 변수 검사
+                if (idConfirm && pwConfirm && authConfirm) {  //아이디, 비밀번호확인 변수 검사, 인증확인 변수 검사
                     // 아이디와 비밀번호 넘겨주기, 프로필 설정으로 넘어가기
                     Intent intent = new Intent(LoginSignup.this, LoginSignup2.class);
                     intent.putExtra("id", id);
                     intent.putExtra("password", pw);
-                    //intent.putExtra("phone", phone);
+                    intent.putExtra("phone", phone);
                     startActivity(intent);
                 }
             }
@@ -301,7 +298,7 @@ public class LoginSignup extends AppCompatActivity {
                             //FirebaseUser user = task.getResult().getUser();
                             Toast.makeText(LoginSignup.this, "인증되었습니다. 가입완료 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
                             // 이후의 작업을 수행
-
+                            authConfirm = true;
                         } else {
                             // 인증이 실패한 경우
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
