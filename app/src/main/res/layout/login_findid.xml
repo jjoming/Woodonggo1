@@ -49,7 +49,8 @@
             android:id="@+id/phone_edit"
             android:layout_width="300sp"
             android:layout_height="40sp"
-            android:hint="  전화번호를 입력해 주세요."
+            android:hint="전화번호를 입력해 주세요."
+            android:layout_marginLeft="10sp"
             android:background="@null"
             android:layout_gravity="center"
             />
@@ -92,6 +93,7 @@
             android:layout_height="40sp"
             android:layout_gravity="center"
             android:background="@null"
+            android:layout_marginLeft="10sp"
             android:hint="  인증번호를 입력해 주세요." />
 
 
@@ -115,7 +117,7 @@
 
     <!-- 인증 성공시 visible 하면서 아이디를 찾아주게 설계.    -->
     <TextView
-        android:id="@+id/tv_1"
+        android:id="@+id/id_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -128,14 +130,14 @@
         />
 
     <TextView
-        android:id="@+id/tv_2"
+        android:id="@+id/main_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="로그인창으로 이동"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/navy"
-        app:layout_constraintTop_toBottomOf="@id/tv_1"
+        app:layout_constraintTop_toBottomOf="@id/id_tv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="80sp" />
