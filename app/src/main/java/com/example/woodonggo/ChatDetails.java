@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -42,18 +43,22 @@ public class ChatDetails extends AppCompatActivity {
         // 커스텀 어댑터 생성
         adapter = new ChatMessageAdapter();
 
+
         // Xml에서 추가한 ListView 연결
         recyclerViewChat = (RecyclerView) findViewById(R.id.recyclerViewChat);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewChat.setLayoutManager(layoutManager);
 
         // ListView에 어댑터 연결
         recyclerViewChat.setAdapter(adapter);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date currentTime = new Date();
 
         DataModelMessage myMessage = new DataModelMessage("This is my message", true, false, currentTime, currentTime);
         DataModelMessage otherMessage = new DataModelMessage("This is another person's message", false, false, currentTime, currentTime);
-        DataModelMessage dateMessage = new DataModelMessage("2023-10-30 00:00:00", false, true, currentTime, currentTime);
+        DataModelMessage dateMessage = new DataModelMessage("2023-11-07", false, true, currentTime, currentTime);
 
         adapter.add(myMessage);
         adapter.add(otherMessage);
