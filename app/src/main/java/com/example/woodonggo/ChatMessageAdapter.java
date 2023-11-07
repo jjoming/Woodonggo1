@@ -153,8 +153,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public MyMessageViewHolder(@NonNull View itemView) {
             super(itemView);
-            messageText = itemView.findViewById(R.id.chatTextOther);
-            timeText = itemView.findViewById(R.id.timeTextOther);
+            messageText = itemView.findViewById(R.id.chatTextMy);
+            timeText = itemView.findViewById(R.id.timeTextMy);
         }
 
         public void bind(DataModelMessage message) {
@@ -171,8 +171,8 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public OtherMessageViewHolder(@NonNull View itemView) {
             super(itemView);
-            messageText = itemView.findViewById(R.id.chatTextMy);
-            timeText = itemView.findViewById(R.id.timeTextMy);
+            messageText = itemView.findViewById(R.id.chatTextOther);
+            timeText = itemView.findViewById(R.id.timeTextOther);
         }
 
         public void bind(DataModelMessage message) {
