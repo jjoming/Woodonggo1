@@ -2,6 +2,7 @@ package com.example.woodonggo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,6 +23,17 @@ public class Mypage_profile extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int itemId = item.getItemId();
+                if(itemId == android.R.id.home) {
+                    onBackPressed();
+                }
+                return false;
+            }
+        });
 
         edit_btn = findViewById(R.id.edit_btn);
 
