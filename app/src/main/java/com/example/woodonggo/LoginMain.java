@@ -35,7 +35,7 @@ import com.kakao.sdk.user.UserApiClient;
 public class LoginMain extends AppCompatActivity {
     private static final String TAG = "LoginMain";
     Button login_btn;
-    TextView signUpTextView, findId;
+    TextView signUpTextView, findId, findPw;
     private String naver_client_id = "AlrQlFUIJfEvBysmrJ2_";
     private String naver_client_secret = "pGaTJRO0pk";
     private String naver_client_name = "woodonggo";
@@ -59,6 +59,7 @@ public class LoginMain extends AppCompatActivity {
         NaverIdLoginSDK.INSTANCE.initialize(context, naver_client_id, naver_client_secret, naver_client_name);
         kakao_login = findViewById(R.id.kakao_Login);
         findId = findViewById(R.id.findId);
+        findPw = findViewById(R.id.findPw);
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,6 +74,14 @@ public class LoginMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginMain.this, LoginFindId.class);
+                startActivity(intent);
+            }
+        });
+
+        findPw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginMain.this, LoginFindPw1.class);
                 startActivity(intent);
             }
         });
