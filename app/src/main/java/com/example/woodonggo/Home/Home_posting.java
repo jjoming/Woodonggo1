@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.woodonggo.R;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Home_posting extends AppCompatActivity {
     Toolbar toolbar;

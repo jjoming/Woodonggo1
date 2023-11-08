@@ -3,6 +3,7 @@ package com.example.woodonggo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.kakao.sdk.user.model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -25,10 +27,13 @@ public class MainActivity extends AppCompatActivity {
     FragmentChatting fragment_chatting;
     FragmentMyPage fragment_myPage;
     BottomNavigationView bottomNavi;
+    String UserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         //키 해시 얻기
         try {
@@ -69,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.menu_chatting) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_chatting).commit();
                 } else if (itemId == R.id.menu_mypage) {
+                    Intent inIntent = getIntent();
+                    UserId = inIntent.getStringExtra("UserId");
+                    Bundle bundle_user = new Bundle();
+                    bundle_user.putString("UserId", UserId);
+                    fragment_myPage.setArguments(bundle_user);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_myPage).commit();
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();

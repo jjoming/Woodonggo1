@@ -13,6 +13,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.kakao.sdk.user.model.User;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
@@ -43,6 +47,8 @@ public class LoginMain extends AppCompatActivity {
 
     ImageButton kakao_login;
     String responseBody;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,20 +135,8 @@ public class LoginMain extends AppCompatActivity {
                         String id = jsonResponse.getJSONObject("response").getString("id");
                         mobile = mobile.replaceAll("-","");
                         String finalMobile = mobile;
-                        runOnUiThread(() -> {
-                            // 고객 DB에 id가 있으면 메인페이지로 넘어가고 로그인 처리
-                            // 없으면 회원가입(Signup2로 전환)
-                            if (false) {
-                                // todo : 여기 조건문에 id가 db에 있을 경우 메인으로 가게 주가해줘용.
-                                Intent intent = new Intent(LoginMain.this, MainActivity.class);
-                            }else {
-                                // todo : id가 db에 없다? 그러면 아이디와 전화번호 LoginSignup2로 전달하기 (거기서 db에 올리기)
-                                Intent intent = new Intent(LoginMain.this, LoginSignup2.class);
-                                intent.putExtra("phone", finalMobile);
-                                intent.putExtra("id",id);
-                                startActivity(intent);
-                            }
-                        });
+                        // Firestore에 사용자 ID가 있는지 확인
+                        checkIfUserExistsInFirestore(id, finalMobile);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -164,6 +158,37 @@ public class LoginMain extends AppCompatActivity {
 
 
     }
+
+    // Firestore에서 사용자 확인 메서드
+    private void checkIfUserExistsInFirestore(String userId, String finalMobile) {
+        DocumentReference userRef = db.collection("User").document(userId);
+
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // 사용자가 Firestore의 users 컬렉션에 존재하는 경우
+                    Intent intent = new Intent(LoginMain.this, MainActivity.class);
+                    intent.putExtra("UserId",userId);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    // 사용자가 Firestore의 users 컬렉션에 존재하지 않는 경우
+                    Intent intent = new Intent(LoginMain.this, LoginSignup2.class);
+                    intent.putExtra("phone", finalMobile);
+                    intent.putExtra("id", userId);
+                    startActivity(intent);
+                }
+            } else {
+                // Firestore에서 사용자 확인 중 오류 발생
+                // 오류 처리를 수행하거나 필요에 따라 처리
+            }
+        });
+    }
+
+
+
+
 
     // 네이버로그인 안될경우.
     private static String get(String apiUrl, Map<String, String> requestHeaders) {

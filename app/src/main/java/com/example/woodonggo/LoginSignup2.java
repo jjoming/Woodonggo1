@@ -4,18 +4,28 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class LoginSignup2 extends AppCompatActivity {
     Button nickConfirm;
@@ -23,6 +33,8 @@ public class LoginSignup2 extends AppCompatActivity {
     EditText nickname;
     String id, pw, phoneNum, nick, profileurl;
     Bitmap bitmap;
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +45,16 @@ public class LoginSignup2 extends AppCompatActivity {
         picture = findViewById(R.id.picture);
         nickname = findViewById(R.id.nickname);
 
+
+
         Intent inIntent = getIntent();
         id = inIntent.getStringExtra("id");
         profileurl = inIntent.getStringExtra("profile");
-        //pw = inIntent.getStringExtra("password");
+        pw = inIntent.getStringExtra("password");
         phoneNum = inIntent.getStringExtra("phone");
+
+        //TODO: 지금 지홍이가 firebase건들고 있음. 궁금한 점 문의바래용.
+        db = FirebaseFirestore.getInstance();
 
         if(profileurl != null) {
             // 카카오는 이미지링크로 받아오므로 스레드로 이미지 url 작업
@@ -93,7 +110,42 @@ public class LoginSignup2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // todo : 아이디, 비밀번호, 전화번호, 닉네임, 사진 파이어베이스에 올리기
+                String Id = id;
+                String Name = nickname.getText().toString();
+                String Passwd = pw;
+                saveToFireStore(Id, Name, Passwd);
             }
         });
     }
+
+    private void saveToFireStore(String Id , String Name , String Passwd) {
+        if(!Id.isEmpty() && !Name.isEmpty()) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id",Id);
+            map.put("name",Name);
+            map.put("passwd",Passwd);
+
+            db.collection("User").document(Id).set(map)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(LoginSignup2.this, "설정이 완료됐습니다.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginSignup2.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(LoginSignup2.this, "설정이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+        }else
+            Toast.makeText(this, "Empty Fields not Allowed", Toast.LENGTH_SHORT).show();
+    }
+
 }
