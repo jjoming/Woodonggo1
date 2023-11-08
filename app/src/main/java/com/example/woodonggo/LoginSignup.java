@@ -52,7 +52,7 @@ public class LoginSignup extends AppCompatActivity {
     TextView cautionText, pwCautionText;
 
     String id, pw, phone;
-    boolean idFound = false;    //해당아이디가 있을 경유 true로 변환
+    boolean idFound = false;    //해당 아이디가 있을 경유 true로 변환
     boolean idConfirm = false;
     boolean pwConfirm = false;
     boolean authConfirm = false;
@@ -174,9 +174,9 @@ public class LoginSignup extends AppCompatActivity {
                     Toast.makeText(LoginSignup.this, "숫자로만 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     // todo : 인증번호 보내기
-                    String ph = "+82";
-                    //ph += phone;
-                    ph += phone.substring(1);
+                    String ph = "+1";
+                    ph += phone;
+                    //ph += phone.substring(1);
 
                     PhoneAuthOptions options =
                             PhoneAuthOptions.newBuilder(auth)
@@ -245,7 +245,7 @@ public class LoginSignup extends AppCompatActivity {
                                     // 비교하고자 하는 값과 일치할 때 처리
                                     cautionText.setText("사용할 수 없는 아이디입니다. 다시 입력해주세요");
                                     cautionText.setVisibility(View.VISIBLE);
-                                    Toast.makeText(getApplicationContext(), "사용할 수 없는 아이디입니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginSignup.this, "사용할 수 없는 아이디입니다.", Toast.LENGTH_SHORT).show();
                                     idFound = true;
                                     idConfirm = false;
                                     break;
@@ -260,6 +260,7 @@ public class LoginSignup extends AppCompatActivity {
                         if (!idFound) {
                             cautionText.setText("사용할 수 있는 아이디입니다.");
                             cautionText.setVisibility(View.VISIBLE);
+                            cautionText.setTextColor(Color.BLUE);
                             idFound = false;
                             idConfirm = true;
                         }
@@ -296,7 +297,7 @@ public class LoginSignup extends AppCompatActivity {
                             // AuthResult result = task.getResult();
                             Log.d("Auth", "signInWithCredential:success");
                             //FirebaseUser user = task.getResult().getUser();
-                            Toast.makeText(LoginSignup.this, "인증되었습니다. 가입완료 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "인증되었습니다. 가입완료 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
                             // 이후의 작업을 수행
                             authConfirm = true;
                         } else {
