@@ -60,8 +60,9 @@ public class ChatDetails extends AppCompatActivity {
         DataModelMessage otherMessage = new DataModelMessage("This is another person's message", false, false, currentTime, currentTime);
         DataModelMessage dateMessage = new DataModelMessage("2023-11-07", false, true, currentTime, currentTime);
 
+        adapter.add(dateMessage);
         adapter.add(myMessage);
         adapter.add(otherMessage);
-        adapter.add(dateMessage);
+
     }
 }
