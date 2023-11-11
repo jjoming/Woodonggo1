@@ -224,6 +224,15 @@ public class LoginSignup extends AppCompatActivity {
                     intent.putExtra("phone", phone);
                     startActivity(intent);
                 }
+                else if (!idConfirm) {
+                    Toast.makeText(LoginSignup.this, "아이디 중복확인 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();
+                }
+                else if (!pwConfirm) {
+                    Toast.makeText(LoginSignup.this, "패스워드가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
+                }
+                else if (!authConfirm) {
+                    Toast.makeText(LoginSignup.this, "인증이 확인되지 않습니다", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
