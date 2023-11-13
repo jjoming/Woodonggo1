@@ -10,5 +10,6 @@ public class LoginSignup3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_signup3);
 
+
     }
 }

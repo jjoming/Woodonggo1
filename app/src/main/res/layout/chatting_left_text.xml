@@ -5,13 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatNickOther"
+        android:text="NickName"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/chatTextOther"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <TextView
         android:id="@+id/chatTextOther"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chatTextOther"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@drawable/chat_bubble"
         android:text="안녕하세요"
@@ -19,7 +30,6 @@
         android:padding="13dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -29,7 +39,7 @@
         app:layout_constraintLeft_toRightOf="@id/chatTextOther"
         android:textSize="15dp"
         android:text="12:20pm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/chatTextOther"
         android:layout_marginLeft="5dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
