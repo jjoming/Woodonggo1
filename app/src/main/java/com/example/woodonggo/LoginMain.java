@@ -12,11 +12,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.kakao.sdk.user.model.User;
 import com.navercorp.nid.NaverIdLoginSDK;
 import com.navercorp.nid.oauth.OAuthLoginCallback;
 import com.navercorp.nid.oauth.view.NidOAuthLoginButton;
@@ -46,7 +44,7 @@ public class LoginMain extends AppCompatActivity {
     private NidOAuthLoginButton naver_login;
 
     ImageButton kakao_login;
-    String responseBody;
+    String responseBody, finalphone;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -134,9 +132,10 @@ public class LoginMain extends AppCompatActivity {
                         String mobile = jsonResponse.getJSONObject("response").getString("mobile");
                         String id = jsonResponse.getJSONObject("response").getString("id");
                         mobile = mobile.replaceAll("-","");
-                        String finalMobile = mobile;
+                        finalphone = mobile;
+                        checkIfUserExistsInFirestore(id);
                         // Firestore에 사용자 ID가 있는지 확인
-                        checkIfUserExistsInFirestore(id, finalMobile);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -160,7 +159,11 @@ public class LoginMain extends AppCompatActivity {
     }
 
     // Firestore에서 사용자 확인 메서드
-    private void checkIfUserExistsInFirestore(String userId, String finalMobile) {
+    private void checkIfUserExistsInFirestore(String userId) {
+        checkIfUserExistsInFirestore(userId,null);
+    }
+
+    private void checkIfUserExistsInFirestore(String userId, String profile) {
         DocumentReference userRef = db.collection("User").document(userId);
 
         userRef.get().addOnCompleteListener(task -> {
@@ -172,22 +175,28 @@ public class LoginMain extends AppCompatActivity {
                     intent.putExtra("UserId",userId);
                     startActivity(intent);
                     finish();
-                } else {
-                    // 사용자가 Firestore의 users 컬렉션에 존재하지 않는 경우
-                    Intent intent = new Intent(LoginMain.this, LoginSignup2.class);
-                    intent.putExtra("phone", finalMobile);
-                    intent.putExtra("id", userId);
-                    startActivity(intent);
-                }
-            } else {
+                }else {
+                    if (finalphone != null) {
+                        gotosignup2(userId,finalphone);
+                    }
+                    gotosignup2(userId);
+            }
                 // Firestore에서 사용자 확인 중 오류 발생
                 // 오류 처리를 수행하거나 필요에 따라 처리
             }
         });
     }
 
-
-
+    private void gotosignup2(String userId) {
+        gotosignup2(userId , null);
+    }
+    private void gotosignup2(String userId, String finalphone) {
+        Intent intent = new Intent(LoginMain.this,LoginSignup2.class);
+        intent.putExtra("id",userId);
+        intent.putExtra("phone", finalphone);
+        startActivity(intent);
+        finish();
+    }
 
 
     // 네이버로그인 안될경우.
@@ -280,16 +289,14 @@ public class LoginMain extends AppCompatActivity {
                 String id = Long.toString(user.getId());
                 String profile = user.getKakaoAccount().getProfile().getThumbnailImageUrl();
                 id = id + "masterkey";
-                Intent intent = new Intent(LoginMain.this, LoginSignup2.class);
-                intent.putExtra("id",id);
-                intent.putExtra("profile",profile);
-                // todo : 이름 name 데이터베이스 저장
-                // intent.putExtra("name", name);
-                startActivity(intent);
-                finish(); // 현재 액티비티를 종료하여 뒤로 가기 버튼으로 다시 돌아오지 않도록 합니다.
+                checkIfUserExistsInFirestore(id,profile);
+                 // 현재 액티비티를 종료하여 뒤로 가기 버튼으로 다시 돌아오지 않도록 합니다.
             }
             return null;
         });
+        Log.i(TAG, "getUserInfo() 종료");
     }
+
+
 
 }

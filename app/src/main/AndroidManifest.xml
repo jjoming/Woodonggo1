@@ -76,6 +76,9 @@
             android:name=".LoginSignup2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".LoginSignup3"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".LoginMain"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
