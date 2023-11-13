@@ -3,15 +3,22 @@ package com.example.woodonggo;
 import static com.kakao.util.maps.helper.Utility.getKeyHash;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,7 +44,9 @@ import com.kakao.sdk.user.UserApiClient;
 public class LoginMain extends AppCompatActivity {
     private static final String TAG = "LoginMain";
     Button login_btn;
+    EditText id_edit, pw_edit;
     TextView signUpTextView, findId, findPw;
+    CheckBox autologin_chk;
     private String naver_client_id = "AlrQlFUIJfEvBysmrJ2_";
     private String naver_client_secret = "pGaTJRO0pk";
     private String naver_client_name = "woodonggo";
@@ -45,7 +54,7 @@ public class LoginMain extends AppCompatActivity {
 
     ImageButton kakao_login;
     String responseBody, finalphone;
-
+    private static final String PREF_AUTO_LOGIN = "auto_login";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -64,11 +73,34 @@ public class LoginMain extends AppCompatActivity {
         kakao_login = findViewById(R.id.kakao_Login);
         findId = findViewById(R.id.findId);
         findPw = findViewById(R.id.findPw);
+        id_edit = findViewById(R.id.loginId);
+        pw_edit = findViewById(R.id.loginPw);
+        autologin_chk = findViewById(R.id.check_login);
+
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        boolean autoLoginEnabled = preferences.getBoolean(PREF_AUTO_LOGIN, false);
+
+        if (autoLoginEnabled) {
+            // 자동 로그인 시도
+            String savedId = preferences.getString("savedId", "");
+            String savedPw = preferences.getString("savedPw", "");
+
+            if (!TextUtils.isEmpty(savedId) && !TextUtils.isEmpty(savedPw)) {
+                login(savedId, savedPw);
+            }
+        }
+
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginMain.this, MainActivity.class);
-                startActivity(intent);
+
+                String id, pw;
+                id = id_edit.getText().toString();
+                pw = pw_edit.getText().toString();
+                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(pw)) {
+                    Toast.makeText(LoginMain.this, "ID와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else login(id,pw);
 
                 // todo : 아이디 패스워드 서버와 일치하는지 확인
             }
@@ -156,6 +188,34 @@ public class LoginMain extends AppCompatActivity {
 
 
 
+    }
+
+    private void login(String id, String pw) {
+        DocumentReference userRef = db.collection("User").document(id);
+
+        userRef.get().addOnCompleteListener(task -> {
+           if(task.isSuccessful()) {
+               DocumentSnapshot document = task.getResult();
+               if(document.exists()) {
+                   String storedPw = document.getString("passwd");
+                   if (pw.equals(storedPw)) {
+                       SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginMain.this);
+                       preferences.edit().putBoolean(PREF_AUTO_LOGIN, autologin_chk.isChecked()).apply();
+
+                       Intent intent = new Intent(LoginMain.this, MainActivity.class);
+                       intent.putExtra("Id",id);
+                       startActivity(intent);
+                       finish();
+                   } else {
+                       Toast.makeText(LoginMain.this,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
+                   }
+               } else {
+                   Toast.makeText(LoginMain.this,"해당 ID가 존재하지 않습니다.",Toast.LENGTH_SHORT).show();
+               }
+           }else {
+               Toast.makeText(LoginMain.this, "사용자 정보 확인 중 오류 발생", Toast.LENGTH_SHORT).show();
+           }
+        });
     }
 
     // Firestore에서 사용자 확인 메서드
