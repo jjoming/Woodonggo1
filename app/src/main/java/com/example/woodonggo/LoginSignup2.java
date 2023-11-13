@@ -3,13 +3,19 @@ package com.example.woodonggo;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +23,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -25,6 +33,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.UUID;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class LoginSignup2 extends AppCompatActivity {
     Button nickConfirm;
@@ -33,6 +47,9 @@ public class LoginSignup2 extends AppCompatActivity {
     String id, pw, phoneNum, nick, profileurl;
     Bitmap bitmap;
     private FirebaseFirestore db;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageReference = storage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,63 +62,44 @@ public class LoginSignup2 extends AppCompatActivity {
         nickname = findViewById(R.id.nickname);
 
 
-
+        // 이전 페이지에서 정보를 받아옴.
         Intent inIntent = getIntent();
         id = inIntent.getStringExtra("id");
         profileurl = inIntent.getStringExtra("profile");
         pw = inIntent.getStringExtra("password");
         phoneNum = inIntent.getStringExtra("phone");
 
-        //TODO: 지금 지홍이가 firebase건들고 있음. 궁금한 점 문의바래용.
+        if (id == null) {
+            // id가 null이면 에러 메시지 표시 또는 처리 방법을 선택하세요.
+            Toast.makeText(this, "에러: 사용자 ID가 없습니다.", Toast.LENGTH_SHORT).show();
+            return; // 초기화되지 않은 id로 인해 더 이상 진행하지 않도록 종료.
+        }
+        // 카카오는 프로필 이미지를 가져오고 나머지는 안가져옴.
+        if (profileurl == null) {
+            Glide.with(this)
+                    .load(R.drawable.noprofile)
+                    .into(profile);
+        } else {
+                Glide.with(this)
+                        .load(profileurl)
+                        .into(profile);
+        }
+
+        //db설정.
         db = FirebaseFirestore.getInstance();
 
-        if(profileurl != null) {
-            // 카카오는 이미지링크로 받아오므로 스레드로 이미지 url 작업
-            Thread mThread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(profileurl);
-
-                        // Web에서 이미지를 가져온 뒤
-                        // ImageView에 지정할 Bitmap을 만든다
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoInput(true); // 서버로 부터 응답 수신
-                        conn.connect();
-
-                        InputStream is = conn.getInputStream(); // InputStream 값 가져오기
-                        bitmap = BitmapFactory.decodeStream(is); // Bitmap으로 변환
-
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-
-            mThread.start(); // Thread 실행
-
-            try {
-                // 메인 Thread는 별도의 작업 Thread가 작업을 완료할 때까지 대기해야한다
-                // join()를 호출하여 별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 한다
-                mThread.join();
-
-                // 작업 Thread에서 이미지를 불러오는 작업을 완료한 뒤
-                // UI 작업을 할 수 있는 메인 Thread에서 ImageView에 이미지를 지정한다
-                profile.setImageBitmap(bitmap);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
         picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // todo : 카메라 갤러리 접근권한
                 // todo : 사진 가져와서 profile에 넣기
+                // 카메라 이미지 선택.
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                // 이미지 뷰 변경 함수.
+                activityResult.launch(galleryIntent);
             }
         });
 
@@ -112,17 +110,60 @@ public class LoginSignup2 extends AppCompatActivity {
                 String Id = id;
                 String Name = nickname.getText().toString();
                 String Passwd = pw;
-                saveToFireStore(Id, Name, Passwd);
+                String PhoneNum = phoneNum;
+                String ProfileUrl = profileurl;
+                saveToFireStore(Id, Name, Passwd, PhoneNum, ProfileUrl);
             }
         });
     }
 
-    private void saveToFireStore(String Id , String Name , String Passwd) {
+    ActivityResultLauncher<Intent> activityResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if(result.getResultCode() == RESULT_OK && result.getData() != null ) {
+                        profileurl = String.valueOf(result.getData().getData());
+                        profile.setImageURI(Uri.parse(profileurl));
+                    }
+                }
+            }
+    );
+
+
+    private void saveToFireStore(String Id, String Name, String Passwd, String PhoneNum) {
+        // profileuri를 전달하지 않은 경우 기본 이미지 사용
+        saveToFireStore(Id, Name, Passwd, PhoneNum,null);
+    }
+
+    private void saveToFireStore(String Id , String Name , String Passwd, String PhoneNum, String Profileurl) {
         if(!Id.isEmpty() && !Name.isEmpty()) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("id",Id);
             map.put("name",Name);
             map.put("passwd",Passwd);
+            map.put("phoneNum",PhoneNum);
+            Log.d("TAG", String.valueOf(profileurl));
+
+            StorageReference profileRef = storageReference.child("user_profiles/" + Id + ".jpg");
+            if(profileurl != null) {
+                profileRef.putFile(Uri.parse(profileurl))
+                        .addOnSuccessListener(taskSnapshot -> {
+                            profileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                profileurl = uri.toString();
+                            });
+                        });
+            } else {
+                StorageReference defaultProfileRef = storageReference.child("user_profiles/" + Id + ".jpg");
+
+                defaultProfileRef.putFile(Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.noprofile))
+                        .addOnSuccessListener(taskSnapshot -> {
+                            defaultProfileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                                profileurl = uri.toString();
+                            });
+                        });
+            }
+
 
             db.collection("User").document(Id).set(map)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -144,7 +185,7 @@ public class LoginSignup2 extends AppCompatActivity {
 
 
         }else
-            Toast.makeText(this, "Empty Fields not Allowed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "사용자 이름이 공백입니다. 입력해주세요.", Toast.LENGTH_SHORT).show();
     }
 
 }
