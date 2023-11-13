@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
+
     <TextView
         android:id="@+id/chatTextMy"
         android:layout_width="wrap_content"
@@ -21,6 +22,7 @@
         android:layout_marginBottom="10dp"
         tools:ignore="MissingConstraints" />
 
+
     <TextView
         android:id="@+id/timeTextMy"
         android:layout_width="wrap_content"
@@ -28,7 +30,6 @@
         app:layout_constraintRight_toLeftOf="@id/chatTextMy"
         android:textSize="15dp"
         android:text="12:20pm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/chatTextMy"
         android:layout_marginRight="5dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
