@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,17 +25,6 @@ public class Mypage_profile extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
-                if(itemId == android.R.id.home) {
-                    onBackPressed();
-                }
-                return false;
-            }
-        });
-
         edit_btn = findViewById(R.id.edit_btn);
 
         edit_btn.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +34,12 @@ public class Mypage_profile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
+    }
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
