@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,13 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FragmentPlace extends Fragment {
 
@@ -35,6 +43,9 @@ public class FragmentPlace extends Fragment {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     RecyclerView recyclerView;
     Place_RecyclerView_Adapter adapter;
+
+    public static final String BASE_URL = "https://dapi.kakao.com/";
+    public static final String API_KEY = "10079a2678836fa1cd9862adca8211cc"; // REST API 키
 
 
 
@@ -55,14 +66,17 @@ public class FragmentPlace extends Fragment {
                     btnGolf.setTextColor(Color.WHITE);
                     btnBowling.setTextColor(Color.DKGRAY);
                     btnPingpong.setTextColor(Color.DKGRAY);
+                    searchKeyword("카카오프렌즈");
                 } else if (checkedId == R.id.btnBowling) {
                     btnBowling.setTextColor(Color.WHITE);
                     btnGolf.setTextColor(Color.DKGRAY);
                     btnPingpong.setTextColor(Color.DKGRAY);
+                    searchKeyword("볼링");
                 } else if (checkedId == R.id.btnPingpong) {
                     btnPingpong.setTextColor(Color.WHITE);
                     btnGolf.setTextColor(Color.DKGRAY);
                     btnBowling.setTextColor(Color.DKGRAY);
+                    searchKeyword("탁구");
                 }
             }
         });
@@ -70,13 +84,13 @@ public class FragmentPlace extends Fragment {
         //데이터 모델리스트
         ArrayList<DataModel> dataModels = new ArrayList<>();
 
-        dataModels.add(new DataModel("data0", "data0", "data0"));
-        dataModels.add(new DataModel("data1", "data1", "data1"));
-        dataModels.add(new DataModel("data2", "data2", "data2"));
-        dataModels.add(new DataModel("data3", "data3", "data3"));
-        dataModels.add(new DataModel("data4", "data4", "data4"));
-        dataModels.add(new DataModel("data5", "data5", "data5"));
-        dataModels.add(new DataModel("data6", "data6", "data6"));
+//        dataModels.add(new DataModel("data0", "data0", "data0"));
+//        dataModels.add(new DataModel("data1", "data1", "data1"));
+//        dataModels.add(new DataModel("data2", "data2", "data2"));
+//        dataModels.add(new DataModel("data3", "data3", "data3"));
+//        dataModels.add(new DataModel("data4", "data4", "data4"));
+//        dataModels.add(new DataModel("data5", "data5", "data5"));
+//        dataModels.add(new DataModel("data6", "data6", "data6"));
 
         recyclerView = view.findViewById(R.id.recyclerViewPlace);
         adapter = new Place_RecyclerView_Adapter(getActivity(), dataModels);
@@ -149,6 +163,7 @@ public class FragmentPlace extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         stopTracking();
+        mapView.destroyDrawingCache();
     }
 
     @Override
@@ -160,6 +175,70 @@ public class FragmentPlace extends Fragment {
             //startActivity(intent);
         }
         return false;
+    }
+
+    // 키워드 검색 함수
+    private void searchKeyword(String keyword) {
+        Retrofit retrofit = new Retrofit.Builder() // Retrofit 구성
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        String apiKey = "KakaoAK " + API_KEY;
+        KakaoKeyword api = retrofit.create(KakaoKeyword.class); // 통신 인터페이스를 객체로 생성
+        //Call<ResultSearchKeyword> call = api.getSearchKeyword(API_KEY, 127.06283102249932, 37.514322572335935, 20000); // 검색 조건 입력
+        Call<ResultSearchKeyword> call = api.getSearchKeyword(apiKey, keyword,127.06283102249932, 37.514322572335935, 20000); // 검색 조건 입력
+
+        // API 서버에 요청
+        call.enqueue(new Callback<ResultSearchKeyword>() {
+            @Override
+            public void onResponse(Call<ResultSearchKeyword> call, Response<ResultSearchKeyword> response) {
+                // 통신 성공 (검색 결과는 response.body()에 담겨있음)
+                try {
+                    if (response.isSuccessful() && response.body() != null) {
+                        // 성공적인 응답이 있을 때 처리
+                        Log.d("Test", "Body: " + response.body());
+                        Log.d("Test", "Raw: " + response.raw());
+                        Log.d("Test", "API URL: " + call.request().url());
+                        Log.d("Test", "Response Code: " + response.code());
+                        Log.d("Test", "Error Response: " + response.errorBody().toString());
+
+                        ResultSearchKeyword result = response.body();
+
+                        List<DataModel> dataModels = convertToDataModelList(result);
+
+                        adapter.setData(dataModels);
+                        adapter.notifyDataSetChanged();
+
+                    } else {
+                        // 응답이 실패하거나 body가 null인 경우 처리
+                        Log.w("Retrofit", "응답이 실패하거나 body가 null입니다.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            // ResultSearchKeyword를 DataModel로 변환하는 메서드
+            private List<DataModel> convertToDataModelList(ResultSearchKeyword result) {
+                List<DataModel> dataModels = new ArrayList<>();
+
+                // result에서 필요한 정보를 추출하여 DataModel로 변환
+                for (ResultSearchKeyword.Place place : result.documents) {
+                    // 예시: 장소명, 카테고리, 주소를 추출하여 DataModel을 생성하고 리스트에 추가
+                    DataModel dataModel = new DataModel(place.getPlace_name(), place.getCategory_name(), place.getAddress_name());
+                    dataModels.add(dataModel);
+                }
+                return dataModels;
+            }
+
+            @Override
+            public void onFailure(Call<ResultSearchKeyword> call, Throwable t) {
+                // 통신 실패
+                Log.w("Retrofit", "통신 실패: " + t.getMessage());
+            }
+        });
     }
 
 }

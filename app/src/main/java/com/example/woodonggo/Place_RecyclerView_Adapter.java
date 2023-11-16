@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Place_RecyclerView_Adapter extends RecyclerView.Adapter {
 
@@ -72,6 +73,10 @@ public class Place_RecyclerView_Adapter extends RecyclerView.Adapter {
                 // todo : 상세페이지로 이동
             }
         });
+    }
+
+    public void setData(List<DataModel> newData) {
+        this.dataModels = (ArrayList<DataModel>) newData;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
