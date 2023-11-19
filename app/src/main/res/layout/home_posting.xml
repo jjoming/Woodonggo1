@@ -185,7 +185,7 @@
     <EditText
         android:id="@+id/edtTitle"
         android:fontFamily="@font/pretendard_medium"
-        android:hint="게시글 제목을 작성해 주세요!"
+        android:hint="대결장소를 작성해 주세요!"
         android:textColor="@color/black"
         android:textSize="15sp"
         android:padding="18sp"
