@@ -203,7 +203,7 @@ public class LoginMain extends AppCompatActivity {
                        preferences.edit().putBoolean(PREF_AUTO_LOGIN, autologin_chk.isChecked()).apply();
 
                        Intent intent = new Intent(LoginMain.this, MainActivity.class);
-                       intent.putExtra("Id",id);
+                       intent.putExtra("UserId",id);
                        startActivity(intent);
                        finish();
                    } else {
