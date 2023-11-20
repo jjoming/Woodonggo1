@@ -66,7 +66,7 @@ public class FragmentPlace extends Fragment {
                     btnGolf.setTextColor(Color.WHITE);
                     btnBowling.setTextColor(Color.DKGRAY);
                     btnPingpong.setTextColor(Color.DKGRAY);
-                    searchKeyword("카카오프렌즈");
+                    searchKeyword("골프");
                 } else if (checkedId == R.id.btnBowling) {
                     btnBowling.setTextColor(Color.WHITE);
                     btnGolf.setTextColor(Color.DKGRAY);
