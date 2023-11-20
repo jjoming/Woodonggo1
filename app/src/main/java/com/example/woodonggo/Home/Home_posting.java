@@ -70,6 +70,7 @@ public class Home_posting extends AppCompatActivity {
         edtTitle = findViewById(R.id.edtTitle);
         edtContent = findViewById(R.id.edtContent);
         btnPost = findViewById(R.id.btnPost);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         upload_id = preferences.getString("UserId", "");
         if(edtTitle.getText().toString().length() > 0 && edtContent.getText().toString().length() > 0) {
