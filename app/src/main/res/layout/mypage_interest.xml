@@ -28,8 +28,7 @@
             android:checked="true"
             android:layout_marginRight="10sp"
             android:background="@drawable/radiocheck_custom_mypage1"
-            android:button="@null"
-            />
+            android:button="@null" />
 
         <RadioButton
             android:id="@+id/personal_btn"
@@ -37,8 +36,7 @@
             android:layout_height="34dp"
             android:layout_marginRight="10sp"
             android:button="@null"
-            android:background="@drawable/radiocheck_custom_mypage2"
-            />
+            android:background="@drawable/radiocheck_custom_mypage2" />
 
         <RadioButton
             android:id="@+id/team_btn"
@@ -46,8 +44,7 @@
             android:layout_height="34dp"
             android:button="@null"
             android:layout_marginRight="10sp"
-            android:background="@drawable/radiocheck_custom_mypage3"
-            />
+            android:background="@drawable/radiocheck_custom_mypage3" />
 
     </RadioGroup>
 
@@ -59,8 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/match_Group"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:listitem="@layout/mypage_interest_item"
-        />
+        tools:listitem="@layout/mypage_interest_item" />
 
 
 
