@@ -45,7 +45,6 @@ public class LoginSignup2 extends AppCompatActivity {
     ImageView profile, picture;
     EditText nickname;
     String id, pw, phoneNum, nick, profileurl;
-    Bitmap bitmap;
     private FirebaseFirestore db;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();

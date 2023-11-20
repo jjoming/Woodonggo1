@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        Intent inIntent = getIntent();
+        UserId = inIntent.getStringExtra("UserId");
 
 
         fragment_home = new FragmentHome();
@@ -58,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
         fragment_myPage = new FragmentMyPage();
 
         bottomNavi = findViewById(R.id.bottomNavi);
-
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("UserId", UserId);
+        editor.apply();
         // 초기 화면으로 Fragment_home을 설정
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_home).commit();
 

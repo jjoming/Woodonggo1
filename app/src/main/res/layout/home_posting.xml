@@ -106,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
             android:button="@null"
+            android:checked="true"
             android:background="@drawable/radiobtn_sports_custom"/>
 
     </RadioGroup>
@@ -130,6 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="9dp"
             android:button="@null"
+            android:checked="true"
             android:background="@drawable/radiobtn_sports_custom"/>
 
         <RadioButton

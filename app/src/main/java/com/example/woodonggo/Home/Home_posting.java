@@ -1,29 +1,56 @@
 package com.example.woodonggo.Home;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.woodonggo.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Firebase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Home_posting extends AppCompatActivity {
     Toolbar toolbar;
     ImageView imgView_close;
-    EditText edt_title, edt_content;
     RadioGroup radioGroupCategory, radioGroupTeam, radioGroupPersonal;
     RadioButton btnTeam, btnPersonal, btnGolf, btnBowling, btnPingpong;
     EditText edtTitle, edtContent;
     Button btnPost;
+
+    String upload_content,upload_date,upload_title,upload_sports,upload_id;
+    Boolean upload_team;
+    long nowtime;
+
+    private FirebaseFirestore db;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageReference = storage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +70,17 @@ public class Home_posting extends AppCompatActivity {
         edtTitle = findViewById(R.id.edtTitle);
         edtContent = findViewById(R.id.edtContent);
         btnPost = findViewById(R.id.btnPost);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        upload_id = preferences.getString("UserId", "");
+        if(edtTitle.getText().toString().length() > 0 && edtContent.getText().toString().length() > 0) {
+            btnPost.setBackgroundColor(getResources().getColor(R.color.navy));
+        }
+        // 에디트 텍스트 입력 감지
+        edtTitle.addTextChangedListener(textWatcher);
+        edtContent.addTextChangedListener(textWatcher);
+
+        //db설정.
+        db = FirebaseFirestore.getInstance();
 
         //라디오그룹 팀 및 개인
         radioGroupCategory.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -53,11 +91,18 @@ public class Home_posting extends AppCompatActivity {
                     radioGroupPersonal.setVisibility(View.INVISIBLE);
                     btnTeam.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.arrow_left_radiobtn, 0);
                     btnPersonal.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_right_radiobtn, 0);
+
+                    btnPingpong.setChecked(true);
+                    btnPingpong.setTextColor(Color.WHITE);
+
                 } else if (checkedId == R.id.btnPersonal) {
                     radioGroupPersonal.setVisibility(View.VISIBLE);
                     radioGroupTeam.setVisibility(View.INVISIBLE);
                     btnPersonal.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_left_radiobtn, 0);
                     btnTeam.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.arrow_right_radiobtn, 0);
+
+                    btnGolf.setChecked(true);
+                    btnGolf.setTextColor(Color.WHITE);
                 }
             }
         });
@@ -74,6 +119,7 @@ public class Home_posting extends AppCompatActivity {
                     btnPingpong.setChecked(false);
                     btnPingpong.setTextColor(Color.DKGRAY);
                 }
+
             }
         });
 
@@ -95,8 +141,10 @@ public class Home_posting extends AppCompatActivity {
                     btnBowling.setChecked(false);
                     btnBowling.setTextColor(Color.DKGRAY);
                 }
+
             }
         });
+
 
         //이미지 뷰 'X'
         imgView_close.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +159,102 @@ public class Home_posting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: 에디트 텍스트 및 라디오 버튼이 선택되었다면 버튼색상(+텍스트) 변경 시키기
+
+
+
+                upload_title = edtTitle.getText().toString();
+                upload_content = edtContent.getText().toString();
+                nowtime = System.currentTimeMillis();
+                SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                upload_date = String.valueOf(timeFormat.format(new Date(nowtime)));
+                Log.d("TAG",upload_date);
+
+                // 체크된 버튼에 따라 팀 여부, 종목이 정해짐
+                upload_team = btnTeam.isChecked();
+                if (upload_team) {
+                    if (btnPingpong.isChecked()) {
+                        upload_sports = "탁구";
+                    }
+                } else {
+                    if (btnGolf.isChecked()) {
+                        upload_sports = "골프";
+                    } else if (btnBowling.isChecked()) {
+                        upload_sports = "볼링";
+                    }
+                }
+
+                Log.d("TAG",upload_sports);
+                Log.d("TAG", String.valueOf(upload_team));
+
+                if(Objects.equals(upload_title, "") || Objects.equals(upload_content, "")) {
+                    Toast.makeText(Home_posting.this,"제목, 내용, 팀 또는 개인 선택, 종목 선택은 필수 입력 사항입니다.",Toast.LENGTH_SHORT).show();
+                } else {
+                    uploadToFirestore();
+                }
+
             }
         });
+    }
+
+    private void uploadToFirestore() {
+
+        // Firebase Firestore에 데이터 업로드
+
+        // Firestore 컬렉션 및 문서 경로 설정
+        String collectionPath = "Writing";  // Writing 컬렉션에 저장
+        String documentId = UUID.randomUUID().toString();  // 랜덤한 문서 ID 생성
+        String documentPath = collectionPath + "/" + documentId;
+
+        // 업로드할 데이터 준비
+        Map<String, Object> postData = new HashMap<>();
+        postData.put("title", upload_title);
+        postData.put("content", upload_content);
+        postData.put("date", upload_date);
+        postData.put("team", upload_team);
+        postData.put("sports", upload_sports);
+        postData.put("userId", upload_id);
+        postData.put("writingId",documentId);
+
+        // Firestore에 데이터 업로드
+        FirebaseFirestore.getInstance().document(documentPath)
+                .set(postData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 성공적으로 업로드된 경우
+                        Toast.makeText(Home_posting.this, "게시글이 성공적으로 업로드되었습니다.", Toast.LENGTH_SHORT).show();
+                        finish();  // 액티비티 종료 또는 필요에 따라 다른 동작 수행
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 업로드 실패 시
+                        Toast.makeText(Home_posting.this, "게시글 업로드 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            checkButtonState();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
+
+    // 게시글 올리기 버튼 상태 확인 및 설정
+    private void checkButtonState() {
+        if (edtTitle.getText().toString().length() > 0 && edtContent.getText().toString().length() > 0) {
+            btnPost.setBackgroundColor(getResources().getColor(R.color.navy));
+        }
     }
 }
