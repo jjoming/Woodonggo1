@@ -1,10 +1,7 @@
 package com.example.woodonggo;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,8 +9,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,14 +25,21 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginSignup3 extends AppCompatActivity {
 
@@ -218,7 +223,6 @@ public class LoginSignup3 extends AppCompatActivity {
 
         mapView.addPOIItem(marker);
     }
-
     public static String getCompleteAddressString(Context context, double LATITUDE, double LONGITUDE) {
         String strAdd = "";
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
@@ -226,6 +230,9 @@ public class LoginSignup3 extends AppCompatActivity {
             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
                 Address returnedAddress = addresses.get(0);
+                Log.d("ljh", "Thoroughfare: " + returnedAddress.getThoroughfare());
+                Log.d("ljh", "Thoroughfare: " + returnedAddress.getSubLocality());
+                Log.d("ljh", "SubThoroughfare: " + returnedAddress.getSubThoroughfare());
                 StringBuilder strReturnedAddress = new StringBuilder("");
 
 
@@ -253,34 +260,40 @@ public class LoginSignup3 extends AppCompatActivity {
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
-
+        private Handler handler;
         public void onLocationChanged(Location location) {
             //여기서 위치값이 갱신되면 이벤트가 발생한다.
             //값은 Location 형태로 리턴되며 좌표 출력 방법은 다음과 같다.
 
-            Log.d("test", "onLocationChanged, location:" + location);
-            longitude = location.getLongitude(); //경도
-            latitude = location.getLatitude();   //위도
-            altitude = location.getAltitude();   //고도
-            accuracy = location.getAccuracy();    //정확도
-            provider = location.getProvider();   //위치제공자
-            //Gps 위치제공자에 의한 위치변화. 오차범위가 좁다.
-            //Network 위치제공자에 의한 위치변화
-            //Network 위치는 Gps에 비해 정확도가 많이 떨어진다.
+            handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("test", "onLocationChanged, location:" + location);
+                    longitude = location.getLongitude(); //경도
+                    latitude = location.getLatitude();   //위도
+                    altitude = location.getAltitude();   //고도
+                    accuracy = location.getAccuracy();    //정확도
+                    provider = location.getProvider();   //위치제공자
 
-            currentLocation = getCompleteAddressString(getApplicationContext(), latitude, longitude);
+                    //Gps 위치제공자에 의한 위치변화. 오차범위가 좁다.
+                    //Network 위치제공자에 의한 위치변화
+                    //Network 위치는 Gps에 비해 정확도가 많이 떨어진다.
+
+                    currentLocation = getCompleteAddressString(getApplicationContext(), latitude, longitude);
 
 //            txtCurrentMoney.setText("위치정보 : " + provider + "\n위도 : " + longitude + "\n경도 : " + latitude
 //                    + "\n고도 : " + altitude + "\n정확도 : "  + accuracy);
 
-            // 위치 정보를 글로 나타낸다
-            addressTv.setText(currentLocation.toString());
+                    // 위치 정보를 글로 나타낸다
+                    addressTv.setText(currentLocation.toString());
 
-            // 지도를 움직인다
-            setDaumMapCurrentLocation(latitude, longitude);
+                    // 지도를 움직인다
+                    setDaumMapCurrentLocation(latitude, longitude);
 
-            lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
-
+                    lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
+                }
+            });
         }
 
         public void onProviderDisabled(String provider) {
@@ -304,4 +317,5 @@ public class LoginSignup3 extends AppCompatActivity {
         }
     };
 }
+
 

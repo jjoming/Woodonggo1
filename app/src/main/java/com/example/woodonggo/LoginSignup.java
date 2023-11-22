@@ -113,6 +113,7 @@ public class LoginSignup extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // 비밀번호 재입력 텍스트 입력 전
+                //pwCautionText.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -127,6 +128,7 @@ public class LoginSignup extends AppCompatActivity {
                 else {
                     pwCautionText.setText("비밀번호가 일치하지 않습니다.");
                     pwCautionText.setVisibility(View.VISIBLE);
+                    //pwCautionText.setTextColor(Color.RED);
                     pwConfirm = false;
                 }
             }

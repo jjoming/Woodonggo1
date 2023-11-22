@@ -1,6 +1,5 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Home;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,12 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woodonggo.R;
+
 import java.util.ArrayList;
 
-public class Adapter_home extends RecyclerView.Adapter<Adapter_home.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private ArrayList<String> localDataSet;
 
-    public Adapter_home(ArrayList<String> dataSet) {
+    public HomeAdapter(ArrayList<String> dataSet) {
         localDataSet = dataSet;
     }
 

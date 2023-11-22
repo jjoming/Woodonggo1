@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.security.identity.ResultData;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -45,7 +46,7 @@ public class FragmentPlace extends Fragment {
     Place_RecyclerView_Adapter adapter;
 
     public static final String BASE_URL = "https://dapi.kakao.com/";
-    public static final String API_KEY = "10079a2678836fa1cd9862adca8211cc"; // REST API 키
+    public static final String API_KEY = "KakaoAK 10079a2678836fa1cd9862adca8211cc"; // REST API 키
 
 
 
@@ -58,6 +59,9 @@ public class FragmentPlace extends Fragment {
         btnGolf = view.findViewById(R.id.btnGolf);
         btnBowling = view.findViewById(R.id.btnBowling);
         btnPingpong = view.findViewById(R.id.btnPingpong);
+
+        btnGolf.setChecked(true);
+        btnGolf.setTextColor(Color.WHITE);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -99,6 +103,7 @@ public class FragmentPlace extends Fragment {
 
         mapView = view.findViewById(R.id.mapView);
         mapView.setDaumMapApiKey("6e57980f9050faf730dbb4af45ab8602");
+
 
         // 위치 권한 확인 및 요청
         if (shouldRequestLocationPermission()) {
@@ -187,7 +192,13 @@ public class FragmentPlace extends Fragment {
         String apiKey = "KakaoAK " + API_KEY;
         KakaoKeyword api = retrofit.create(KakaoKeyword.class); // 통신 인터페이스를 객체로 생성
         //Call<ResultSearchKeyword> call = api.getSearchKeyword(API_KEY, 127.06283102249932, 37.514322572335935, 20000); // 검색 조건 입력
-        Call<ResultSearchKeyword> call = api.getSearchKeyword(apiKey, keyword,127.06283102249932, 37.514322572335935, 20000); // 검색 조건 입력
+        Log.d("ljh", "longitude: " + mapView.getMapCenterPoint().getMapPointGeoCoord().longitude);
+        Log.d("ljh", "latitude: " + mapView.getMapCenterPoint().getMapPointGeoCoord().latitude);
+        Call<ResultSearchKeyword> call = api.getSearchKeyword(
+                keyword,
+                mapView.getMapCenterPoint().getMapPointGeoCoord().longitude,
+                mapView.getMapCenterPoint().getMapPointGeoCoord().latitude,
+                20000); // 검색 조건 입력
 
         // API 서버에 요청
         call.enqueue(new Callback<ResultSearchKeyword>() {
@@ -201,12 +212,11 @@ public class FragmentPlace extends Fragment {
                         Log.d("Test", "Raw: " + response.raw());
                         Log.d("Test", "API URL: " + call.request().url());
                         Log.d("Test", "Response Code: " + response.code());
-                        Log.d("Test", "Error Response: " + response.errorBody().toString());
 
                         ResultSearchKeyword result = response.body();
-
                         List<DataModel> dataModels = convertToDataModelList(result);
 
+                        //dataModels.add(new DataModel(place.getPlace_name(), place.getAddress_name(), place.getPhone()));
                         adapter.setData(dataModels);
                         adapter.notifyDataSetChanged();
 
@@ -226,10 +236,15 @@ public class FragmentPlace extends Fragment {
 
                 // result에서 필요한 정보를 추출하여 DataModel로 변환
                 for (ResultSearchKeyword.Place place : result.documents) {
-                    // 예시: 장소명, 카테고리, 주소를 추출하여 DataModel을 생성하고 리스트에 추가
-                    DataModel dataModel = new DataModel(place.getPlace_name(), place.getCategory_name(), place.getAddress_name());
-                    dataModels.add(dataModel);
+                    Log.d("mk", place.getAddress_name());
+                    Log.d("mk", place.getPlace_url());
+                    dataModels.add(new DataModel(place.getPlace_name(), place.getAddress_name(), place.getPhone(), place.getPlace_url()));
                 }
+
+                // 루프가 완료된 후에 어댑터 데이터 설정
+                adapter.setData(dataModels);
+                adapter.notifyDataSetChanged();
+
                 return dataModels;
             }
 
