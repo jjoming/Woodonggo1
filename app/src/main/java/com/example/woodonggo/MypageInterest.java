@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 
 
-public class Mypage_interest extends AppCompatActivity {
+public class MypageInterest extends AppCompatActivity {
 
 
     RecyclerView recyclerView;

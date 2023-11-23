@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,7 +61,7 @@ public class FragmentMyPage extends Fragment {
         textLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), Mypage_interest.class);
+                Intent intent = new Intent(requireContext(), MypageInterest.class);
                 startActivity(intent);
             }
         });

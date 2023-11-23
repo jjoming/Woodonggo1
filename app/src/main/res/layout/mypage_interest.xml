@@ -26,34 +26,35 @@
         <RadioButton
             android:id="@+id/all_btn"
             android:text="전체"
+            android:textSize="15sp"
             android:textColor="@color/dark_gray"
-            android:layout_width="50dp"
-            android:layout_height="34dp"
-            android:gravity="center"
-            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:background="@drawable/mypage_radiocheck_custom"
-            android:button="@null" />
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:background="@drawable/mypage_radiocheck_custom"/>
 
         <RadioButton
             android:id="@+id/personal_btn"
             android:text="개인종목"
             android:textColor="@color/dark_gray"
-            android:layout_width="79dp"
-            android:layout_height="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:button="@null"
-            android:background="@drawable/mypage_radiocheck_custom" />
+            android:background="@drawable/mypage_radiocheck_custom"/>
 
         <RadioButton
             android:id="@+id/team_btn"
             android:text="단체종목"
             android:textColor="@color/dark_gray"
-            android:layout_width="79dp"
-            android:layout_height="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:button="@null"
-            android:layout_marginRight="10sp"
-            android:background="@drawable/mypage_radiocheck_custom" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/mypage_radiocheck_custom"/>
 
     </RadioGroup>
 

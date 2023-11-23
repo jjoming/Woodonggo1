@@ -67,7 +67,7 @@
             android:name=".Mypage_match"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Mypage_interest"
+            android:name=".MypageInterest"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginSignup"
