@@ -11,12 +11,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" >
 
-        <TextView
-            android:id="@+id/webText"
-            android:textColor="@color/black"
-            android:textSize="21sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
     </androidx.appcompat.widget.Toolbar>
 
     <WebView
