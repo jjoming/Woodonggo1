@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,11 +34,14 @@ public class FragmentMyPage extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     // storageReference 초기화
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    private View rootView;  // Variable to store the root view
+    private Context context;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_mypage, container, false);
+        rootView = inflater.inflate(R.layout.fragment_mypage, container, false);
+        context = rootView.getContext();
         profile_btn = rootView.findViewById(R.id.profile_btn);
         textLikeList = rootView.findViewById(R.id.textLikeList);
         textMatchList = rootView.findViewById(R.id.textMatchList);
@@ -108,7 +112,7 @@ public class FragmentMyPage extends Fragment {
         profileImageRef.getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     // 성공적으로 다운로드 URL을 얻은 경우
-                    Glide.with(requireContext())
+                    Glide.with(context)
                             .load(uri)
                             .into(profile);
                     Log.d("TAG",requireContext().toString());
@@ -117,7 +121,7 @@ public class FragmentMyPage extends Fragment {
                     // 다운로드 URL을 얻는 중 오류가 발생한 경우 또는 이미지가 없는 경우
                     // 오류 처리를 수행하거나 기본 이미지를 표시하거나 필요에 따라 처리
                     // 예: Glide를 사용하여 기본 이미지를 표시
-                    Glide.with(requireContext())
+                    Glide.with(context)
                             .load(R.drawable.noprofile)
                             .into(profile);
                 });

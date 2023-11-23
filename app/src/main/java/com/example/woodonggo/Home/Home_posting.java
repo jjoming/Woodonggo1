@@ -22,6 +22,7 @@ import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Firebase;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -166,9 +167,6 @@ public class Home_posting extends AppCompatActivity {
                 upload_title = edtTitle.getText().toString();
                 upload_content = edtContent.getText().toString();
                 nowtime = System.currentTimeMillis();
-                SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                upload_date = String.valueOf(timeFormat.format(new Date(nowtime)));
-                Log.d("TAG",upload_date);
 
                 // 체크된 버튼에 따라 팀 여부, 종목이 정해짐
                 upload_team = btnTeam.isChecked();
@@ -210,7 +208,7 @@ public class Home_posting extends AppCompatActivity {
         Map<String, Object> postData = new HashMap<>();
         postData.put("title", upload_title);
         postData.put("content", upload_content);
-        postData.put("date", upload_date);
+        postData.put("date", new Timestamp(new Date()));
         postData.put("team", upload_team);
         postData.put("sports", upload_sports);
         postData.put("userId", upload_id);

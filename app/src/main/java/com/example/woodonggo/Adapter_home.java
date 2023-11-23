@@ -18,10 +18,6 @@ import java.util.ArrayList;
 public class Adapter_home extends RecyclerView.Adapter<Adapter_home.ViewHolder> {
     private ArrayList<String> localDataSet;
 
-    public Adapter_home(ArrayList<String> dataSet) {
-        localDataSet = dataSet;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,6 +40,10 @@ public class Adapter_home extends RecyclerView.Adapter<Adapter_home.ViewHolder> 
                 showPopupMenu(v);
             }
         });
+    }
+
+    public Adapter_home(ArrayList<String> dataSet) {
+        localDataSet = dataSet;
     }
 
     private void showPopupMenu(View v) {
