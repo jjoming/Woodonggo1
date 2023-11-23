@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.woodonggo.Adapter_home;
 import com.example.woodonggo.Adapter_personal_home;
 import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnSuccessListener;
