@@ -38,7 +38,7 @@
     <Button
         android:id="@+id/townButton1"
         android:layout_width="185dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="@id/townCheckBtn"
         app:layout_constraintTop_toBottomOf="@id/mapView"
         app:layout_constraintRight_toLeftOf="@+id/townButton2"
@@ -50,7 +50,7 @@
     <Button
         android:id="@+id/townButton2"
         android:layout_width="185dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         app:layout_constraintLeft_toRightOf="@id/townButton1"
         app:layout_constraintRight_toRightOf="@id/townCheckBtn"
         app:layout_constraintTop_toBottomOf="@id/mapView"
@@ -64,16 +64,16 @@
         android:id="@+id/townCheckBtn"
         android:layout_width="376sp"
         android:layout_height="45sp"
-        app:layout_constraintLeft_toRightOf="@id/townButton1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/townButton1"
+        android:visibility="invisible"
         android:text="내 동네 인증하기"
         android:textColor="@color/white"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/loginbutton_custom"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addressTv"
         />
 
     <TextView
@@ -82,12 +82,13 @@
         android:layout_height="45sp"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         android:background="@drawable/edittext_custom"
         android:gravity="center"
-        android:text="경기도 남양주시 와부읍"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/townButton1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/townCheckBtn" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/townButton1"/>
 
     <Button
         android:id="@+id/townCorrectBtn"
@@ -96,7 +97,8 @@
         app:layout_constraintLeft_toRightOf="@id/townButton1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addressTv"
+        app:layout_constraintTop_toBottomOf="@id/townCheckBtn"
+        android:visibility="invisible"
         android:text="확인"
         android:textColor="@color/white"
         android:layout_marginLeft="5dp"

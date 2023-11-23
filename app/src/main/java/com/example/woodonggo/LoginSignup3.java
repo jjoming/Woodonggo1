@@ -92,6 +92,8 @@ public class LoginSignup3 extends AppCompatActivity {
         townButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                townCheckBtn.setVisibility(View.VISIBLE);
+                addressTv.setVisibility(View.VISIBLE);
 
             }
         });
@@ -101,7 +103,8 @@ public class LoginSignup3 extends AppCompatActivity {
         townButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                townCheckBtn.setVisibility(View.VISIBLE);
+                addressTv.setVisibility(View.VISIBLE);
             }
         });
 
@@ -145,22 +148,6 @@ public class LoginSignup3 extends AppCompatActivity {
 
     public void setLocation() {
 
-        // Location 제공자에서 정보를 얻어오기(GPS)
-        // 1. Location을 사용하기 위한 권한을 얻어와야한다 AndroidManifest.xml
-        //     ACCESS_FINE_LOCATION : NETWORK_PROVIDER, GPS_PROVIDER
-        //     ACCESS_COARSE_LOCATION : NETWORK_PROVIDER
-        // 2. LocationManager 를 통해서 원하는 제공자의 리스너 등록
-        // 3. GPS 는 에뮬레이터에서는 기본적으로 동작하지 않는다
-        // 4. 실내에서는 GPS_PROVIDER 를 요청해도 응답이 없다.  특별한 처리를 안하면 아무리 시간이 지나도
-        //    응답이 없다.
-        //    해결방법은
-        //     ① 타이머를 설정하여 GPS_PROVIDER 에서 일정시간 응답이 없는 경우 NETWORK_PROVIDER로 전환
-        //     ② 혹은, 둘다 한꺼번헤 호출하여 들어오는 값을 사용하는 방식.
-        //출처: http://bitsoul.tistory.com/131 [Happy Programmer~]
-
-        // LocationManager 객체를 얻어온다
-        // getPermission();
-
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         // 위치정보를 얻는다
@@ -172,6 +159,7 @@ public class LoginSignup3 extends AppCompatActivity {
     public void initSet() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
     }
+
 
     public void getLocation() {
 
@@ -193,7 +181,6 @@ public class LoginSignup3 extends AppCompatActivity {
         } catch (SecurityException ex) {
 
         }
-
     }
 
     public void setDaumMapCurrentLocation(double latitude, double longitude) {
@@ -276,9 +263,6 @@ public class LoginSignup3 extends AppCompatActivity {
                     accuracy = location.getAccuracy();    //정확도
                     provider = location.getProvider();   //위치제공자
 
-                    //Gps 위치제공자에 의한 위치변화. 오차범위가 좁다.
-                    //Network 위치제공자에 의한 위치변화
-                    //Network 위치는 Gps에 비해 정확도가 많이 떨어진다.
 
                     currentLocation = getCompleteAddressString(getApplicationContext(), latitude, longitude);
 
@@ -317,5 +301,3 @@ public class LoginSignup3 extends AppCompatActivity {
         }
     };
 }
-
-
