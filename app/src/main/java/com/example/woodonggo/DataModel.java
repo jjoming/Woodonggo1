@@ -4,6 +4,7 @@ public class DataModel {
     String title;
     String tel;
     String address;
+    String placeUrl;
 
     public String getTitle() {
         return title;
@@ -29,9 +30,18 @@ public class DataModel {
         this.tel = tel;
     }
 
-    public DataModel(String title, String address, String tel) {
+    public String getPlaceUrl() {
+        return placeUrl;
+    }
+
+    public void setPlaceUrl(String placeUrl) {
+        this.placeUrl = placeUrl;
+    }
+
+    public DataModel(String title, String address, String tel, String url) {
         this.title = title;
         this.address = address;
         this.tel = tel;
+        this.placeUrl = url;
     }
 }

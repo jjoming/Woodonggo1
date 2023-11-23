@@ -1,10 +1,12 @@
 package com.example.woodonggo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,14 +67,22 @@ public class Place_RecyclerView_Adapter extends RecyclerView.Adapter {
         Log.d(TAG,"onBindViewHolder");
 
         MyViewHolder myViewHolder = (MyViewHolder)holder;
+        DataModel dataModel = dataModels.get(position);
 
         myViewHolder.titleText.setText(dataModels.get(position).getTitle());
         myViewHolder.titleText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // todo : 상세페이지로 이동
+                String placeUrl = dataModel.getPlaceUrl();
+                Intent intent = new Intent(context, PlaceWebview.class);
+                intent.putExtra("title", myViewHolder.titleText.getText().toString());
+                intent.putExtra("url", placeUrl);
+                context.startActivity(intent);
             }
         });
+        myViewHolder.addText.setText(dataModels.get(position).getAddress());
+        myViewHolder.telText.setText(dataModels.get(position).getTel());
     }
 
     public void setData(List<DataModel> newData) {

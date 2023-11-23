@@ -11,9 +11,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" >
 
-
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/nickName"
             android:text="닉네임"
             android:textAlignment="center"
             android:textStyle="bold"
@@ -33,7 +32,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="110dp"
         android:id="@+id/top"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -112,22 +111,25 @@
         android:layout_height="0dp"
         android:transcriptMode="alwaysScroll"
         app:layout_constraintTop_toBottomOf="@id/top"
-        app:layout_constraintBottom_toTopOf="@id/editText"/>
+        app:layout_constraintBottom_toTopOf="@id/msgEdit"/>
 
     <EditText
         android:hint="메세지를 입력하세요"
-        android:id="@+id/editText"
+        android:id="@+id/msgEdit"
         android:inputType="textMultiLine"
         android:maxLines="4"
+        android:paddingLeft="10dp"
+        android:background="@drawable/edittext_custom"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/send_btn"
         />
-
+    
     <Button
         android:id="@+id/send_btn"
         android:layout_width="wrap_content"
@@ -136,7 +138,5 @@
         android:layout_margin="10dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

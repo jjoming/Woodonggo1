@@ -1,8 +1,16 @@
 package com.example.woodonggo;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,11 +25,23 @@ public class ChatDetails extends AppCompatActivity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
     Toolbar toolbar;
+    TextView nickName, ing, title;
+    ImageView sportsImg;
+    EditText msgEdit;
+    Button sendBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chatting_detail);
+
+        nickName = findViewById(R.id.nickName);
+        ing = findViewById(R.id.ing);
+        title = findViewById(R.id.title);
+        sportsImg = findViewById(R.id.sportsImg);
+        msgEdit = findViewById(R.id.msgEdit);
+        sendBtn = findViewById(R.id.send_btn);
 
         //툴바 초기화 및 설정
         toolbar = findViewById(R.id.toolbar);
@@ -37,6 +57,34 @@ public class ChatDetails extends AppCompatActivity {
                     onBackPressed();
                 }
                 return false;
+            }
+        });
+
+        //msgEdit에 입력할 경우 전송 버튼 색 바꾸기
+        msgEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String msg = msgEdit.getText().toString();
+                if (msg != null) {
+                    sendBtn.setBackgroundColor(Color.BLUE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // todo : 메시지 전송
             }
         });
 
