@@ -79,7 +79,7 @@ public class Home_Fragment_Team extends Fragment {
                                 @Override
                                 public void onSuccess(String writer) {
                                     // TeamModel 객체 생성
-                                    TeamModel teamModel = new TeamModel(content, date, team, userId, writingId, writer);
+                                    TeamModel teamModel = new TeamModel(content, date, team, userId, writingId, writer, sports);
                                     teamDataList.add(teamModel);
                                     // Adapter에 데이터 설정
                                     adapter.teamDataList(teamDataList);

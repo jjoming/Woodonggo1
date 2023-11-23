@@ -128,7 +128,11 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
             String dateString = dateFormat.format(item.getUploadDate().toDate());
             upload_date.setText(dateString);
             content.setText(item.getContent());
-
+            if (item.getSports().equals("탁구")) {
+                Glide.with(img_category.getContext())
+                        .load(R.drawable.icon_ping_pong)
+                        .into(img_category);
+            }
         }
     }
 }

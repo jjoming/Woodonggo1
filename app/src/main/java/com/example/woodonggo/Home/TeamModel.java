@@ -4,19 +4,20 @@ import com.google.firebase.Timestamp;
 
 public class TeamModel {
 
-    String userId;
+    String userId,sports;
     String writingId,writer,content;
     boolean team;
     Timestamp uploadDate;
 
     public TeamModel(String content, Timestamp uploadDate, boolean team, String userId,
-                     String writingId, String writer) {
+                     String writingId, String writer, String sports) {
         this.writer = writer;
         this.uploadDate = uploadDate;
         this.content = content;
         this.team = team;
         this.userId = userId;
         this.writingId = writingId;
+        this.sports = sports;
     }
 
 
@@ -67,6 +68,16 @@ public class TeamModel {
     public void setWritingId(String writingId) {
         this.writingId = writingId;
     }
+
+    public String getSports() {
+        return sports;
+    }
+
+    public void setSports(String sports) {
+        this.sports = sports;
+    }
+
+
 
 
 

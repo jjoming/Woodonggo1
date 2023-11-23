@@ -74,7 +74,7 @@
         android:id="@+id/img_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/imgview_category_bg_custom"
+        android:background="@drawable/imgview_category_bg_custom2"
         app:layout_constraintBottom_toBottomOf="@+id/img_like"
         app:layout_constraintRight_toRightOf="@+id/more"
         app:layout_constraintTop_toTopOf="@+id/img_like" />

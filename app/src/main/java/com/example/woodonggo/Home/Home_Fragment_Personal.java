@@ -82,7 +82,7 @@ public class Home_Fragment_Personal extends Fragment {
                                 @Override
                                 public void onSuccess(String writer) {
                                     // TeamModel 객체 생성
-                                    PersonalModel personalModel = new PersonalModel(content, date, team, userId, writingId, writer);
+                                    PersonalModel personalModel = new PersonalModel(content, date, team, userId, writingId, writer,sports);
                                     personalDataList.add(personalModel);
                                     // Adapter에 데이터 설정
                                     adapter.personalDataList(personalDataList);

@@ -127,7 +127,15 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             String dateString = dateFormat.format(item.getUploadDate().toDate());
             upload_date.setText(dateString);
             content.setText(item.getContent());
-
+            if (item.getSports().equals("볼링")) {
+                Glide.with(img_category.getContext())
+                        .load(R.drawable.icon_bowling)
+                        .into(img_category);
+            } else if (item.getSports().equals("골프")) {
+                Glide.with(img_category.getContext())
+                        .load(R.drawable.icon_golf)
+                        .into(img_category);
+            }
         }
     }
 }
