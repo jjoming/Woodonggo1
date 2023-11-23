@@ -2,7 +2,9 @@ package com.example.woodonggo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ public class FragmentMyPage extends Fragment {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     private View rootView;  // Variable to store the root view
     private Context context;
+    String userId;
 
     @Nullable
     @Override
@@ -46,12 +49,9 @@ public class FragmentMyPage extends Fragment {
         textMatchList = rootView.findViewById(R.id.textMatchList);
         profileName = rootView.findViewById(R.id.profileName);
         profile = rootView.findViewById(R.id.profileImg);
-        //UserId갖고옴.
-        Bundle args_user = getArguments();
-        if(args_user != null) {
-            UserId = args_user.getString("UserId");
-        }
-        fetchUserName(UserId);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        userId = preferences.getString("UserId", "");
+        fetchUserName(userId);
         storageReference = storage.getReference();
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,23 +84,26 @@ public class FragmentMyPage extends Fragment {
     }
 
     private void fetchUserName(String userId) {
-        DocumentReference userRef = db.collection("User").document(userId);
+        if(userId != null && !userId.isEmpty()) {
+            DocumentReference userRef = db.collection("User").document(userId);
 
-        userRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    // 사용자가 Firestore의 users 컬렉션에 존재하는 경우
-                    String userName = document.getString("name");
-                    // userName을 사용할 수 있습니다.
-                    profileName.setText(userName);
-                    fetchUserProfileImage(userId);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // 사용자가 Firestore의 users 컬렉션에 존재하는 경우
+                        String userName = document.getString("name");
+                        // userName을 사용할 수 있습니다.
+                        profileName.setText(userName);
+                        fetchUserProfileImage(userId);
+                    }
+                } else {
+                    // Firestore에서 사용자 확인 중 오류 발생
+                    // 오류 처리를 수행하거나 필요에 따라 처리
                 }
-            } else {
-                // Firestore에서 사용자 확인 중 오류 발생
-                // 오류 처리를 수행하거나 필요에 따라 처리
-            }
-        });
+            });
+        }
+
     }
 
     private void fetchUserProfileImage(String userId) {

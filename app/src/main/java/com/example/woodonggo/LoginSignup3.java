@@ -3,6 +3,8 @@ package com.example.woodonggo;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +30,10 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import net.daum.mf.map.api.MapLayout;
 import net.daum.mf.map.api.MapPOIItem;
@@ -35,11 +41,14 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class LoginSignup3 extends AppCompatActivity {
 
+    String userId;
     ImageView close;
     Button townButton1, townButton2, townCheckBtn, townEnd;
     private static Button previousButton;
@@ -60,7 +69,7 @@ public class LoginSignup3 extends AppCompatActivity {
 
     FusedLocationProviderClient mFusedLocationClient;
 
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +85,8 @@ public class LoginSignup3 extends AppCompatActivity {
 
         mapView = findViewById(R.id.mapView);
         mapView.setDaumMapApiKey("6e57980f9050faf730dbb4af45ab8602");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        userId = preferences.getString("UserId", "");
 
         // 위치 권한 확인 및 요청
         if (shouldRequestLocationPermission()) {
@@ -90,7 +101,9 @@ public class LoginSignup3 extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "현재 위치를 찾고있습니다...", Toast.LENGTH_SHORT).show();
         getLocation();
+        
 
+        
         // 지역설정1
         townButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +146,7 @@ public class LoginSignup3 extends AppCompatActivity {
         townEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                updateFirestoreDocument(userId, town1, town2);
                 //화면 종료 MapView 종료
                 if (mapView != null) {
                     // MapView의 내부 MapLayout을 가져와서 removeAllViews 호출
@@ -152,12 +165,45 @@ public class LoginSignup3 extends AppCompatActivity {
                     // MapView를 null로 설정하여 참조 해제
                     mapView = null;
                 }
+                Intent intent = new Intent(LoginSignup3.this, MainActivity.class);
+                intent.putExtra("userId", userId);  // userId를 인텐트에 추가
+                startActivity(intent);
+                finish();
             }
-
             // todo : 지역 파이어베이스에 넣기 town1, town2
-
-
+            // MainActivity로 이동하는 코드 추가
         });
+    }
+
+    private void updateFirestoreDocument(String userId, String town1, String town2) {
+        // Cloud Firestore 인스턴스에 액세스
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // 문서의 필드를 업데이트할 Map 생성
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("region1", town1);
+        updateData.put("region2", town2);
+
+        // "User" 컬렉션의 문서 업데이트
+        db.collection("User")
+                .document(userId)
+                .update(updateData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // 성공적으로 업데이트된 경우 수행할 작업
+                        // 예: 성공 메시지 표시
+                        Toast.makeText(getApplicationContext(), "Firestore 문서가 업데이트되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 업데이트 중에 오류가 발생한 경우 수행할 작업
+                        // 예: 오류 메시지 표시
+                        Toast.makeText(getApplicationContext(), "Firestore 문서 업데이트 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 

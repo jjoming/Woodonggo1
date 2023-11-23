@@ -81,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.menu_chatting) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_chatting).commit();
                 } else if (itemId == R.id.menu_mypage) {
-                    Intent inIntent = getIntent();
-                    UserId = inIntent.getStringExtra("UserId");
-                    Bundle bundle_user = new Bundle();
-                    bundle_user.putString("UserId", UserId);
-                    fragment_myPage.setArguments(bundle_user);
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_myPage).commit();
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
