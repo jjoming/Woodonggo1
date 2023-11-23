@@ -1,6 +1,7 @@
 package com.example.woodonggo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -28,27 +29,26 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import net.daum.mf.map.api.MapLayout;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginSignup3 extends AppCompatActivity {
 
     ImageView close;
-    Button townButton1, townButton2, townCheckBtn, townCorrectBtn;
-    private MapView mapView;
+    Button townButton1, townButton2, townCheckBtn, townEnd;
+    private Button previousButton;
+    static String town;
+    MapView mapView;
     TextView addressTv;
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int PERMISSIONS_REQUEST_ACCESS_CALL_PHONE = 2;
+    //private static final int PERMISSIONS_REQUEST_ACCESS_CALL_PHONE = 2;
 
     public LocationManager lm;
     public double longitude; //경도
@@ -71,14 +71,17 @@ public class LoginSignup3 extends AppCompatActivity {
         townButton1 = findViewById(R.id.townButton1);
         townButton2 = findViewById(R.id.townButton2);
         townCheckBtn = findViewById(R.id.townCheckBtn);
-        townCorrectBtn = findViewById(R.id.townCorrectBtn);
+        townEnd = findViewById(R.id.townEnd);
         addressTv = findViewById(R.id.addressTv);
+
         mapView = findViewById(R.id.mapView);
         mapView.setDaumMapApiKey("6e57980f9050faf730dbb4af45ab8602");
 
-
-        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        // 위치 권한 확인 및 요청
+        if (shouldRequestLocationPermission()) {
+            requestLocationPermission();
+        } else {
+            startTracking();
         }
 
         setLocation();
@@ -88,40 +91,64 @@ public class LoginSignup3 extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "현재 위치를 찾고있습니다...", Toast.LENGTH_SHORT).show();
         getLocation();
 
-        // todo : 지역설정1
+        // 지역설정1
         townButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 townCheckBtn.setVisibility(View.VISIBLE);
                 addressTv.setVisibility(View.VISIBLE);
-
+                previousButton = townButton1;
             }
         });
 
 
-        //todo : 지역설정2
+        // 지역설정2
         townButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 townCheckBtn.setVisibility(View.VISIBLE);
                 addressTv.setVisibility(View.VISIBLE);
+                previousButton = townButton2;
             }
         });
 
-        // todo :
+        // 내 동네 맞아요
         townCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                previousButton.setText(town);
+                townCheckBtn.setVisibility(View.INVISIBLE);
+                addressTv.setVisibility(View.INVISIBLE);
             }
         });
 
-        // todo : 지역설정완료
-        townCorrectBtn.setOnClickListener(new View.OnClickListener() {
+        // 지역설정완료
+        townEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                //화면 종료 MapView 종료
+                if (mapView != null) {
+                    // MapView의 내부 MapLayout을 가져와서 removeAllViews 호출
+                    try {
+                        Field mapLayoutField = net.daum.android.map.MapView.class.getDeclaredField("mMapLayout");
+                        mapLayoutField.setAccessible(true);
+                        MapLayout mapLayout = (MapLayout) mapLayoutField.get(mapView);
+
+                        if (mapLayout != null) {
+                            mapLayout.removeAllViews();
+                        }
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+
+                    // MapView를 null로 설정하여 참조 해제
+                    mapView = null;
+                }
             }
+
+            // todo : 지역 파이어베이스에 넣기
+
         });
     }
 
@@ -146,6 +173,41 @@ public class LoginSignup3 extends AppCompatActivity {
         mapView.setShowCurrentLocationMarker(false);
     }
 
+
+    @SuppressLint("MissingPermission")
+    private void startTracking() {
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+
+        LocationManager lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location userNowLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (userNowLocation != null) {
+                double uLatitude = userNowLocation.getLatitude();
+                double uLongitude = userNowLocation.getLongitude();
+                MapPoint uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude);
+
+                MapPOIItem marker = new MapPOIItem();
+                marker.setItemName("현 위치");
+                marker.setMapPoint(uNowPosition);
+                marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                mapView.addPOIItem(marker);
+            }
+        }
+    }
+
+    private boolean shouldRequestLocationPermission() {
+        // 위치 권한 확인 로직
+        return ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermission() {
+        // 위치 권한 요청 로직
+        requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION_PERMISSION);
+    }
+
     public void setLocation() {
 
         lm = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
@@ -167,11 +229,11 @@ public class LoginSignup3 extends AppCompatActivity {
             addressTv.setText("수신중..");
             // GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록하기~!!!
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
-                    100, // 통지사이의 최소 시간간격 (miliSecond)
+                    1000, // 통지사이의 최소 시간간격 (miliSecond)
                     1, // 통지사이의 최소 변경거리 (m)
                     mLocationListener);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자
-                    100, // 통지사이의 최소 시간간격 (miliSecond)
+                    1000, // 통지사이의 최소 시간간격 (miliSecond)
                     1, // 통지사이의 최소 변경거리 (m)
                     mLocationListener);
 
@@ -179,23 +241,13 @@ public class LoginSignup3 extends AppCompatActivity {
             //lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
 
         } catch (SecurityException ex) {
-
+            ex.printStackTrace();
         }
     }
 
     public void setDaumMapCurrentLocation(double latitude, double longitude) {
-
-        // 중심점 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
-        // 줌 레벨 변경
         mapView.setZoomLevel(4, true);
-        // 중심점 변경 + 줌 레벨 변경
-        //mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(latitude, longitude), 9, true);
-        // 줌 인
-        mapView.zoomIn(true);
-        // 줌 아웃
-        //mapView.zoomOut(true);
-        // 마커 생성
         setDaumMapCurrentMarker();
     }
 
@@ -227,6 +279,7 @@ public class LoginSignup3 extends AppCompatActivity {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
                 strAdd = strReturnedAddress.toString();
+                town = returnedAddress.getThoroughfare();
                 Log.w("MyCurrentloctionaddress", strReturnedAddress.toString());
             } else {
                 Log.w("MyCurrentloctionaddress", "No Address returned!");

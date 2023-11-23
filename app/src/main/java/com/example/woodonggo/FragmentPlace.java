@@ -100,14 +100,6 @@ public class FragmentPlace extends Fragment {
         //데이터 모델리스트
         ArrayList<DataModel> dataModels = new ArrayList<>();
 
-//        dataModels.add(new DataModel("data0", "data0", "data0"));
-//        dataModels.add(new DataModel("data1", "data1", "data1"));
-//        dataModels.add(new DataModel("data2", "data2", "data2"));
-//        dataModels.add(new DataModel("data3", "data3", "data3"));
-//        dataModels.add(new DataModel("data4", "data4", "data4"));
-//        dataModels.add(new DataModel("data5", "data5", "data5"));
-//        dataModels.add(new DataModel("data6", "data6", "data6"));
-
         recyclerView = view.findViewById(R.id.recyclerViewPlace);
         adapter = new Place_RecyclerView_Adapter(getActivity(), dataModels);
         recyclerView.setAdapter(adapter);

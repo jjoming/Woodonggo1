@@ -65,7 +65,7 @@
         android:layout_width="376sp"
         android:layout_height="45sp"
         android:visibility="invisible"
-        android:text="내 동네 인증하기"
+        android:text="우리 동네 맞아요"
         android:textColor="@color/white"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -90,26 +90,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/townButton1"/>
 
-    <Button
-        android:id="@+id/townCorrectBtn"
-        android:layout_width="376sp"
-        android:layout_height="45sp"
-        app:layout_constraintLeft_toRightOf="@id/townButton1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/townCheckBtn"
-        android:visibility="invisible"
-        android:text="확인"
-        android:textColor="@color/white"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/loginbutton_custom"
-        />
 
     <Button
         android:text="설정완료"
-        android:id="@+id/town"
+        android:id="@+id/townEnd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
