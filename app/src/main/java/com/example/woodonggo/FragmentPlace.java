@@ -60,6 +60,18 @@ public class FragmentPlace extends Fragment {
         btnBowling = view.findViewById(R.id.btnBowling);
         btnPingpong = view.findViewById(R.id.btnPingpong);
 
+        mapView = view.findViewById(R.id.mapView);
+        mapView.setDaumMapApiKey("6e57980f9050faf730dbb4af45ab8602");
+
+        // 위치 권한 확인 및 요청
+        if (shouldRequestLocationPermission()) {
+            requestLocationPermission();
+        } else {
+            startTracking();
+        }
+
+        searchKeyword("골프");
+
         btnGolf.setChecked(true);
         btnGolf.setTextColor(Color.WHITE);
 

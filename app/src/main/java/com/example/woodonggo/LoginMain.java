@@ -103,6 +103,23 @@ public class LoginMain extends AppCompatActivity {
         //DB에서 데이터를 읽거나 쓰기 위해선 DatabaseReference가 필요!
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        login_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String id, pw;
+                id = id_edit.getText().toString();
+                pw = pw_edit.getText().toString();
+                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(pw)) {
+                    Toast.makeText(LoginMain.this, "ID와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else login(id,pw);
+
+                // todo : 아이디 패스워드 서버와 일치하는지 확인
+            }
+        });
+
+
         findId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
