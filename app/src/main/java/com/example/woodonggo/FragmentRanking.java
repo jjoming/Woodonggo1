@@ -2,6 +2,7 @@ package com.example.woodonggo;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,9 @@ public class FragmentRanking extends Fragment {
         btnGolf = rootView.findViewById(R.id.btnGolf);
         btnBowling = rootView.findViewById(R.id.btnBowling);
         btnPingpong = rootView.findViewById(R.id.btnPingpong);
+        Log.d("FragmentRanking", "btnGolf: " + (btnGolf != null));
+        Log.d("FragmentRanking", "btnBowling: " + (btnBowling != null));
+        Log.d("FragmentRanking", "btnPingpong: " + (btnPingpong != null));
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
