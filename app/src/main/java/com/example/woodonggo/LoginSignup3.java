@@ -42,8 +42,8 @@ public class LoginSignup3 extends AppCompatActivity {
 
     ImageView close;
     Button townButton1, townButton2, townCheckBtn, townEnd;
-    private Button previousButton;
-    static String town;
+    private static Button previousButton;
+    static String town1, town2, town12;
     MapView mapView;
     TextView addressTv;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
@@ -116,9 +116,16 @@ public class LoginSignup3 extends AppCompatActivity {
         townCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                previousButton.setText(town);
+                if (previousButton == townButton1) {
+                    town1 = town12;
+                    previousButton.setText(town1);
+                } else {
+                    town2 = town12;
+                    previousButton.setText(town2);
+                }
                 townCheckBtn.setVisibility(View.INVISIBLE);
                 addressTv.setVisibility(View.INVISIBLE);
+
             }
         });
 
@@ -147,7 +154,8 @@ public class LoginSignup3 extends AppCompatActivity {
                 }
             }
 
-            // todo : 지역 파이어베이스에 넣기
+            // todo : 지역 파이어베이스에 넣기 town1, town2
+
 
         });
     }
@@ -227,7 +235,6 @@ public class LoginSignup3 extends AppCompatActivity {
 
         try {
             addressTv.setText("수신중..");
-            // GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록하기~!!!
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
                     1000, // 통지사이의 최소 시간간격 (miliSecond)
                     1, // 통지사이의 최소 변경거리 (m)
@@ -236,10 +243,6 @@ public class LoginSignup3 extends AppCompatActivity {
                     1000, // 통지사이의 최소 시간간격 (miliSecond)
                     1, // 통지사이의 최소 변경거리 (m)
                     mLocationListener);
-
-            //txtCurrentPositionInfo.setText("위치정보 미수신중");
-            //lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
-
         } catch (SecurityException ex) {
             ex.printStackTrace();
         }
@@ -248,6 +251,7 @@ public class LoginSignup3 extends AppCompatActivity {
     public void setDaumMapCurrentLocation(double latitude, double longitude) {
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
         mapView.setZoomLevel(4, true);
+        mapView.zoomIn(true);
         setDaumMapCurrentMarker();
     }
 
@@ -279,7 +283,9 @@ public class LoginSignup3 extends AppCompatActivity {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
                 strAdd = strReturnedAddress.toString();
-                town = returnedAddress.getThoroughfare();
+
+                town12 = returnedAddress.getThoroughfare();
+
                 Log.w("MyCurrentloctionaddress", strReturnedAddress.toString());
             } else {
                 Log.w("MyCurrentloctionaddress", "No Address returned!");
@@ -316,11 +322,7 @@ public class LoginSignup3 extends AppCompatActivity {
                     accuracy = location.getAccuracy();    //정확도
                     provider = location.getProvider();   //위치제공자
 
-
                     currentLocation = getCompleteAddressString(getApplicationContext(), latitude, longitude);
-
-//            txtCurrentMoney.setText("위치정보 : " + provider + "\n위도 : " + longitude + "\n경도 : " + latitude
-//                    + "\n고도 : " + altitude + "\n정확도 : "  + accuracy);
 
                     // 위치 정보를 글로 나타낸다
                     addressTv.setText(currentLocation.toString());
