@@ -1,6 +1,8 @@
 package com.example.woodonggo;
 
 import static com.kakao.util.maps.helper.Utility.getKeyHash;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,9 +18,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,6 +50,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.kakao.sdk.user.UserApiClient;
 
 
@@ -56,6 +71,12 @@ public class LoginMain extends AppCompatActivity {
     String responseBody, finalphone;
     private static final String PREF_AUTO_LOGIN = "auto_login";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser currentUser;
+    //Authentication 로그인 상태를 관리하는 인터페이스
+    FirebaseAuth.AuthStateListener firebaseAuthStateListener;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,34 +98,10 @@ public class LoginMain extends AppCompatActivity {
         pw_edit = findViewById(R.id.loginPw);
         autologin_chk = findViewById(R.id.check_login);
 
-        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
-        boolean autoLoginEnabled = preferences.getBoolean(PREF_AUTO_LOGIN, false);
-
-        if (autoLoginEnabled) {
-            // 자동 로그인 시도
-            String savedId = preferences.getString("savedId", "");
-            String savedPw = preferences.getString("savedPw", "");
-
-            if (!TextUtils.isEmpty(savedId) && !TextUtils.isEmpty(savedPw)) {
-                login(savedId, savedPw);
-            }
-        }
-
-        login_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String id, pw;
-                id = id_edit.getText().toString();
-                pw = pw_edit.getText().toString();
-                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(pw)) {
-                    Toast.makeText(LoginMain.this, "ID와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                    return;
-                } else login(id,pw);
-
-                // todo : 아이디 패스워드 서버와 일치하는지 확인
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        //DB에서 데이터를 읽거나 쓰기 위해선 DatabaseReference가 필요!
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         findId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +188,8 @@ public class LoginMain extends AppCompatActivity {
     }
 
     private void login(String id, String pw) {
-        DocumentReference userRef = db.collection("User").document(id);
+        DocumentReference userRef, autoLogin;
+        userRef = db.collection("User").document(id);
 
         userRef.get().addOnCompleteListener(task -> {
            if(task.isSuccessful()) {

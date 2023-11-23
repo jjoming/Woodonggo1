@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RadioButton;
@@ -8,6 +9,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.List;
@@ -53,14 +55,28 @@ public class Mypage_interest extends AppCompatActivity {
             }
         });
 
+        //클릭한 라디오 버튼에 해당하는 글자 색 변경 & 버튼에 해당하는 정보를 가진 리사이클러뷰로 업데이트
         matchGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 updateRecyclerViewContent(checkedId);
+                if(checkedId == R.id.all_btn){
+                    all_btn.setTextColor(Color.WHITE);
+                    personal_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                    team_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                }
+                else if(checkedId == R.id.personal_btn){
+                    personal_btn.setTextColor(Color.WHITE);
+                    all_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                    team_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                }
+                else{
+                    team_btn.setTextColor(Color.WHITE);
+                    all_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                    personal_btn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                }
             }
         });
-
-        matchGroup.check(R.id.all_btn);
 
         // RecyclerView 설정
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

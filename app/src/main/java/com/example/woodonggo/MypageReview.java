@@ -1,9 +1,12 @@
 package com.example.woodonggo;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +15,10 @@ import androidx.core.content.ContextCompat;
 public class MypageReview extends AppCompatActivity {
 
     CheckBox checkboxTime, checkboxResponse, checkboxManner;
+    RadioGroup resultRadioGroup;
+    RadioButton winBtn, sameBtn, loseBtn;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +26,34 @@ public class MypageReview extends AppCompatActivity {
 
         /*TODO: 사용자가 이미지를 등록한 이후 iconPlus는 INVISIBLE, iconCancel는 VISIVLE시키고,
                 이미지는 최대 5장까지만 등록할 수 있도록 코드 추가해주세요*/
+
+        //선택된 라디오버튼에 따라 글자색 별도 처리
+        resultRadioGroup = findViewById(R.id.resultRadioGroup);
+        winBtn = findViewById(R.id.winBtn);
+        sameBtn = findViewById(R.id.sameBtn);
+        loseBtn = findViewById(R.id.loseBtn);
+
+        resultRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.winBtn) { //'승'을 골랐을 때
+                    winBtn.setTextColor(Color.WHITE);
+                    sameBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                    loseBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                }
+                else if(checkedId == R.id.sameBtn) { //'무'를 골랐을 때
+                    sameBtn.setTextColor(Color.WHITE);
+                    winBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                    loseBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+
+                }
+                else { //'패'를 골랐을 때
+                    loseBtn.setTextColor(Color.WHITE);
+                    winBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                    sameBtn.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_gray));
+                }
+            }
+        });
 
         //체크박스 체크 여부에 따라 글자색 별도 처리
         checkboxTime = findViewById(R.id.checkboxTime);
