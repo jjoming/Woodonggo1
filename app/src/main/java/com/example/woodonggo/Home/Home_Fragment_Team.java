@@ -75,11 +75,12 @@ public class Home_Fragment_Team extends Fragment {
                             boolean team = Boolean.TRUE.equals(document.getBoolean("team"));
                             String userId = document.getString("userId");
                             String writingId = document.getString("writingId");
+                            int likesCount = Math.toIntExact(document.getLong("likesCount"));
                             findwriter(userId, new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String writer) {
                                     // TeamModel 객체 생성
-                                    TeamModel teamModel = new TeamModel(content, date, team, userId, writingId, writer, sports);
+                                    TeamModel teamModel = new TeamModel(content, date, team, userId, writingId, writer, sports, likesCount);
                                     teamDataList.add(teamModel);
                                     // Adapter에 데이터 설정
                                     adapter.teamDataList(teamDataList);

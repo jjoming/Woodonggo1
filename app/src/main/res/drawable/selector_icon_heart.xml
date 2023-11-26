@@ -4,6 +4,6 @@
         android:drawable="@drawable/icon_unsolid_heart">
     </item>
     <item android:state_selected="true"
-        android:drawable="@drawable/icon_solid_heart">
+        android:drawable="@drawable/icon_solid_heart2">
     </item>
 </selector>

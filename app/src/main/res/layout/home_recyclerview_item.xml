@@ -60,7 +60,7 @@
     <TextView
         android:id="@+id/text_like"
         android:textStyle="bold"
-        android:text="0"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="15sp"
         android:layout_width="wrap_content"

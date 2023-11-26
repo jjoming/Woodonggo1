@@ -8,9 +8,10 @@ public class TeamModel {
     String writingId,writer,content;
     boolean team;
     Timestamp uploadDate;
+    private int likesCount;
 
     public TeamModel(String content, Timestamp uploadDate, boolean team, String userId,
-                     String writingId, String writer, String sports) {
+                     String writingId, String writer, String sports, int likesCount) {
         this.writer = writer;
         this.uploadDate = uploadDate;
         this.content = content;
@@ -18,6 +19,7 @@ public class TeamModel {
         this.userId = userId;
         this.writingId = writingId;
         this.sports = sports;
+        this.likesCount = likesCount;
     }
 
 
@@ -77,7 +79,13 @@ public class TeamModel {
         this.sports = sports;
     }
 
+    public int getLikesCount() {
+        return likesCount;
+    }
 
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
 
 
 
