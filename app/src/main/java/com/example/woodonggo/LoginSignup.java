@@ -225,6 +225,7 @@ public class LoginSignup extends AppCompatActivity {
                     intent.putExtra("password", pw);
                     intent.putExtra("phone", phone);
                     startActivity(intent);
+                    finish();
                 }
                 else if (!idConfirm) {
                     Toast.makeText(LoginSignup.this, "아이디 중복확인 버튼을 눌러주세요", Toast.LENGTH_SHORT).show();

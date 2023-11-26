@@ -1,8 +1,6 @@
 package com.example.woodonggo;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,23 +20,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
-import java.util.UUID;
+
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 public class LoginSignup2 extends AppCompatActivity {
     Button nickConfirm;
@@ -64,20 +52,26 @@ public class LoginSignup2 extends AppCompatActivity {
         // 이전 페이지에서 정보를 받아옴.
         Intent inIntent = getIntent();
         id = inIntent.getStringExtra("id");
-        profileurl = inIntent.getStringExtra("profile");
         pw = inIntent.getStringExtra("password");
         phoneNum = inIntent.getStringExtra("phone");
+
 
         if (id == null) {
             // id가 null이면 에러 메시지 표시 또는 처리 방법을 선택하세요.
             Toast.makeText(this, "에러: 사용자 ID가 없습니다.", Toast.LENGTH_SHORT).show();
             return; // 초기화되지 않은 id로 인해 더 이상 진행하지 않도록 종료.
         }
+
+        // password와 phone에 대한 처리
+        pw = (pw != null) ? pw : "";
+        phoneNum = (phoneNum != null) ? phoneNum : "";
+
         // 카카오는 프로필 이미지를 가져오고 나머지는 안가져옴.
         if (profileurl == null) {
             Glide.with(this)
                     .load(R.drawable.noprofile)
                     .into(profile);
+            profileurl="";
         } else {
                 Glide.with(this)
                         .load(profileurl)
@@ -111,7 +105,7 @@ public class LoginSignup2 extends AppCompatActivity {
                 String Passwd = pw;
                 String PhoneNum = phoneNum;
                 String ProfileUrl = profileurl;
-                saveToFireStore(Id, Name, Passwd, PhoneNum, ProfileUrl);
+                saveToFireStore(Id, Name, Passwd, PhoneNum);
             }
         });
     }
@@ -130,12 +124,9 @@ public class LoginSignup2 extends AppCompatActivity {
     );
 
 
-    private void saveToFireStore(String Id, String Name, String Passwd, String PhoneNum) {
-        // profileuri를 전달하지 않은 경우 기본 이미지 사용
-        saveToFireStore(Id, Name, Passwd, PhoneNum,null);
-    }
 
-    private void saveToFireStore(String Id , String Name , String Passwd, String PhoneNum, String Profileurl) {
+
+    private void saveToFireStore(String Id , String Name , String Passwd, String PhoneNum) {
         if(!Id.isEmpty() && !Name.isEmpty()) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("id",Id);
@@ -171,6 +162,7 @@ public class LoginSignup2 extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Toast.makeText(LoginSignup2.this, "설정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginSignup2.this, LoginSignup3.class);
+                                intent.putExtra("userId", id);
                                 startActivity(intent);
                                 finish();
                             }

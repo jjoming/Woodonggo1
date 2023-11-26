@@ -85,8 +85,11 @@ public class LoginSignup3 extends AppCompatActivity {
 
         mapView = findViewById(R.id.mapView);
         mapView.setDaumMapApiKey("6e57980f9050faf730dbb4af45ab8602");
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userId = preferences.getString("UserId", "");
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        userId = preferences.getString("UserId", "");
+        Intent inIntent = getIntent();
+        userId = inIntent.getStringExtra("userId");
+        Log.d("TAG",userId);
 
         // 위치 권한 확인 및 요청
         if (shouldRequestLocationPermission()) {
@@ -131,9 +134,11 @@ public class LoginSignup3 extends AppCompatActivity {
             public void onClick(View view) {
                 if (previousButton == townButton1) {
                     town1 = town12;
+                    Log.d("TAG",town1);
                     previousButton.setText(town1);
                 } else {
                     town2 = town12;
+                    Log.d("TAG",town2);
                     previousButton.setText(town2);
                 }
                 townCheckBtn.setVisibility(View.INVISIBLE);
@@ -166,7 +171,7 @@ public class LoginSignup3 extends AppCompatActivity {
                     mapView = null;
                 }
                 Intent intent = new Intent(LoginSignup3.this, MainActivity.class);
-                intent.putExtra("userId", userId);  // userId를 인텐트에 추가
+                intent.putExtra("userId2", userId);  // userId를 인텐트에 추가
                 startActivity(intent);
                 finish();
             }
@@ -181,8 +186,18 @@ public class LoginSignup3 extends AppCompatActivity {
 
         // 문서의 필드를 업데이트할 Map 생성
         Map<String, Object> updateData = new HashMap<>();
-        updateData.put("region1", town1);
-        updateData.put("region2", town2);
+        Log.d("TAG",userId);
+        Log.d("TAG",town1);
+        Log.d("TAG",town2);
+        // town1, town2가 null이 아닌 경우에만 업데이트 데이터에 추가
+        // null에러나서 수정했는데 town1,town2둘다 값을 채우고 가입하게 해야할듯
+        if (town1 != null) {
+            updateData.put("region1", town1);
+        }
+        if (town2 != null) {
+            updateData.put("region2", town2);
+        }
+
 
         // "User" 컬렉션의 문서 업데이트
         db.collection("User")
@@ -223,8 +238,10 @@ public class LoginSignup3 extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-        mapView.setShowCurrentLocationMarker(false);
+        if (mapView != null) {
+            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+            mapView.setShowCurrentLocationMarker(false);
+        }
     }
 
 

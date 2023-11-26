@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentChatting fragment_chatting;
     FragmentMyPage fragment_myPage;
     BottomNavigationView bottomNavi;
-    String UserId;
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Intent inIntent = getIntent();
-        UserId = inIntent.getStringExtra("UserId");
+        userId = inIntent.getStringExtra("userId2");
 
 
         fragment_home = new FragmentHome();
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavi = findViewById(R.id.bottomNavi);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("UserId", UserId);
+        editor.putString("userId", userId);
         editor.apply();
         // 초기 화면으로 Fragment_home을 설정
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_home).commit();
