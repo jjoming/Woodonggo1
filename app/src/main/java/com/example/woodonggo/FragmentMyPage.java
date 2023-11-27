@@ -39,6 +39,8 @@ public class FragmentMyPage extends Fragment {
     private Context context;
     String userId;
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,9 +52,12 @@ public class FragmentMyPage extends Fragment {
         profileName = rootView.findViewById(R.id.profileName);
         profile = rootView.findViewById(R.id.profileImg);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        userId = preferences.getString("UserId", "");
+        userId = preferences.getString("userId", "");
+
+
         fetchUserName(userId);
         storageReference = storage.getReference();
+
         profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

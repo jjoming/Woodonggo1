@@ -50,7 +50,7 @@ public class Mypage_profile extends AppCompatActivity {
         profile = findViewById(R.id.profile_image);
         username = findViewById(R.id.textName);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userId = preferences.getString("UserId", "");
+        userId = preferences.getString("userId", "");
         db = FirebaseFirestore.getInstance();
         fetchUserName(userId);
         storageReference = storage.getReference();
@@ -71,6 +71,7 @@ public class Mypage_profile extends AppCompatActivity {
     }
 
     private void fetchUserName(String userId) {
+        Log.d("UserId", "UserId: " + userId);
         DocumentReference userRef = db.collection("User").document(userId);
 
         userRef.get().addOnCompleteListener(task -> {

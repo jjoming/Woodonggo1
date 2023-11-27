@@ -217,6 +217,7 @@ public class LoginMain extends AppCompatActivity {
                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginMain.this);
                        preferences.edit().putBoolean(PREF_AUTO_LOGIN, autologin_chk.isChecked()).apply();
                        SharedPreferences.Editor editor = preferences.edit();
+                       Log.d("HONG2",id);
                        editor.putString("userId", id);
                        editor.apply();
                        Intent intent = new Intent(LoginMain.this, MainActivity.class);
@@ -252,6 +253,7 @@ public class LoginMain extends AppCompatActivity {
                     intent.putExtra("UserId",userId);
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = preferences.edit();
+                    Log.d("HONG",userId);
                     editor.putString("userId", userId);
                     editor.apply();
                     startActivity(intent);
@@ -259,6 +261,9 @@ public class LoginMain extends AppCompatActivity {
                 }else {
                     if (finalphone != null) {
                         gotosignup2(userId,finalphone);
+                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = preferences.edit();
+                        Log.d("HONG",userId);
                     }
                     gotosignup2(userId);
             }
@@ -277,6 +282,7 @@ public class LoginMain extends AppCompatActivity {
         intent.putExtra("phone", finalphone);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = preferences.edit();
+        Log.d("HONG3",userId);
         editor.putString("userId", userId);
         editor.apply();
         startActivity(intent);

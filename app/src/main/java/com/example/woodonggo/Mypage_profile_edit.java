@@ -59,7 +59,7 @@ public class Mypage_profile_edit extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userId = preferences.getString("UserId", "");
+        userId = preferences.getString("userId", "");
 
         fetchUserInfo(userId);
 
