@@ -216,7 +216,9 @@ public class LoginMain extends AppCompatActivity {
                    if (pw.equals(storedPw)) {
                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginMain.this);
                        preferences.edit().putBoolean(PREF_AUTO_LOGIN, autologin_chk.isChecked()).apply();
-
+                       SharedPreferences.Editor editor = preferences.edit();
+                       editor.putString("userId", id);
+                       editor.apply();
                        Intent intent = new Intent(LoginMain.this, MainActivity.class);
                        intent.putExtra("UserId",id);
                        startActivity(intent);
@@ -248,6 +250,10 @@ public class LoginMain extends AppCompatActivity {
                     // 사용자가 Firestore의 users 컬렉션에 존재하는 경우
                     Intent intent = new Intent(LoginMain.this, MainActivity.class);
                     intent.putExtra("UserId",userId);
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("userId", userId);
+                    editor.apply();
                     startActivity(intent);
                     finish();
                 }else {
@@ -269,6 +275,10 @@ public class LoginMain extends AppCompatActivity {
         Intent intent = new Intent(LoginMain.this,LoginSignup2.class);
         intent.putExtra("id",userId);
         intent.putExtra("phone", finalphone);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("userId", userId);
+        editor.apply();
         startActivity(intent);
         finish();
     }

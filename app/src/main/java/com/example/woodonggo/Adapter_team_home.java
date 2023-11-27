@@ -199,6 +199,6 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
 
             // 어댑터에게 데이터 집합이 변경되었음을 알립니다.
             notifyDataSetChanged();
-                }
-            }
         }
+    }
+}

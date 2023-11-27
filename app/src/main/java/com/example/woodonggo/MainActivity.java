@@ -62,10 +62,6 @@ public class MainActivity extends AppCompatActivity {
         fragment_myPage = new FragmentMyPage();
 
         bottomNavi = findViewById(R.id.bottomNavi);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("userId", userId);
-        editor.apply();
         // 초기 화면으로 Fragment_home을 설정
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment_home).commit();
 
