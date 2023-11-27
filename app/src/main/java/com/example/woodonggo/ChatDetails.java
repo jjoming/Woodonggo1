@@ -25,7 +25,7 @@ public class ChatDetails extends AppCompatActivity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
     Toolbar toolbar;
-    TextView nickName, ing, title;
+    TextView nickName, ing;
     ImageView sportsImg;
     EditText msgEdit;
     Button sendBtn;
@@ -38,7 +38,6 @@ public class ChatDetails extends AppCompatActivity {
 
         nickName = findViewById(R.id.nickName);
         ing = findViewById(R.id.ing);
-        title = findViewById(R.id.title);
         sportsImg = findViewById(R.id.sportsImg);
         msgEdit = findViewById(R.id.msgEdit);
         sendBtn = findViewById(R.id.send_btn);
