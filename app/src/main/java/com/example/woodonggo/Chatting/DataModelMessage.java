@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Chatting;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,12 +12,12 @@ public class DataModelMessage {
     private Date time; // 시간을 저장하는 필드
     private Date date;
 
-    public DataModelMessage(String content, boolean isMyMessage, boolean isDateMessage, Date time, Date date) {
+    public DataModelMessage(String content, boolean isMyMessage, boolean isDateMessage, Date time) {
         this.content = content;
         this.isMyMessage = isMyMessage;
         this.isDateMessage = isDateMessage;
         this.time = time;
-        this.date = date;
+        //this.date = date;
     }
 
     public String getContent() {

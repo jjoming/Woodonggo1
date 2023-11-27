@@ -55,7 +55,7 @@
             android:name=".FragmentPlace"
             android:theme="@style/AppTheme.MaterialTheme" />
         <activity
-            android:name=".ChatDetails"
+            android:name=".Chatting.ChatDetails"
             android:theme="@style/AppTheme.MaterialTheme" />
         <activity
             android:name=".Mypage_profile"
