@@ -75,7 +75,10 @@ public class Home_Fragment_Team extends Fragment {
                             boolean team = Boolean.TRUE.equals(document.getBoolean("team"));
                             String userId = document.getString("userId");
                             String writingId = document.getString("writingId");
-                            int likesCount = Math.toIntExact(document.getLong("likesCount"));
+                            // 수정된 부분: likesCount 값 가져오기
+                            Long likesCountLong = document.getLong("likesCount");
+                            int likesCount = likesCountLong != null ? Math.toIntExact(likesCountLong) : 0;
+
                             findwriter(userId, new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String writer) {
@@ -97,6 +100,12 @@ public class Home_Fragment_Team extends Fragment {
     }
 
     private void findwriter(String userId, OnSuccessListener<String> successListener) {
+        // userId가 null이면 처리하지 않고 리턴
+        if (userId == null) {
+            successListener.onSuccess("Unknown");
+            return;
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("User")
                 .document(userId)
@@ -104,14 +113,20 @@ public class Home_Fragment_Team extends Fragment {
                 .addOnSuccessListener(userDocument -> {
                     if (userDocument.exists()) {
                         String userName = userDocument.getString("name");
-                        successListener.onSuccess(userName);
+                        if (userName != null) {
+                            successListener.onSuccess(userName);
+                        } else {
+                            // userName이 null인 경우, 기본값이나 처리할 내용을 설정
+                            successListener.onSuccess("Unknown"); // 예: "Unknown"으로 설정
+                        }
                     } else {
-                        successListener.onSuccess(null);
+                        // 사용자 문서가 없는 경우, 기본값이나 처리할 내용을 설정
+                        successListener.onSuccess("Unknown"); // 예: "Unknown"으로 설정
                     }
                 })
                 .addOnFailureListener(e -> {
-                    successListener.onSuccess(null);
+                    // 오류가 발생한 경우, 기본값이나 처리할 내용을 설정
+                    successListener.onSuccess("Unknown"); // 예: "Unknown"으로 설정
                 });
-
     }
 }

@@ -73,7 +73,7 @@ public class Home_posting extends AppCompatActivity {
         btnPost = findViewById(R.id.btnPost);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        upload_id = preferences.getString("UserId", "");
+        upload_id = preferences.getString("userId", "");
         if(edtTitle.getText().toString().length() > 0 && edtContent.getText().toString().length() > 0) {
             btnPost.setBackgroundColor(getResources().getColor(R.color.navy));
         }
