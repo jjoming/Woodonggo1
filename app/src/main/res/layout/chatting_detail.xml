@@ -59,9 +59,9 @@
 
     <ImageView
         android:id="@+id/pin"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:src="@drawable/icon_pin2"
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:src="@drawable/chat_drawable_pin"
         app:layout_constraintTop_toBottomOf="@+id/nickName"
         app:layout_constraintLeft_toLeftOf="@+id/nickName"
         app:layout_constraintBottom_toBottomOf="@+id/sportsImg"/>
@@ -72,7 +72,6 @@
         android:text="장소명"
         android:textColor="@color/dark_gray"
         android:textSize="12sp"
-        android:layout_marginLeft="6dp"
         app:layout_constraintLeft_toRightOf="@id/pin"
         app:layout_constraintTop_toTopOf="@id/pin"
         app:layout_constraintBottom_toBottomOf="@id/pin"/>
@@ -110,7 +109,7 @@
 
     <EditText
         android:id="@+id/msgEdit"
-        android:elevation="30dp"
+        android:elevation="50dp"
         android:hint="메세지를 입력하세요"
         android:inputType="textMultiLine"
         android:maxLines="4"
@@ -124,12 +123,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@id/send_btn" />
 
-    <!--TODO: foreground에 드로우어블 추가-->
     <Button
         android:id="@+id/send_btn"
         android:layout_width="48dp"
         android:layout_height="48dp"
-
         android:foreground="@drawable/chat_drawable_send"
         android:foregroundGravity="center"
         android:background="@drawable/btn_chat_send"
