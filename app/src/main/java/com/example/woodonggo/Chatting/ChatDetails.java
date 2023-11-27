@@ -38,7 +38,7 @@ public class ChatDetails extends AppCompatActivity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
     Toolbar toolbar;
-    TextView nickName, ing, title;
+    TextView nickName, ing;
     ImageView sportsImg;
     EditText msgEdit;
     Button sendBtn;
@@ -264,6 +264,7 @@ public class ChatDetails extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
