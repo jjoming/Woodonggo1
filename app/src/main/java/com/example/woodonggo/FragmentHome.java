@@ -1,8 +1,13 @@
 package com.example.woodonggo;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,17 +31,62 @@ import com.example.woodonggo.Home.Home_search;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class FragmentHome extends Fragment {
 
     FloatingActionButton floatingBtn;
     ImageView imgView;
-
+    String id;
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        // 여기에 id 가져오는 코드 추가
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        id = preferences.getString("userId", "");
+
+
+        // Firebase Firestore에 대한 참조 생성
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("User").document(id);
+
+        // ValueEventListener를 사용하여 데이터 변경 감지
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // 사용자 데이터를 가져온 경우
+                    if (document.contains("region1")) {
+                        String region1 = document.getString("region1");
+
+                        // 확인을 위해 Log로 출력
+                        Log.d("FragmentHome", "region1 value: " + region1);
+
+                        // 가져온 region1 값을 textView에 설정
+                        TextView townTitle = rootView.findViewById(R.id.textView);
+                        townTitle.setText(region1);
+                    } else {
+                        Log.e("FragmentHome", "User document does not contain 'region1' field.");
+                    }
+                } else {
+                    Log.e("FragmentHome", "User document not found.");
+                }
+            } else {
+                Log.e("FragmentHome", "Error getting user document.", task.getException());
+            }
+        });
+
 
         // 툴바 초기화 및 설정
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
@@ -95,7 +145,7 @@ public class FragmentHome extends Fragment {
         });
 
         // 텍스트뷰
-        TextView textView = rootView.findViewById(R.id.textView);
+        TextView townTitle = rootView.findViewById(R.id.textView);
 
         // 팝업 메뉴
         ImageView imgView = rootView.findViewById(R.id.imgView);

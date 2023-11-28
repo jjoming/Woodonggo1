@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/textView"
-            android:text="동네 이름"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="21sp"
             android:layout_width="wrap_content"
