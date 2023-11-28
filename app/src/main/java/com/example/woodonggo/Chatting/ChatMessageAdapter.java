@@ -1,42 +1,29 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Chatting;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woodonggo.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final int MY_MESSAGE = 0;
     final int OTHER_MESSAGE = 1;
     final int DATE_MESSAGE = 2;
-
-    /*
-    public class ListContents {
-        String msg;
-        int type;
-
-        ListContents(String msg, int type) {
-            this.msg = msg;
-            this.type = type;
-        }
-    }
-     */
-
 
     private ArrayList<DataModelMessage> chatList;
 

@@ -14,9 +14,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.woodonggo.Chatting.FragmentChatting;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.kakao.sdk.user.model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

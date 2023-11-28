@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Chatting;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woodonggo.R;
+
 import java.util.ArrayList;
 
-public class ChatRecyclerViewAdapter extends RecyclerView.Adapter {
+public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.MyViewHolder> {
     /*
   어댑터의 동작원리 및 순서
   1.(getItemCount) 데이터 개수를 세어 어댑터가 만들어야 할 총 아이템 개수를 얻는다.
@@ -42,7 +44,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder");
 
         //자신이 만든 itemview를 inflate한 다음 뷰홀더 생성
@@ -54,7 +56,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Log.d(TAG,"onBindViewHolder");
 
         MyViewHolder myViewHolder = (MyViewHolder)holder;

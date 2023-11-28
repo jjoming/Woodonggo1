@@ -1,4 +1,7 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Chatting;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataModelChat {
     int img_source;
@@ -6,6 +9,10 @@ public class DataModelChat {
     String chat;
     String add;
     String time;
+
+    public String roomId; // 채팅방의 키
+    public Map<String, Boolean> users = new HashMap<>(); // 채팅방 유저 목록
+    public Map<String, DataModelChat> lastMessage = new HashMap<>(); // 채팅방의 마지막 메시지
 
     public int getImg() {
         return img_source;
