@@ -1,14 +1,9 @@
 package com.example.woodonggo.Home;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +15,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.woodonggo.Adapter_personal_home;
 import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -28,7 +26,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 
 public class Home_Fragment_Personal extends Fragment {
-
     private Adapter_personal_home adapter;
     private ArrayList<PersonalModel> personalDataList = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -75,14 +72,18 @@ public class Home_Fragment_Personal extends Fragment {
                             String content = document.getString("content");
                             Timestamp date = document.getTimestamp("date");
                             String sports = document.getString("sports");
-                            boolean team = Boolean.TRUE.equals(document.getBoolean("team"));
+                            boolean team = Boolean.FALSE.equals(document.getBoolean("team"));
                             String userId = document.getString("userId");
                             String writingId = document.getString("writingId");
+                            // 수정된 부분: likesCount 값 가져오기
+                            Long likesCountLong = document.getLong("likesCount");
+                            int likesCount = likesCountLong != null ? Math.toIntExact(likesCountLong) : 0;
+
                             findwriter(userId, new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String writer) {
-                                    // TeamModel 객체 생성
-                                    PersonalModel personalModel = new PersonalModel(content, date, team, userId, writingId, writer,sports);
+                                    // PersonalModel 객체 생성
+                                    PersonalModel personalModel = new PersonalModel(content, date, team, userId, writingId, writer, sports, likesCount);
                                     personalDataList.add(personalModel);
                                     // Adapter에 데이터 설정
                                     adapter.personalDataList(personalDataList);
@@ -99,6 +100,11 @@ public class Home_Fragment_Personal extends Fragment {
     }
 
     private void findwriter(String userId, OnSuccessListener<String> successListener) {
+        // userId가 null이면 처리하지 않고 리턴
+        if (userId == null) {
+            successListener.onSuccess("Unknown");
+            return;
+        }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("User")
                 .document(userId)
@@ -106,15 +112,20 @@ public class Home_Fragment_Personal extends Fragment {
                 .addOnSuccessListener(userDocument -> {
                     if (userDocument.exists()) {
                         String userName = userDocument.getString("name");
-                        successListener.onSuccess(userName);
+                        if (userName != null) {
+                            successListener.onSuccess(userName);
+                        } else {
+                            // userName이 null인 경우, 기본값이나 처리할 내용을 설정
+                            successListener.onSuccess("Unknown"); // 예: "Unknown"으로 설정
+                        }
                     } else {
-                        successListener.onSuccess(null);
+                        // 사용자 문서가 없는 경우, 기본값이나 처리할 내용을 설정
+                        successListener.onSuccess("Unknown"); // 예: "Unknown"으로 설정
                     }
                 })
                 .addOnFailureListener(e -> {
-                    successListener.onSuccess(null);
+                    // 오류가 발생한 경우, 기본값이나 처리할 내용을 설정
+                    successListener.onSuccess("Unknown"); // 예: "Unknown"으로 설정
                 });
-
     }
-
 }

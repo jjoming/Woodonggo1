@@ -3,13 +3,15 @@ package com.example.woodonggo.Home;
 import com.google.firebase.Timestamp;
 
 public class PersonalModel {
+
     String userId,sports;
     String writingId,writer,content;
     boolean team;
     Timestamp uploadDate;
+    private int likesCount;
 
     public PersonalModel(String content, Timestamp uploadDate, boolean team, String userId,
-                     String writingId, String writer, String sports) {
+                     String writingId, String writer, String sports, int likesCount) {
         this.writer = writer;
         this.uploadDate = uploadDate;
         this.content = content;
@@ -17,6 +19,7 @@ public class PersonalModel {
         this.userId = userId;
         this.writingId = writingId;
         this.sports = sports;
+        this.likesCount = likesCount;
     }
 
 
@@ -67,6 +70,7 @@ public class PersonalModel {
     public void setWritingId(String writingId) {
         this.writingId = writingId;
     }
+
     public String getSports() {
         return sports;
     }
@@ -74,5 +78,16 @@ public class PersonalModel {
     public void setSports(String sports) {
         this.sports = sports;
     }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
+    }
+
+
+
 
 }

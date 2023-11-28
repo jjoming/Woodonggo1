@@ -105,7 +105,6 @@ public class Home_Fragment_Team extends Fragment {
             successListener.onSuccess("Unknown");
             return;
         }
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("User")
                 .document(userId)

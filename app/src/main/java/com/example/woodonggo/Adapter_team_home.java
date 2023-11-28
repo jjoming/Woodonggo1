@@ -1,5 +1,6 @@
 package com.example.woodonggo;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.woodonggo.Home.TeamModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -43,19 +45,76 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
         holder.onBind(teamDataList.get(position));
 
         String userId = teamDataList.get(position).getUserId();
-        loadProfileImage(userId, holder.img_profile);
+        if (userId != null && !userId.isEmpty()) {
+            loadProfileImage(userId, holder.img_profile, holder.writer);
+        } else {
+            // 사용자 아이디가 없는 경우에 대한 처리
+            // 예: 기본 이미지를 표시하거나 에러 메시지를 출력하는 등
+        }
 
     }
 
-    private void loadProfileImage(String userId, ImageView imgProfile) {
-        // Firebase Storage에서 프로필 이미지 다운로드
-        StorageReference profileRef = storageRef.child("user_profiles/" + userId + ".jpg");
+    private void loadProfileImage(String userId, ImageView imgProfile, TextView writer) {
+        if (userId != null && !userId.isEmpty()) {
+            // Firebase Storage에서 사용자 프로필 이미지 가져오기
+            StorageReference profileImageRef = storageRef.child("user_profiles/" + userId + ".jpg");
 
-        // Glide를 사용하여 이미지 로드
-        Glide.with(imgProfile.getContext())
-                .load(profileRef) // 로딩 중에 표시될 이미지
-                .error(R.drawable.noprofile)  // 에러 발생 시 표시될 이미지
-                .into(imgProfile);
+            profileImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // 사용자 프로필 이미지 다운로드 URL을 얻은 경우
+                    String profileImageUrl = uri.toString();
+
+                    // Firebase Firestore에서 사용자 정보 가져오기
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    db.collection("User")
+                            .document(userId)
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    if (documentSnapshot.exists()) {
+                                        // 사용자 정보가 존재할 경우 프로필 이미지 및 이름 업데이트
+                                        String userName = documentSnapshot.getString("name");
+
+                                        // 추가: 이미지 URL 및 사용자 이름이 유효한지 확인
+                                        if (!profileImageUrl.isEmpty() && writer != null) {
+                                            // Glide를 사용하여 이미지 로드
+                                            Glide.with(imgProfile.getContext())
+                                                    .load(profileImageUrl)
+                                                    .error(R.drawable.noprofile)
+                                                    .into(imgProfile);
+
+                                            // 작성자 이름 업데이트
+                                            writer.setText(userName);
+                                        } else {
+                                            // 이미지 URL 또는 사용자 이름이 유효하지 않은 경우에 대한 처리
+                                            // 예: 기본 이미지를 표시하거나 에러 메시지를 출력하는 등
+                                        }
+                                    }
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // 에러 처리
+                                    Log.e("Profile Update", "Error fetching user profile", e);
+                                }
+                            });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // 프로필 이미지 다운로드 URL을 얻지 못한 경우 또는 다운로드 실패한 경우
+                    // 예: 기본 이미지를 표시하거나 에러 메시지를 출력하는 등
+                    Log.e("Profile Update", "Error fetching profile image URL", e);
+                }
+            });
+        } else {
+            // userId가 null이거나 비어 있는 경우에 대한 처리
+            // 예: 기본 이미지를 표시하거나 에러 메시지를 출력하는 등
+        }
     }
 
     @Override
@@ -150,6 +209,8 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
                 writerId = item.getWritingId();
             }
             likes.setText(String.valueOf(item.getLikesCount()));
+            // 사용자 프로필 이미지 업데이트
+            loadProfileImage(item.getUserId(), img_profile, writer);
         }
 
         private void toggleLike(String writerId) {
@@ -201,4 +262,9 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
             notifyDataSetChanged();
         }
     }
+
+    public void updateItem(int position) {
+        notifyItemChanged(position);
+    }
+
 }
