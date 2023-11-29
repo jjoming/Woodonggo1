@@ -52,6 +52,8 @@
         <activity
             android:name=".Home.Home_posting"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Home.Home_posting_detail"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".FragmentPlace"
             android:theme="@style/AppTheme.MaterialTheme" />

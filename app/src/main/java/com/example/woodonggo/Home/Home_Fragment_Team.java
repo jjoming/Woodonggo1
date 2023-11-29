@@ -42,7 +42,7 @@ public class Home_Fragment_Team extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager); // 리니어 레이아웃 매니저 설정
 
-        adapter = new Adapter_team_home();
+        adapter = new Adapter_team_home(getContext(), teamDataList);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
