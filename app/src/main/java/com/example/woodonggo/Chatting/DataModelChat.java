@@ -9,11 +9,31 @@ public class DataModelChat {
     String chat;
     String add;
     String time;
+    String userId;
 
     public String roomId; // 채팅방의 키
     public Map<String, Boolean> users = new HashMap<>(); // 채팅방 유저 목록
     public Map<String, DataModelChat> lastMessage = new HashMap<>(); // 채팅방의 마지막 메시지
 
+
+    public static class Comment
+    {
+        public String uid;
+        public String message;
+        public Object timestamp;
+    }
+
+    public DataModelChat() {
+        // 기본 생성자 추가
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
     public int getImg() {
         return img_source;
     }
@@ -29,6 +49,9 @@ public class DataModelChat {
     public void setName(String name) {
         this.name = name;
     }
+    String getUserId() { return userId; }
+
+    public void setUserId(String userId) { this.userId = userId; }
 
     public String getChat() {
         return chat;

@@ -69,7 +69,9 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
                 context.startActivity(intent);
             }
         });
+
     }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name_chat;

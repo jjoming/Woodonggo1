@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.woodonggo.Chatting.ChatDetails;
 import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -61,10 +62,10 @@ public class Home_posting_detail extends AppCompatActivity {
         imgCategory = findViewById(R.id.imgCategory);
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        Intent intent = getIntent();
-        id = intent.getExtras().getString("userId");
-        writingId = intent.getExtras().getString("writingId");
-        Log.d("writingId",writingId);
+        Intent inIntent = getIntent();
+        id = inIntent.getExtras().getString("userId"); // 작성자 아이디
+        writingId = inIntent.getExtras().getString("writingId"); // 게시글 아이디
+        //Log.d("writingId", writingId);
         retrieveData(writingId);
 
         imgMore.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +75,19 @@ public class Home_posting_detail extends AppCompatActivity {
                 showPopupMenu(view);
             }
         });
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Home_posting_detail.this, ChatDetails.class);
+                intent.putExtra("destUid", id);
+                intent.putExtra("postingId", writingId);
+                startActivity(intent);
+            }
+        });
     }
+
+
 
     private void retrieveData(String writingId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

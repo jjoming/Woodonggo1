@@ -12,6 +12,10 @@ public class DataModelMessage {
     private Date time; // 시간을 저장하는 필드
     private Date date;
 
+    public DataModelMessage() {
+        // 기본 생성자
+    }
+
     public DataModelMessage(String content, boolean isMyMessage, boolean isDateMessage, Date time) {
         this.content = content;
         this.isMyMessage = isMyMessage;
@@ -33,9 +37,14 @@ public class DataModelMessage {
     }
 
     public String getTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return sdf.format(time); // 시간을 원하는 형식으로 반환, 예시로 HH:mm (시:분) 형식 사용
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            return sdf.format(date);
+        } else {
+            return ""; // 또는 다른 기본값을 반환할 수 있음
+        }
     }
+
 
     public  String getDate() {
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());

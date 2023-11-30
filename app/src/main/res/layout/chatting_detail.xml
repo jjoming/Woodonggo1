@@ -70,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="장소명"
+        android:id="@+id/placeChat"
         android:textColor="@color/dark_gray"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@id/pin"

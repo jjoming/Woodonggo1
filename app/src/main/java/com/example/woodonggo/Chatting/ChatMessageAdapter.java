@@ -132,6 +132,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return chatList.size();
     }
 
+    public void clear() {
+        chatList.clear();
+        notifyDataSetChanged();
+    }
 }
 
     class MyMessageViewHolder extends RecyclerView.ViewHolder {

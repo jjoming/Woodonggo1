@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +22,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.woodonggo.R;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -30,33 +34,35 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class ChatDetails extends AppCompatActivity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
     Toolbar toolbar;
     TextView nickName, ing;
-    ImageView sportsImg;
+    ImageView chatImg;
     EditText msgEdit;
     Button sendBtn;
     private DatabaseReference chatRef;
-
     private String chatRoomUid; //채팅방 하나 id
+    String postingId;
     private String myuid;       //나의 id
     private String destUid;     //상대방 uid
-
-    //private RecyclerView recyclerView;
-    //private Button button;
-    //private EditText editText;
-
     private FirebaseDatabase firebaseDatabase;
-
+    StorageReference storageReference;
+    //FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     private User destUser;
-
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
 
 
@@ -67,10 +73,9 @@ public class ChatDetails extends AppCompatActivity {
 
         nickName = findViewById(R.id.nickName);
         ing = findViewById(R.id.ing);
-        //title = findViewById(R.id.title);
-        sportsImg = findViewById(R.id.sportsImg);
-        //msgEdit = findViewById(R.id.msgEdit);
-        //sendBtn = findViewById(R.id.send_btn);
+        chatImg = findViewById(R.id.sportsImg);
+
+        adapter = new ChatMessageAdapter();
 
         //툴바 초기화 및 설정
         toolbar = findViewById(R.id.toolbar);
@@ -97,8 +102,11 @@ public class ChatDetails extends AppCompatActivity {
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         myuid = preferences.getString("userId", "");
-        //myuid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         destUid = getIntent().getStringExtra("destUid");        //채팅 상대
+        postingId = getIntent().getStringExtra("postingId");  //게시글 자체 아이디
+
+
+        retrieveProfilePicture(destUid);
 
         recyclerViewChat = (RecyclerView)findViewById(R.id.recyclerViewChat);
         sendBtn = (Button)findViewById(R.id.send_btn);
@@ -107,7 +115,10 @@ public class ChatDetails extends AppCompatActivity {
         if(msgEdit.getText().toString() == null) sendBtn.setEnabled(false);
         else sendBtn.setEnabled(true);
 
-        checkChatRoom();
+        checkChatRoom(); // 채팅방이 있는지 확인
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
+        //DataModelMessage message = new DataModelMessage(sdf2.format(new Date()), false, true, new Date());
+        //adapter.add(new DataModelMessage(sdf2.format(new Date()), false, true, new Date()));
 
         // 채팅 메시지를 실시간으로 감지하는 리스너 등록
         chatRef.addChildEventListener(new ChildEventListener() {
@@ -116,7 +127,7 @@ public class ChatDetails extends AppCompatActivity {
                 ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
                 if (comment != null) {
                     // Firebase에서 받은 메시지를 RecyclerView에 추가
-                    DataModelMessage message = new DataModelMessage(comment.message, true, false, (Date) comment.timestamp);
+                    DataModelMessage message = new DataModelMessage(comment.message, false, false, (Date) comment.timestamp);
                     adapter.add(message);
                 }
             }
@@ -154,7 +165,7 @@ public class ChatDetails extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String msg = msgEdit.getText().toString();
                 if (msg != null) {
-                    sendBtn.setBackgroundColor(Color.BLUE);
+                    sendBtn.setEnabled(true);
                 }
             }
 
@@ -167,24 +178,35 @@ public class ChatDetails extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String message = msgEdit.getText().toString().trim();
 
-                ChatModel chatModel = new ChatModel();
-                chatModel.users.put(myuid,true);
-                chatModel.users.put(destUid,true);
+                if (!TextUtils.isEmpty(message)) {
+                    DataModelChat chatModel = new DataModelChat();
+                    chatModel.users.put(myuid, true);
+                    chatModel.users.put(destUid, true);
 
-                //push() 데이터가 쌓이기 위해 채팅방 key가 생성
-                if(chatRoomUid == null){
-                    Toast.makeText(ChatDetails.this, "채팅방 생성", Toast.LENGTH_SHORT).show();
-                    sendBtn.setEnabled(false);
-                    firebaseDatabase.getReference().child("chatrooms").push().setValue(chatModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            checkChatRoom();
-                        }
-
-                    });
-                } else {
-                    //sendMsgToDataBase();
+                    // push() 데이터가 쌓이기 위해 채팅방 key가 생성
+                    if (chatRoomUid == null) {
+                        sendBtn.setEnabled(false);
+                        firebaseDatabase.getReference().child("chatrooms").push().setValue(chatModel)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        checkChatRoom();
+                                        sendMsgToDataBase(message);
+                                        msgEdit.setText(""); // 메시지 전송 후에는 EditText를 초기화
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        sendBtn.setEnabled(true);
+                                        Toast.makeText(ChatDetails.this, "채팅방 생성 실패", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        sendMsgToDataBase(message);
+                    }
                 }
 
             }
@@ -217,31 +239,43 @@ public class ChatDetails extends AppCompatActivity {
 
     }   //onCreate
 
-    //작성한 메시지를 데이터베이스에 보낸다.
-    private void sendMsgToDataBase() {
-        if (!msgEdit.getText().toString().equals("")) {
-            ChatModel.Comment comment = new ChatModel.Comment();
+    private void sendMsgToDataBase(String message) {
+        if (!TextUtils.isEmpty(message)) {
+            DataModelChat.Comment comment = new DataModelChat.Comment();
             comment.uid = myuid;
-            comment.message = msgEdit.getText().toString();
+            comment.message = message;
             comment.timestamp = ServerValue.TIMESTAMP;
 
             // Firebase Realtime Database에 메시지 추가
-            chatRef.push().setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    msgEdit.setText("");
-                }
-            });
+            chatRef.child(chatRoomUid).child("comments").push().setValue(comment)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // 메시지 전송 성공 시 어댑터에 메시지 추가
+                            DataModelMessage dataModelMessage = new DataModelMessage(message, true, false, new Date());
+                            adapter.add(dataModelMessage);
+                            msgEdit.setText("");
+
+                            recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ChatDetails.this, "메시지 전송 실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 
+    /*
     private void checkChatRoom()
     {
         //자신 key == true 일때 chatModel 가져온다.
-        /* chatModel
-        public Map<String,Boolean> users = new HashMap<>(); //채팅방 유저
-        public Map<String, ChatModel.Comment> comments = new HashMap<>(); //채팅 메시지
-        */
+//        /* chatModel
+//        public Map<String,Boolean> users = new HashMap<>(); //채팅방 유저
+//        public Map<String, ChatModel.Comment> comments = new HashMap<>(); //채팅 메시지
+//
         firebaseDatabase.getReference().child("chatrooms").orderByChild("users/"+myuid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -268,4 +302,171 @@ public class ChatDetails extends AppCompatActivity {
             }
         });
     }
+    */
+
+    private void checkChatRoom() {
+        firebaseDatabase.getReference().child("chatrooms").orderByChild("users/" + myuid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean chatRoomExists = false;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
+                    if (chatModel.users.containsKey(destUid) && chatModel.users.containsKey(postingId)) {
+                        // 채팅방이 이미 존재할 때
+                        chatRoomUid = dataSnapshot.getKey();
+                        chatRoomExists = true;
+
+                        loadChatRoomData(chatRoomUid);
+
+                        break;
+                    }
+                }
+
+                if (!chatRoomExists) {
+                    // 채팅방이 존재하지 않을 때
+                    createChatRoom(postingId, destUid);
+                }
+
+                // 어댑터 설정
+                recyclerViewChat.setLayoutManager(new LinearLayoutManager(ChatDetails.this));
+                recyclerViewChat.setAdapter(adapter);
+
+                // 메시지 전송
+                // sendMsgToDataBase();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 오류 처리
+            }
+        });
+    }
+
+
+    private void createChatRoom(String postingId, String destUid) {
+        DatabaseReference chatroomsRef = firebaseDatabase.getReference("chatrooms");
+
+        // 새로운 채팅방을 위한 키 생성
+        String chatRoomKey = chatroomsRef.push().getKey();
+
+        // 채팅방 유저 목록 설정
+        Map<String, Boolean> users = new HashMap<>();
+        users.put(myuid, true);
+        users.put(destUid, true);
+        users.put(postingId, true);
+//
+//        Map<String, DataModelChat> lastMessage = new HashMap<>();
+//        lastMessage.put
+
+        // 채팅방 정보 설정
+        //ChatRoom chatRoom = new ChatRoom();
+        DataModelChat chatRoom = new DataModelChat();
+        chatRoom.roomId = chatRoomKey;
+        chatRoom.users = users;
+        //chatRoom.lastMessage = lastMessage;
+
+        chatRoom.setImg(R.drawable.basketball_icon);  // Todo : 상대방 이미지 설정
+        chatRoom.setName(destUid);  // Todo : 상대방 닉네임
+        //chatRoom.setChat("Initial Chat");
+        //chatRoom.setAdd("Additional Information");
+        chatRoom.setTime("Current Time"); // todo : 마지막 메시지 보낸 시간
+        chatRoom.setUserId(myuid);
+
+
+        // Firebase Realtime Database에 데이터 추가
+        chatroomsRef.child(chatRoomKey).setValue(chatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // 채팅방이 성공적으로 생성되었을 때 수행할 동작
+                chatRoomUid = chatRoomKey;
+                sendBtn.setEnabled(true);
+
+                // 동기화
+                recyclerViewChat.setLayoutManager(new LinearLayoutManager(ChatDetails.this));
+                recyclerViewChat.setAdapter(adapter);
+
+                // 메시지 보내기
+                //sendMsgToDataBase();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("cmk", "채팅방 개설 실패");
+            }
+        });
+    }
+
+    private void retrieveProfilePicture(String id) {
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+
+        // StorageReference 초기화
+        StorageReference storageRef = firebaseStorage.getReference();
+        StorageReference profileRef = storageRef.child("user_profiles/" + id + ".jpg");
+
+        profileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            // Load the profile picture using Glide library
+            Glide.with(getApplicationContext())
+                    .load(uri)
+                    .into(chatImg);
+        }).addOnFailureListener(e -> {
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error retrieving profile picture", e);
+        });
+    }
+
+
+    private void loadChatRoomData(String chatRoomUid) {
+        firebaseDatabase.getReference().child("chatrooms").child(chatRoomUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                adapter.clear(); // 기존 데이터 클리어
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    // 데이터 형식 확인
+                    Object rawData = dataSnapshot.getValue();
+                    if (rawData instanceof String) {
+                        // String 형식인 경우 DataModelMessage로 변환
+                        String messageContent = (String) rawData;
+                        DataModelMessage message = new DataModelMessage(messageContent, false, false, new Date());
+                        adapter.add(message);
+                    } else if (rawData instanceof DataModelMessage) {
+                        // 이미 DataModelMessage 형식인 경우 그대로 사용
+                        DataModelMessage message = (DataModelMessage) rawData;
+                        adapter.add(message);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 오류 처리
+            }
+        });
+    }
+
+    private void loadUserNickname(String userId) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // 사용자 데이터가 존재하는 경우
+                    User user = snapshot.getValue(User.class);
+                    if (user != null) {
+                        String nickname = user.getName();
+                        nickName.setText(nickname);
+                    }
+                } else {
+                    // 사용자 데이터가 존재하지 않는 경우 또는 오류 처리
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 오류 처리
+            }
+        });
+    }
+
 }
