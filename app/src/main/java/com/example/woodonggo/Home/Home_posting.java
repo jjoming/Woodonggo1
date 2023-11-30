@@ -212,7 +212,7 @@ public class Home_posting extends AppCompatActivity {
         postData.put("team", upload_team);
         postData.put("sports", upload_sports);
         postData.put("userId", upload_id);
-        postData.put("writingId",documentId);
+        postData.put("writingId", documentId);
 
         // Firestore에 데이터 업로드
         FirebaseFirestore.getInstance().document(documentPath)

@@ -109,8 +109,8 @@ public class Home_posting_detail extends AppCompatActivity {
                             String userId = documentSnapshot.getString("userId");
 
                             String formattedTime = convertTimestampToString(timestampMillis);
-                            retrieveUserName(id);
-                            retrieveProfilePicture(id);
+                            retrieveUserName(userId);  // 수정된 부분
+                            retrieveProfilePicture(userId);  // 수정된 부분
                             categorySetImage(sports);
                             textContent.setText(content);
                             textTime.setText(formattedTime);
