@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Raingking;
 
 public class DataModelRank {
     String ranking;

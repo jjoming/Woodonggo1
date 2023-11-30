@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Raingking;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.woodonggo.R;
 
 import java.util.ArrayList;
 

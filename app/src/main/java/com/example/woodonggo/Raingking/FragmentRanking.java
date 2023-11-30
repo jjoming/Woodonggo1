@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Raingking;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.woodonggo.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,8 +34,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-import com.example.woodonggo.DataModelRank;
-
 
 public class FragmentRanking extends Fragment {
 
@@ -44,8 +41,8 @@ public class FragmentRanking extends Fragment {
     Ranking_RecyclerView_Adapter adapter;
     RadioGroup radioGroup;
     RadioButton btnGolf, btnBowling, btnPingpong;
-    TextView myrank, nick_rank;
-    ImageView img_myprofile;
+    TextView myrank, nick_rank, name_rank1,name_rank2,name_rank3;
+    ImageView img_myprofile,profile_rank1,profile_rank2,profile_rank3;
     ArrayList<DataModelRank> dataModels;
     String upload_id;
     private StorageReference storageReference;
@@ -88,7 +85,7 @@ public class FragmentRanking extends Fragment {
 
         btnGolf.setChecked(true);
         btnGolf.setTextColor(Color.WHITE);
-        setRanking("Golf");
+        setRanking("personalGolfScore");
 
         //툴바 초기화 및 설정
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
@@ -99,8 +96,12 @@ public class FragmentRanking extends Fragment {
         myrank = rootView.findViewById(R.id.myrank);
         nick_rank = rootView.findViewById(R.id.nick_rank);
         img_myprofile = rootView.findViewById(R.id.img_myprofile);
-
-        nick_rank.setText(userName);
+        name_rank1 = rootView.findViewById(R.id.rank1_id);
+        name_rank2 = rootView.findViewById(R.id.rank2_id);
+        name_rank3 = rootView.findViewById(R.id.rank3_id);
+        profile_rank1 = rootView.findViewById(R.id.img_profile1);
+        profile_rank2 = rootView.findViewById(R.id.img_profile2);
+        profile_rank3 = rootView.findViewById(R.id.img_profile3);
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -110,17 +111,17 @@ public class FragmentRanking extends Fragment {
                     btnGolf.setTextColor(Color.WHITE);
                     btnBowling.setTextColor(Color.DKGRAY);
                     btnPingpong.setTextColor(Color.DKGRAY);
-                    setRanking("Golf");
+                    setRanking("personalGolfScore");
                 } else if (checkedId == R.id.btnBowling) {
                     btnBowling.setTextColor(Color.WHITE);
                     btnGolf.setTextColor(Color.DKGRAY);
                     btnPingpong.setTextColor(Color.DKGRAY);
-                    setRanking("Bowling");
+                    setRanking("personalBowlingScore");
                 } else if (checkedId == R.id.btnPingpong) {
                     btnPingpong.setTextColor(Color.WHITE);
                     btnGolf.setTextColor(Color.DKGRAY);
                     btnBowling.setTextColor(Color.DKGRAY);
-                    setRanking("PingPong");
+                    setRanking("teamPingpongScore");
                 }
             }
         });
@@ -142,34 +143,64 @@ public class FragmentRanking extends Fragment {
     }
 
 
-    // 랭킹 업데이트
     private void setRanking(String keyword) {
-        db.collection("Ranking")
-                .whereEqualTo("sports", keyword)  // "sport"는 Firestore 문서 필드에 따라 조정
-                .orderBy("rank", Query.Direction.ASCENDING)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        //dataModels = new ArrayList<>();
+        String scoreField = "";  // scoreField 변수 추가
 
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String rank = document.getString("rank");
-                            String data = document.getString("userId");
-                            int imageResource = R.drawable.basketball_icon;
+        // 운동 종목에 따라 scoreField 설정
+        if ("personalGolfScore".equals(keyword)) {
+            scoreField = "personalGolfScore";
+        } else if ("personalBowlingScore".equals(keyword)) {
+            scoreField = "personalBowlingScore";
+        } else if ("teamPingpongScore".equals(keyword)) {
+            scoreField = "teamPingpongScore";
+        }
 
-                            Log.d("cmk", data);
+        // scoreField가 빈 문자열이 아닌지 확인
+        if (!scoreField.isEmpty()) {
+            db.collection("User")
+                    .orderBy(scoreField, Query.Direction.DESCENDING)
+                    .limit(3)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Clear existing data before updating
+                            name_rank1.setText("");
+                            name_rank2.setText("");
+                            name_rank3.setText("");
+                            profile_rank1.setImageResource(R.drawable.noprofile);
+                            profile_rank2.setImageResource(R.drawable.noprofile);
+                            profile_rank3.setImageResource(R.drawable.noprofile);
 
-                            dataModels.add(new DataModelRank(rank, imageResource, data));
+                            int rankCounter = 1; // Initialize rank counter
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String userId = document.getString("id");
+                                String userName = document.getString("name");
+
+                                // Update UI for 1, 2, 3위
+                                if (rankCounter == 1) {
+                                    name_rank1.setText(userName);
+                                    // Update profile image for 1st rank
+                                    fetchUserProfileImageForRank(userId, profile_rank1);
+                                } else if (rankCounter == 2) {
+                                    name_rank2.setText(userName);
+                                    // Update profile image for 2nd rank
+                                    fetchUserProfileImageForRank(userId, profile_rank2);
+                                } else if (rankCounter == 3) {
+                                    name_rank3.setText(userName);
+                                    // Update profile image for 3rd rank
+                                    fetchUserProfileImageForRank(userId, profile_rank3);
+                                }
+
+                                rankCounter++;
+                            }
+                        } else {
+                            Log.d("error", "Error occurred");
                         }
-
-                        // RecyclerView에 데이터 설정
-                        adapter.setDataModels(dataModels);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.d("error", "에러발생");
-                    }
-                });
+                    });
+        }
     }
+
 
     private void fetchUserName(String userId) {
         Log.d("UserId", "UserId: " + userId);
@@ -180,6 +211,7 @@ public class FragmentRanking extends Fragment {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     userName = document.getString("name");
+                    nick_rank.setText(userName);
                     fetchUserProfileImage(userId);
                 }
             } else {
@@ -204,4 +236,21 @@ public class FragmentRanking extends Fragment {
                             .into(img_myprofile);
                 });
     }
+
+    private void fetchUserProfileImageForRank(String userId, ImageView imageView) {
+        StorageReference profileImageRef = storageReference.child("user_profiles/" + userId + ".jpg");
+
+        profileImageRef.getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    Glide.with(this)
+                            .load(uri)
+                            .into(imageView);
+                })
+                .addOnFailureListener(exception -> {
+                    Glide.with(this)
+                            .load(R.drawable.noprofile)
+                            .into(imageView);
+                });
+    }
+
 }
