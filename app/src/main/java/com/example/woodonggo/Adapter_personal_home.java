@@ -32,15 +32,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal_home.ViewHolder> {
-    //리사이클러뷰에 넣을 데이터 리스트
     private ArrayList<PersonalModel> personalDataList;
     private Context context;
-
     // FirebaseStorage 객체 초기화
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    public  Adapter_personal_home(Context context, ArrayList<PersonalModel> personalDataList){
+    public Adapter_personal_home(Context context, ArrayList<PersonalModel> personalDataList) {
         this.context = context;
         this.personalDataList = personalDataList;
     }
@@ -63,6 +61,7 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             // 사용자 아이디가 없는 경우에 대한 처리
             // 예: 기본 이미지를 표시하거나 에러 메시지를 출력하는 등
         }
+
     }
 
     private void loadProfileImage(String userId, ImageView imgProfile, TextView writer) {
@@ -197,10 +196,8 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(context, Home_posting_detail.class);
-                        intent.putExtra("name", personalDataList.get(pos).getWriter());
-                        intent.putExtra("content", personalDataList.get(pos).getContent());
-                        intent.putExtra("uploadDate", personalDataList.get(pos).getUploadDate());
-                        intent.putExtra("likeCount", personalDataList.get(pos).getLikesCount());
+                        intent.putExtra("userId", personalDataList.get(pos).getUserId());
+                        intent.putExtra("writingId",personalDataList.get(pos).getWritingId());
                         context.startActivity(intent);
                     }
                 }
@@ -229,14 +226,9 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             String dateString = dateFormat.format(item.getUploadDate().toDate());
             upload_date.setText(dateString);
             content.setText(item.getContent());
-            if (item.getSports().equals("골프")) {
+            if (item.getSports().equals("탁구")) {
                 Glide.with(img_category.getContext())
-                        .load(R.drawable.icon_golf)
-                        .into(img_category);
-                writerId = item.getWritingId();
-            } else if (item.getSports().equals("볼링")) {
-                Glide.with(img_category.getContext())
-                        .load(R.drawable.icon_bowling)
+                        .load(R.drawable.icon_ping_pong)
                         .into(img_category);
                 writerId = item.getWritingId();
             }

@@ -31,6 +31,7 @@ public class Home_Fragment_Personal extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
+    String selectedTown;
 
     @Nullable
     @Override
@@ -78,12 +79,12 @@ public class Home_Fragment_Personal extends Fragment {
                             // 수정된 부분: likesCount 값 가져오기
                             Long likesCountLong = document.getLong("likesCount");
                             int likesCount = likesCountLong != null ? Math.toIntExact(likesCountLong) : 0;
-
+                            String region = document.getString("region");
                             findwriter(userId, new OnSuccessListener<String>() {
                                 @Override
                                 public void onSuccess(String writer) {
                                     // PersonalModel 객체 생성
-                                    PersonalModel personalModel = new PersonalModel(content, date, team, userId, writingId, writer, sports, likesCount);
+                                    PersonalModel personalModel = new PersonalModel(content, date, team, userId, writingId, writer, sports, likesCount, region);
                                     personalDataList.add(personalModel);
                                     // Adapter에 데이터 설정
                                     adapter.personalDataList(personalDataList);

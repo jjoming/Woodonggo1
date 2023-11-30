@@ -9,9 +9,13 @@ public class PersonalModel {
     boolean team;
     Timestamp uploadDate;
     private int likesCount;
-
+    String region;
+    public PersonalModel() {
+        // 매개변수가 없는 기본 생성자가 필요합니다.
+    }
     public PersonalModel(String content, Timestamp uploadDate, boolean team, String userId,
-                     String writingId, String writer, String sports, int likesCount) {
+                     String writingId, String writer, String sports, int likesCount,
+                         String region) {
         this.writer = writer;
         this.uploadDate = uploadDate;
         this.content = content;
@@ -20,6 +24,7 @@ public class PersonalModel {
         this.writingId = writingId;
         this.sports = sports;
         this.likesCount = likesCount;
+        this.region = region;
     }
 
 
@@ -87,7 +92,13 @@ public class PersonalModel {
         this.likesCount = likesCount;
     }
 
+    public String getRegion() {
+        return region;
+    }
 
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
 
 }
