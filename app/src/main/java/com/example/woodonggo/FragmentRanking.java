@@ -48,24 +48,24 @@ public class FragmentRanking extends Fragment {
         Log.d("FragmentRanking", "btnBowling: " + (btnBowling != null));
         Log.d("FragmentRanking", "btnPingpong: " + (btnPingpong != null));
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.btnGolf) {
-                    btnGolf.setTextColor(Color.WHITE);
-                    btnBowling.setTextColor(Color.DKGRAY);
-                    btnPingpong.setTextColor(Color.DKGRAY);
-                } else if (checkedId == R.id.btnBowling) {
-                    btnBowling.setTextColor(Color.WHITE);
-                    btnGolf.setTextColor(Color.DKGRAY);
-                    btnPingpong.setTextColor(Color.DKGRAY);
-                } else if (checkedId == R.id.btnPingpong) {
-                    btnPingpong.setTextColor(Color.WHITE);
-                    btnGolf.setTextColor(Color.DKGRAY);
-                    btnBowling.setTextColor(Color.DKGRAY);
-                }
-            }
-        });
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                if (checkedId == R.id.btnGolf) {
+//                    btnGolf.setTextColor(Color.WHITE);
+//                    btnBowling.setTextColor(Color.DKGRAY);
+//                    btnPingpong.setTextColor(Color.DKGRAY);
+//                } else if (checkedId == R.id.btnBowling) {
+//                    btnBowling.setTextColor(Color.WHITE);
+//                    btnGolf.setTextColor(Color.DKGRAY);
+//                    btnPingpong.setTextColor(Color.DKGRAY);
+//                } else if (checkedId == R.id.btnPingpong) {
+//                    btnPingpong.setTextColor(Color.WHITE);
+//                    btnGolf.setTextColor(Color.DKGRAY);
+//                    btnBowling.setTextColor(Color.DKGRAY);
+//                }
+//            }
+//        });
 
         ArrayList<DataModelRank> dataModels = new ArrayList<>();
 
@@ -87,10 +87,6 @@ public class FragmentRanking extends Fragment {
         setHasOptionsMenu(true);
 
         return rootView;
-    }
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.toolbar_others, menu);
     }
 
     @Override

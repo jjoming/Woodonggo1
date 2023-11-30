@@ -19,7 +19,8 @@
             android:layout_gravity="left"
             android:text="동네 랭킹"
             android:textColor="@color/black"
-            android:textSize="21sp" />
+            android:textSize="21sp"
+            tools:ignore="RtlHardcoded" />
     </androidx.appcompat.widget.Toolbar>
 
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/neighborhood"
-        android:title="우리 동네"/>
+        android:id="@+id/region1"
+        android:title=""/>
     <item
-        android:id="@+id/list_team"
-        android:title="팀 목록"/>
+        android:id="@+id/region2"
+        android:title=""/>
     <item
-        android:id="@+id/setting_neighborhood"
+        android:id="@+id/setting_region"
         android:title="우리 동네 설정하기"/>
 </menu>

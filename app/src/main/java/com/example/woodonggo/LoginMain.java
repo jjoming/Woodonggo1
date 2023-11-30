@@ -222,8 +222,6 @@ public class LoginMain extends AppCompatActivity {
                        editor.apply();
                        Intent intent = new Intent(LoginMain.this, MainActivity.class);
                        intent.putExtra("UserId",id);
-
-
                        startActivity(intent);
                        finish();
                    } else {

@@ -25,12 +25,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.woodonggo.Home.Home_Fragment_Team;
 import com.example.woodonggo.Home.Home_category;
 import com.example.woodonggo.Home.Home_notification;
 import com.example.woodonggo.Home.Home_search;
+import com.example.woodonggo.Home.TeamModel;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.Timestamp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +43,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FragmentHome extends Fragment {
@@ -47,6 +53,8 @@ public class FragmentHome extends Fragment {
     FloatingActionButton floatingBtn;
     ImageView imgView;
     String id;
+
+    TextView townTitle;
     @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
@@ -61,7 +69,6 @@ public class FragmentHome extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("User").document(id);
 
-        // ValueEventListener를 사용하여 데이터 변경 감지
         userRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
@@ -74,7 +81,7 @@ public class FragmentHome extends Fragment {
                         Log.d("FragmentHome", "region1 value: " + region1);
 
                         // 가져온 region1 값을 textView에 설정
-                        TextView townTitle = rootView.findViewById(R.id.textView);
+                        townTitle = rootView.findViewById(R.id.textView);
                         townTitle.setText(region1);
                     } else {
                         Log.e("FragmentHome", "User document does not contain 'region1' field.");
@@ -167,24 +174,61 @@ public class FragmentHome extends Fragment {
         MenuInflater menuInflater = popupMenu.getMenuInflater();
         menuInflater.inflate(R.menu.home_location_menu, popupMenu.getMenu());
 
-        //팝업 메뉴 클릭 이벤트
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
-                if(itemId == R.id.neighborhood) {
-                    //TODO: 우리 동네
+        // 동적으로 값을 설정
+        MenuItem region1Item = popupMenu.getMenu().findItem(R.id.region1);
+        MenuItem region2Item = popupMenu.getMenu().findItem(R.id.region2);
+
+        // Firebase Firestore에 대한 참조 생성
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("User").document(id);
+
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // 사용자 데이터를 가져온 경우
+                    if (document.contains("region1") && document.contains("region2")) {
+                        String region1 = document.getString("region1");
+                        String region2 = document.getString("region2");
+
+                        // 확인을 위해 Log로 출력
+                        Log.d("FragmentHome", "region1 value: " + region1);
+                        Log.d("FragmentHome", "region2 value: " + region2);
+
+                        // 가져온 region1 및 region2 값을 MenuItem에 설정
+                        region1Item.setTitle(region1);
+                        region2Item.setTitle(region2);
+
+                        // 팝업 메뉴 클릭 이벤트
+                        popupMenu.setOnMenuItemClickListener(item -> {
+                            int itemId = item.getItemId();
+                            if (itemId == R.id.region1) {
+                                // region1을 선택한 경우
+                                String selectedTown = region1; // 선택된 동네 변수 설정
+                                townTitle.setText(selectedTown); // 선택된 동네로 townTitle 업데이트
+                                // TODO: region1에 해당하는 작업 수행
+                            } else if (itemId == R.id.region2) {
+                                // region2를 선택한 경우
+                                String selectedTown = region2; // 선택된 동네 변수 설정
+                                townTitle.setText(selectedTown); // 선택된 동네로 townTitle 업데이트
+                                // TODO: region2에 해당하는 작업 수행
+                            } else {
+                                // TODO:우리 동네 설정
+                            }
+                            return false;
+                        });
+
+                        popupMenu.show();
+                    } else {
+                        Log.e("FragmentHome", "User document does not contain 'region1' or 'region2' field.");
+                    }
+                } else {
+                    Log.e("FragmentHome", "User document not found.");
                 }
-                else if(itemId == R.id.list_team) {
-                    //TODO: 팀 목록
-                }
-                else {
-                    //TODO:우리 동네 설정
-                }
-                return false;
+            } else {
+                Log.e("FragmentHome", "Error getting user document.", task.getException());
             }
         });
-        popupMenu.show();
     }
 
     @Override
@@ -209,4 +253,5 @@ public class FragmentHome extends Fragment {
         }
         return false;
     }
+
 }
