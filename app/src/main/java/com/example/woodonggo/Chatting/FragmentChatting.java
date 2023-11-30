@@ -59,7 +59,7 @@ public class FragmentChatting extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
 
-// 현재 사용자 아이디를 기준으로 채팅 목록을 실시간으로 감지하는 리스너 등록
+        // 현재 사용자 아이디를 기준으로 채팅 목록을 실시간으로 감지하는 리스너 등록
         Query myChatRoomsQuery = chatRoomsRef.orderByChild("users/" + myUserId).equalTo(true);
 
         myChatRoomsQuery.addChildEventListener(new ChildEventListener() {
