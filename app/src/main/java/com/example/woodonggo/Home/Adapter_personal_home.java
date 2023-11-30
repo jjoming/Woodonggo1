@@ -199,9 +199,6 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
                         intent.putExtra("content", personalDataList.get(pos).getContent());
                         intent.putExtra("uploadDate", personalDataList.get(pos).getUploadDate());
                         intent.putExtra("likeCount", personalDataList.get(pos).getLikesCount());
-                        intent.putExtra("writingId", personalDataList.get(pos).getWritingId());
-                        intent.putExtra("userId", personalDataList.get(pos).getUserId());
-
                         context.startActivity(intent);
                     }
                 }
