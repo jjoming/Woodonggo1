@@ -420,19 +420,17 @@ public class ChatDetails extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 adapter.clear(); // 기존 데이터 클리어
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    // 데이터 형식 확인
-                    Object rawData = dataSnapshot.getValue();
-                    if (rawData instanceof String) {
-                        // String 형식인 경우 DataModelMessage로 변환
-                        String messageContent = (String) rawData;
-                        DataModelMessage message = new DataModelMessage(messageContent, false, false, new Date());
-                        adapter.add(message);
-                    } else if (rawData instanceof DataModelMessage) {
-                        // 이미 DataModelMessage 형식인 경우 그대로 사용
-                        DataModelMessage message = (DataModelMessage) rawData;
-                        adapter.add(message);
-                    }
+                for (DataSnapshot dataSnapshot : snapshot.child("comments").getChildren()) {
+                    String uid = dataSnapshot.child("uid").getValue(String.class);
+                    String messageContent = dataSnapshot.child("message").getValue(String.class);
+                    Long timestamp = dataSnapshot.child("timestamp").getValue(Long.class);
+
+                    boolean isMyMessage = myuid.equals(uid);
+                    boolean isDateMessage = false;
+
+                    Date time = new Date(timestamp);
+                    DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
+                    adapter.add(message);
                 }
             }
 
