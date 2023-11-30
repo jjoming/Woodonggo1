@@ -1,5 +1,7 @@
 package com.example.woodonggo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,8 @@ import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woodonggo.Home.Home_Fragment_Personal;
+import com.example.woodonggo.Home.Home_posting_detail;
 import com.example.woodonggo.Home.PersonalModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,10 +32,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal_home.ViewHolder> {
+    //리사이클러뷰에 넣을 데이터 리스트
     private ArrayList<PersonalModel> personalDataList;
+    private Context context;
+
     // FirebaseStorage 객체 초기화
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
+
+    public  Adapter_personal_home(Context context, ArrayList<PersonalModel> personalDataList){
+        this.context = context;
+        this.personalDataList = personalDataList;
+    }
     @NonNull
     @Override
     public Adapter_personal_home.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,7 +63,6 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             // 사용자 아이디가 없는 경우에 대한 처리
             // 예: 기본 이미지를 표시하거나 에러 메시지를 출력하는 등
         }
-
     }
 
     private void loadProfileImage(String userId, ImageView imgProfile, TextView writer) {
@@ -178,6 +189,22 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             img_like = itemView.findViewById(R.id.img_like);
             img_like.setImageResource(R.drawable.selector_icon_heart);
             likes = itemView.findViewById(R.id.text_like);
+
+            //리사이클러뷰 아이템 클릭 이벤트 처리
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if(pos != RecyclerView.NO_POSITION){
+                        Intent intent = new Intent(context, Home_posting_detail.class);
+                        intent.putExtra("name", personalDataList.get(pos).getWriter());
+                        intent.putExtra("content", personalDataList.get(pos).getContent());
+                        intent.putExtra("uploadDate", personalDataList.get(pos).getUploadDate());
+                        intent.putExtra("likeCount", personalDataList.get(pos).getLikesCount());
+                        context.startActivity(intent);
+                    }
+                }
+            });
 
             more.setOnClickListener(new View.OnClickListener() {
                 @Override
