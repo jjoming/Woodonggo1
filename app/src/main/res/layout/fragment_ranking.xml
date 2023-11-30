@@ -265,7 +265,7 @@
 
     <TextView
         android:id="@+id/nick_rank"
-        android:text="id"
+        android:text="닉네임"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:layout_width="wrap_content"
