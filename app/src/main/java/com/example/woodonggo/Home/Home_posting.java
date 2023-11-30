@@ -47,6 +47,7 @@ public class Home_posting extends AppCompatActivity {
     String upload_content,upload_date,upload_title,upload_sports,upload_id;
     Boolean upload_team;
     long nowtime;
+    String region;
 
     private FirebaseFirestore db;
 
@@ -203,7 +204,13 @@ public class Home_posting extends AppCompatActivity {
         String collectionPath = "Writing";  // Writing 컬렉션에 저장
         String documentId = UUID.randomUUID().toString();  // 랜덤한 문서 ID 생성
         String documentPath = collectionPath + "/" + documentId;
-
+        FirebaseFirestore.getInstance().collection("User").document(upload_id)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        region = documentSnapshot.getString("region1");
+                    }
+                });
         // 업로드할 데이터 준비
         Map<String, Object> postData = new HashMap<>();
         postData.put("title", upload_title);
@@ -213,6 +220,9 @@ public class Home_posting extends AppCompatActivity {
         postData.put("sports", upload_sports);
         postData.put("userId", upload_id);
         postData.put("writingId", documentId);
+        postData.put("region", "홍은동");
+        //TODO Region값 들어가게 만들기
+        postData.put("likesCount",0);
 
         // Firestore에 데이터 업로드
         FirebaseFirestore.getInstance().document(documentPath)
@@ -234,6 +244,7 @@ public class Home_posting extends AppCompatActivity {
                 });
 
     }
+
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
