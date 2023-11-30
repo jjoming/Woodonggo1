@@ -224,6 +224,7 @@ public class Home_posting extends AppCompatActivity {
         //TODO Region값 들어가게 만들기
         postData.put("likesCount",0);
 
+
         // Firestore에 데이터 업로드
         FirebaseFirestore.getInstance().document(documentPath)
                 .set(postData)
