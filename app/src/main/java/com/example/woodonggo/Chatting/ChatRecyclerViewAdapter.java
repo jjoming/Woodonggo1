@@ -88,6 +88,4 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
             time_chat = itemView.findViewById(R.id.time_chat);
         }
     }
-
-
 }

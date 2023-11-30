@@ -49,7 +49,7 @@ public class ChatDetails extends AppCompatActivity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
     Toolbar toolbar;
-    TextView nickName, ing;
+    TextView nickName, ing, placeChat;
     ImageView chatImg;
     EditText msgEdit;
     Button sendBtn;
@@ -74,6 +74,7 @@ public class ChatDetails extends AppCompatActivity {
         nickName = findViewById(R.id.nickName);
         ing = findViewById(R.id.ing);
         chatImg = findViewById(R.id.sportsImg);
+        placeChat = findViewById(R.id.placeChat);
 
         adapter = new ChatMessageAdapter();
 
@@ -105,8 +106,9 @@ public class ChatDetails extends AppCompatActivity {
         destUid = getIntent().getStringExtra("destUid");        //채팅 상대
         postingId = getIntent().getStringExtra("postingId");  //게시글 자체 아이디
 
-
+        loadUserNickname(destUid);
         retrieveProfilePicture(destUid);
+        loadWritingTitle(postingId);
 
         recyclerViewChat = (RecyclerView)findViewById(R.id.recyclerViewChat);
         sendBtn = (Button)findViewById(R.id.send_btn);
@@ -445,28 +447,45 @@ public class ChatDetails extends AppCompatActivity {
     }
 
     private void loadUserNickname(String userId) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    // 사용자 데이터가 존재하는 경우
-                    User user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        String nickname = user.getName();
-                        nickName.setText(nickname);
+        db.collection("User")
+                .document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String userName = documentSnapshot.getString("name");
+                        nickName.setText(userName);
+                    } else {
+                        // User document does not exist
+                        //Log.d("FirestoreData", "User document does not exist for userId: " + id);
                     }
-                } else {
-                    // 사용자 데이터가 존재하지 않는 경우 또는 오류 처리
-                }
-            }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any errors
+                    Log.e("FirestoreData", "Error retrieving user data", e);
+                });
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // 오류 처리
-            }
-        });
+    private void loadWritingTitle(String postingId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Writing")
+                .document(postingId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String postId = documentSnapshot.getString("title");
+                        placeChat.setText(postId);
+                    } else {
+                        // User document does not exist
+                        //Log.d("FirestoreData", "User document does not exist for userId: " + id);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any errors
+                    Log.e("FirestoreData", "Error retrieving user data", e);
+                });
     }
 
 }
