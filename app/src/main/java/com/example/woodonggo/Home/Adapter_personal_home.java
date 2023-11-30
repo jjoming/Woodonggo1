@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +17,7 @@ import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.woodonggo.Home.Home_Fragment_Team;
-import com.example.woodonggo.Home.Home_posting_detail;
-import com.example.woodonggo.Home.TeamModel;
+import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,20 +29,20 @@ import com.google.firebase.storage.StorageReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.ViewHolder> {
-    private ArrayList<TeamModel> teamDataList;
+public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal_home.ViewHolder> {
+    private ArrayList<PersonalModel> personalDataList;
     private Context context;
     // FirebaseStorage 객체 초기화
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
-    public Adapter_team_home(Context context, ArrayList<TeamModel> teamDataList) {
+    public Adapter_personal_home(Context context, ArrayList<PersonalModel> personalDataList) {
         this.context = context;
-        this.teamDataList = teamDataList;
+        this.personalDataList = personalDataList;
     }
     @NonNull
     @Override
-    public Adapter_team_home.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Adapter_personal_home.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.home_recyclerview_item, parent, false);
         return new ViewHolder(view);
@@ -52,9 +50,9 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.onBind(teamDataList.get(position));
+        holder.onBind(personalDataList.get(position));
 
-        String userId = teamDataList.get(position).getUserId();
+        String userId = personalDataList.get(position).getUserId();
         if (userId != null && !userId.isEmpty()) {
             loadProfileImage(userId, holder.img_profile, holder.writer);
         } else {
@@ -129,14 +127,14 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
 
     @Override
     public int getItemCount() {
-        if(teamDataList == null) {
+        if(personalDataList == null) {
             return 0;
         }
-        return teamDataList.size();
+        return personalDataList.size();
     }
 
-    public void teamDataList(ArrayList<TeamModel> list){
-        this.teamDataList = list;
+    public void personalDataList(ArrayList<PersonalModel> list){
+        this.personalDataList = list;
         notifyDataSetChanged();
     }
 
@@ -196,8 +194,8 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(context, Home_posting_detail.class);
-                        intent.putExtra("userId", teamDataList.get(pos).getUserId());
-                        intent.putExtra("writingId",teamDataList.get(pos).getWritingId());
+                        intent.putExtra("userId", personalDataList.get(pos).getUserId());
+                        intent.putExtra("writingId",personalDataList.get(pos).getWritingId());
                         context.startActivity(intent);
                     }
                 }
@@ -219,7 +217,7 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
             });
         }
 
-        public void onBind(TeamModel item) {
+        public void onBind(PersonalModel item) {
             writer.setText(item.getWriter());
             // Timestamp를 String으로 변환
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -275,9 +273,9 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
         }
 
         private void updateLikesCountInModel(String writerId, boolean isLiked) {
-            for (TeamModel teamModel : teamDataList) {
-                if (teamModel.getWritingId().equals(writerId)) {
-                    teamModel.setLikesCount(isLiked ? teamModel.getLikesCount() + 1 : teamModel.getLikesCount() - 1);
+            for (PersonalModel personalModel : personalDataList) {
+                if (personalModel.getWritingId().equals(writerId)) {
+                    personalModel.setLikesCount(isLiked ? personalModel.getLikesCount() + 1 : personalModel.getLikesCount() - 1);
                     break;
                 }
             }
