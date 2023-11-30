@@ -196,10 +196,8 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(context, Home_posting_detail.class);
-                        intent.putExtra("name", teamDataList.get(pos).getWriter());
-                        intent.putExtra("content", teamDataList.get(pos).getContent());
-                        intent.putExtra("uploadDate", teamDataList.get(pos).getUploadDate());
-                        intent.putExtra("likeCount", teamDataList.get(pos).getLikesCount());
+                        intent.putExtra("userId", teamDataList.get(pos).getUserId());
+                        intent.putExtra("writingId",teamDataList.get(pos).getWritingId());
                         context.startActivity(intent);
                     }
                 }
