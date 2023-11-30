@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.example.woodonggo.R;
 public class Home_posting_detail extends AppCompatActivity {
 
     Toolbar toolbar;
+    Button btnChat;
     TextView textName, textContent, textTime, textLike;
     ImageView imgMore;
     String id, content, time, likeCount;
@@ -36,6 +38,7 @@ public class Home_posting_detail extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        btnChat = findViewById(R.id.btnChat);
         textName = findViewById(R.id.textName); //사용자 아이디
         textContent = findViewById(R.id.textContent); //게시글 내용
         textTime = findViewById(R.id.textTime); //게시글 업로드 시간
