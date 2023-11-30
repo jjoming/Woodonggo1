@@ -1,4 +1,4 @@
-package com.example.woodonggo;
+package com.example.woodonggo.Home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +17,7 @@ import com.bumptech.glide.Glide;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.woodonggo.Home.Home_Fragment_Team;
-import com.example.woodonggo.Home.Home_posting_detail;
-import com.example.woodonggo.Home.TeamModel;
+import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;

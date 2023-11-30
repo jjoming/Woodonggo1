@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
+public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter<Ranking_RecyclerView_Adapter.MyViewHolder> {
 
     /*
   어댑터의 동작원리 및 순서
@@ -36,6 +36,15 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
         this.context = context;
     }
 
+    public void setDataModels(ArrayList<DataModelRank> dataModels) {
+        if (dataModels == null) {
+            this.dataModels = new ArrayList<>();
+        } else {
+            this.dataModels = dataModels;
+        }
+        notifyDataSetChanged();
+    }
+
     public int getItemCount() {
         //데이터 리스트의 크기를 전달해주어야 함
         return dataModels.size();
@@ -43,7 +52,7 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG,"onCreateViewHolder");
 
         //자신이 만든 itemview를 inflate한 다음 뷰홀더 생성
@@ -56,7 +65,7 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Log.d(TAG,"onBindViewHolder");
 
         MyViewHolder myViewHolder = (MyViewHolder)holder;
@@ -68,7 +77,26 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter {
                 // 랭킹을 눌렀을 때 나오는 화면
             }
         });
+        myViewHolder.imgView_rank.setImageResource(dataModels.get(position).getImg());
+        myViewHolder.nick_rank.setText(dataModels.get(position).getNick());
     }
+
+//    @Override
+//    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+//        Log.d(TAG,"onBindViewHolder");
+//
+//        MyViewHolder myViewHolder = (MyViewHolder)holder;
+//
+//        myViewHolder.rank.setText(dataModels.get(position).getRanking());
+//        myViewHolder.rank.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 랭킹을 눌렀을 때 나오는 화면
+//            }
+//        });
+//        myViewHolder.imgView_rank.setImageResource(dataModels.get(position).getImg());
+//        myViewHolder.nick_rank.setText(dataModels.get(position).getNick());
+//    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView rank;
