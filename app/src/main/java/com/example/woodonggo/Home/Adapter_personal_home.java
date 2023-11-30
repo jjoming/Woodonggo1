@@ -224,9 +224,15 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             String dateString = dateFormat.format(item.getUploadDate().toDate());
             upload_date.setText(dateString);
             content.setText(item.getContent());
-            if (item.getSports().equals("탁구")) {
+            if (item.getSports().equals("볼링")) {
                 Glide.with(img_category.getContext())
-                        .load(R.drawable.icon_ping_pong)
+                        .load(R.drawable.icon_bowling)
+                        .into(img_category);
+                writerId = item.getWritingId();
+            }
+            if (item.getSports().equals("골프")) {
+                Glide.with(img_category.getContext())
+                        .load(R.drawable.icon_golf)
                         .into(img_category);
                 writerId = item.getWritingId();
             }
@@ -236,14 +242,22 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
         }
 
         private void toggleLike(String writerId) {
-            isLiked = !isLiked; // 상태를 토글
+            // writerId가 null이 아닌지 확인
+            if (writerId != null) {
+                isLiked = !isLiked; // 상태를 토글
 
-            // 좋아요 수 업데이트
-            updateLikesCount(writerId, isLiked);
+                // 좋아요 수 업데이트
+                updateLikesCount(writerId, isLiked);
 
-            updateLikesCountInModel(writerId, isLiked);
+                // PersonalModel에서 좋아요 수 업데이트
+                updateLikesCountInModel(writerId, isLiked);
 
-            img_like.setSelected(isLiked);
+                img_like.setSelected(isLiked);
+            } else {
+                // writerId가 null인 경우에 대한 처리
+                // 예: 메시지를 표시하거나 로깅 등
+                Log.e("Toggle Like", "writerId is null");
+            }
         }
 
         private void updateLikesCount(String writerId, boolean isLiked) {
