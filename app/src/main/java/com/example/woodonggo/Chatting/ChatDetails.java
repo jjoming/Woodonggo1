@@ -59,9 +59,6 @@ public class ChatDetails extends AppCompatActivity {
     private String myuid;       //나의 id
     private String destUid;     //상대방 uid
     private FirebaseDatabase firebaseDatabase;
-    StorageReference storageReference;
-    //FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-    private User destUser;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 
 
@@ -247,6 +244,7 @@ public class ChatDetails extends AppCompatActivity {
             comment.uid = myuid;
             comment.message = message;
             comment.timestamp = ServerValue.TIMESTAMP;
+            comment.sentByMe = true; // 내가 보낸 메시지
 
             // Firebase Realtime Database에 메시지 추가
             chatRef.child(chatRoomUid).child("comments").push().setValue(comment)
@@ -416,7 +414,6 @@ public class ChatDetails extends AppCompatActivity {
         });
     }
 
-
     private void loadChatRoomData(String chatRoomUid) {
         firebaseDatabase.getReference().child("chatrooms").child(chatRoomUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -487,5 +484,4 @@ public class ChatDetails extends AppCompatActivity {
                     Log.e("FirestoreData", "Error retrieving user data", e);
                 });
     }
-
 }

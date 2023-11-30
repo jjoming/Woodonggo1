@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,6 +71,9 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
             }
         });
 
+        myViewHolder.imageView.setImageResource(dataModels.get(position).getImg());
+        myViewHolder.name_chat.setText(dataModels.get(position).getName());
+        myViewHolder.chat_chat.setText(dataModels.get(position).getChat());
     }
 
 
@@ -78,10 +82,12 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         TextView chat_chat;
         TextView add_chat;
         TextView time_chat;
+        ImageView imageView;
         int img_source;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.imgView_chat);
             name_chat =  itemView.findViewById(R.id.name_chat);
             chat_chat = itemView.findViewById(R.id.chat_chat);
             add_chat = itemView.findViewById(R.id.add_chat);

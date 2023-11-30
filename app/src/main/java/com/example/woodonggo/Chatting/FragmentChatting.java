@@ -1,6 +1,8 @@
 package com.example.woodonggo.Chatting;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ public class FragmentChatting extends Fragment {
 
     RecyclerView recyclerView;
     ChatRecyclerViewAdapter adapter;
+    String myUserId;
 
     @Nullable
     @Override
@@ -43,6 +47,9 @@ public class FragmentChatting extends Fragment {
         // Firebase Realtime Database 참조
         DatabaseReference chatRoomsRef = FirebaseDatabase.getInstance().getReference().child("chatrooms");
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        myUserId = preferences.getString("userId", "");
+
         // 채팅 목록을 저장할 리스트
         ArrayList<DataModelChat> chatRooms = new ArrayList<>();
 
@@ -52,9 +59,10 @@ public class FragmentChatting extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
 
+// 현재 사용자 아이디를 기준으로 채팅 목록을 실시간으로 감지하는 리스너 등록
+        Query myChatRoomsQuery = chatRoomsRef.orderByChild("users/" + myUserId).equalTo(true);
 
-        // 채팅 목록을 실시간으로 감지하는 리스너 등록
-        chatRoomsRef.addChildEventListener(new ChildEventListener() {
+        myChatRoomsQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                 // 새로운 채팅방이 추가될 때의 처리
@@ -68,22 +76,22 @@ public class FragmentChatting extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                // 채팅방이 변경될 때의 처리
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                // 채팅방이 삭제될 때의 처리
             }
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                // 채팅방이 이동될 때의 처리
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // 오류 처리
             }
         });
 

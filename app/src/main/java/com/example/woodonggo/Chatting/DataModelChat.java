@@ -21,6 +21,7 @@ public class DataModelChat {
         public String uid;
         public String message;
         public Object timestamp;
+        Boolean sentByMe;
     }
 
     public DataModelChat() {
