@@ -213,7 +213,7 @@ public class ChatDetails extends AppCompatActivity {
                                         sendBtn.setEnabled(true);
 
                                         // 메시지 전송
-                                        sendMsgToDataBase(message);
+                                        //sendMsgToDataBase(message);
                                         msgEdit.setText(""); // 메시지 전송 후에는 EditText를 초기화
                                     }
                                 })
