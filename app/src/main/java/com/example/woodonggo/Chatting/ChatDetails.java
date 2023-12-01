@@ -108,6 +108,7 @@ public class ChatDetails extends AppCompatActivity {
         destUid = getIntent().getStringExtra("destUid");        //채팅 상대
         postingId = getIntent().getStringExtra("postingId");  //게시글 자체 아이디
 
+        //채팅방 게시글 관련 ui 띄우는 메서드
         loadUserNickname(destUid);
         retrieveProfilePicture(destUid);
         loadWritingTitle(postingId);
@@ -116,13 +117,9 @@ public class ChatDetails extends AppCompatActivity {
         sendBtn = (Button)findViewById(R.id.send_btn);
         msgEdit = (EditText)findViewById(R.id.msgEdit);
 
-        if(msgEdit.getText().toString() == null) sendBtn.setEnabled(false);
-        else sendBtn.setEnabled(true);
 
         checkChatRoom(); // 채팅방이 있는지 확인
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault());
-        //DataModelMessage message = new DataModelMessage(sdf2.format(new Date()), false, true, new Date());
-        //adapter.add(new DataModelMessage(sdf2.format(new Date()), false, true, new Date()));
+
 
         // 채팅 메시지를 실시간으로 감지하는 리스너 등록
         chatRef.addChildEventListener(new ChildEventListener() {
@@ -273,8 +270,10 @@ public class ChatDetails extends AppCompatActivity {
                 boolean chatRoomExists = false;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
-                    if (chatModel.users.containsKey(destUid) && chatModel.users.containsKey(postingId) && chatModel.users.containsKey(myuid)) {
+                    if (chatModel.users.containsKey(myuid) && chatModel.users.get(myuid) &&
+                            chatModel.users.containsKey(destUid) && chatModel.users.get(destUid)) {
                         // 채팅방이 이미 존재할 때
+                        Log.d("mjc", "Chat room exists for users: " + chatModel.users.get(myuid) + ", " + chatModel.users.get(destUid));
                         chatRoomUid = dataSnapshot.getKey();
                         chatRoomExists = true;
                         if (!isInitialized) {
