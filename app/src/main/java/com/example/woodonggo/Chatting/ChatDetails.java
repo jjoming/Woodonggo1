@@ -327,7 +327,9 @@ public class ChatDetails extends AppCompatActivity {
                         chatRoomUid = dataSnapshot.getKey();
                         chatRoomExists = true;
 
-                        loadChatRoomData(chatRoomUid);
+                        //loadChatRoomData(chatRoomUid);
+
+                        addCommentsChildEventListener(chatRoomUid);
 
                         break;
                     }
@@ -351,6 +353,51 @@ public class ChatDetails extends AppCompatActivity {
                 // 오류 처리
             }
         });
+    }
+
+    private void addCommentsChildEventListener(String chatRoomUid) {
+        firebaseDatabase.getReference().child("chatrooms").child(chatRoomUid).child("comments")
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
+                        ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
+                        if (comment != null) {
+                            String uid = comment.uid;
+                            String messageContent = comment.message;
+                            long timestamp = comment.timestamp != null ? (long) comment.timestamp : 0;
+
+                            boolean isMyMessage = myuid.equals(uid);
+                            boolean isDateMessage = false;
+
+                            Date time = new Date(timestamp);
+                            DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
+                            adapter.add(message);
+
+                            // RecyclerView를 스크롤하여 가장 최근의 메시지가 보이도록 함
+                            recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
+                        // 채팅 내용이 변경되었을 때의 처리
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                        // 채팅 내용이 삭제되었을 때의 처리
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {
+                        // 채팅 내용이 이동되었을 때의 처리
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // 에러 처리
+                    }
+                });
     }
 
 
