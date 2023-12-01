@@ -73,8 +73,6 @@ public class FragmentChatting extends Fragment {
         // Firebase Realtime Database 참조
         DatabaseReference chatRoomsRef = FirebaseDatabase.getInstance().getReference().child("chatrooms");
 
-
-
         // 현재 사용자 아이디를 기준으로 채팅 목록을 실시간으로 감지하는 리스너 등록
         Query myChatRoomsQuery = chatRoomsRef.orderByChild("user/" + myUserId).equalTo(true);
 
@@ -102,7 +100,7 @@ public class FragmentChatting extends Fragment {
                         @Override
                         public void onChatModelLoaded(DataModelChat chatModel) {
                             // 얻어온 chatModel을 어댑터에 추가
-                            adapter.addData(chatModel);
+                            adapter.add(chatModel);
                             adapter.notifyDataSetChanged();
                         }
                     });

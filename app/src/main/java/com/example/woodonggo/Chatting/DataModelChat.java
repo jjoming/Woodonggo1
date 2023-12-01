@@ -28,6 +28,14 @@ public class DataModelChat {
         // 기본 생성자 추가
     }
 
+    public Map<String, Boolean> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Map<String, Boolean> users) {
+        this.users = users;
+    }
+
     public String getRoomId() {
         return roomId;
     }
@@ -50,7 +58,8 @@ public class DataModelChat {
     public void setName(String name) {
         this.name = name;
     }
-    String getUserId() { return userId; }
+
+    public String getUserId() { return userId; }
 
     public void setUserId(String userId) { this.userId = userId; }
 
@@ -79,6 +88,7 @@ public class DataModelChat {
     }
 
     public DataModelChat(String roomId, String name, String chat, String add, String time) {
+        this.roomId = roomId;
         this.name = name;
         this.chat = chat;
         this.add = add;

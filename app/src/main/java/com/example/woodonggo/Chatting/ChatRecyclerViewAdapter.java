@@ -78,6 +78,8 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ChatDetails.class);
+                intent.putExtra("destUid", dataModels.get(position).getUserId());
+                intent.putExtra("postingId", dataModels.get(position).getRoomId());
                 context.startActivity(intent);
             }
         });
@@ -157,7 +159,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         }
     }
 
-    public void addData(DataModelChat chatModel) {
+    public void add(DataModelChat chatModel) {
         dataModels.add(chatModel);
         notifyDataSetChanged();
     }

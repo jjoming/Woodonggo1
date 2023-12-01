@@ -41,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -360,6 +361,8 @@ public class ChatDetails extends AppCompatActivity {
 //        Map<String, DataModelChat> lastMessage = new HashMap<>();
 //        lastMessage.put
 
+        ArrayList<DataModelChat> chatRooms = new ArrayList<>();
+
         // 채팅방 정보 설정
         DataModelChat chatRoom = new DataModelChat();
         chatRoom.roomId = chatRoomKey;
@@ -370,8 +373,13 @@ public class ChatDetails extends AppCompatActivity {
         chatRoom.setName(userName);
         chatRoom.setUserId(destUid);
 
-        Log.d("destId", destUid);
+        chatRooms.add(chatRoom);
 
+
+        Log.d("destId", destUid);
+        for (DataModelChat chat : chatRooms) {
+            Log.d("ChatRoomInfo", "RoomId: " + chat.getRoomId() + ", UserId: " + chat.getUserId());
+        }
 
         // Firebase Realtime Database에 데이터 추가
         chatroomsRef.child(chatRoomKey).setValue(chatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -380,8 +388,6 @@ public class ChatDetails extends AppCompatActivity {
                 // 채팅방이 성공적으로 생성되었을 때 수행할 동작
                 chatRoomUid = chatRoomKey;
                 sendBtn.setEnabled(true);
-
-                addToMyChatList(chatRoom);
 
                 // 동기화
                 recyclerViewChat.setLayoutManager(new LinearLayoutManager(ChatDetails.this));
@@ -398,10 +404,6 @@ public class ChatDetails extends AppCompatActivity {
         });
     }
 
-    private void addToMyChatList(DataModelChat chatRoom) {
-        DatabaseReference userChatListRef = firebaseDatabase.getReference("user_chat_list").child(myuid);
-        userChatListRef.child(chatRoom.getRoomId()).setValue(true);
-    }
 
     private void retrieveProfilePicture(String id) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
