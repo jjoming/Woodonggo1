@@ -77,13 +77,14 @@
         app:layout_constraintTop_toTopOf="@id/pin"
         app:layout_constraintBottom_toBottomOf="@id/pin"/>
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ing"
-        android:text="대결중"
+        android:text="대결하기"
         android:textSize="12sp"
-        android:textColor="@color/black"
+        android:background="@color/navy"
+        android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintRight_toRightOf="@+id/guidelineRight"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"/>

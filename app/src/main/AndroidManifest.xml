@@ -96,6 +96,7 @@
         <activity
             android:name=".PlaceWebview"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MypageReview" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

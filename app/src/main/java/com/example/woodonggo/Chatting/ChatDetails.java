@@ -1,5 +1,6 @@
 package com.example.woodonggo.Chatting;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.woodonggo.LoginSignup2;
+import com.example.woodonggo.LoginSignup3;
+import com.example.woodonggo.MypageReview;
 import com.example.woodonggo.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,7 +55,8 @@ public class ChatDetails extends AppCompatActivity {
     RecyclerView recyclerViewChat;
     ChatMessageAdapter adapter;
     Toolbar toolbar;
-    TextView nickName, ing, placeChat;
+    Button ing;
+    TextView nickName, placeChat;
     ImageView chatImg;
     EditText msgEdit;
     Button sendBtn;
@@ -94,6 +99,23 @@ public class ChatDetails extends AppCompatActivity {
                     onBackPressed();
                 }
                 return false;
+            }
+        });
+        ing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!ing.getText().equals("대결완료")) {
+                    // Change the text of the ing button to "대결완료"
+                    ing.setText("대결완료");
+
+                    // Additional logic for "대결완료" state
+                }
+                else {
+                    Intent intent = new Intent(ChatDetails.this, MypageReview.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
