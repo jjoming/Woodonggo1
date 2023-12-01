@@ -3,6 +3,7 @@ package com.example.woodonggo.Chatting;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,21 +19,30 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.woodonggo.DataModel;
 import com.example.woodonggo.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FragmentChatting extends Fragment {
 
     RecyclerView recyclerView;
     ChatRecyclerViewAdapter adapter;
     String myUserId;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference chatRef;
+    DataModelChat chatModel;
 
     @Nullable
     @Override
@@ -44,11 +54,12 @@ public class FragmentChatting extends Fragment {
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        // Firebase Realtime Database 참조
-        DatabaseReference chatRoomsRef = FirebaseDatabase.getInstance().getReference().child("chatrooms");
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         myUserId = preferences.getString("userId", "");
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        chatRef = firebaseDatabase.getReference().child("chatrooms");
 
         // 채팅 목록을 저장할 리스트
         ArrayList<DataModelChat> chatRooms = new ArrayList<>();
@@ -59,9 +70,55 @@ public class FragmentChatting extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
 
-        // 현재 사용자 아이디를 기준으로 채팅 목록을 실시간으로 감지하는 리스너 등록
-        Query myChatRoomsQuery = chatRoomsRef.orderByChild("users/" + myUserId).equalTo(true);
+        // Firebase Realtime Database 참조
+        DatabaseReference chatRoomsRef = FirebaseDatabase.getInstance().getReference().child("chatrooms");
 
+
+
+        // 현재 사용자 아이디를 기준으로 채팅 목록을 실시간으로 감지하는 리스너 등록
+        Query myChatRoomsQuery = chatRoomsRef.orderByChild("user/" + myUserId).equalTo(true);
+
+        firebaseDatabase.getReference().child("chatrooms").orderByChild("users/" + myUserId).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> roomIds = new ArrayList<>();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    // 각 채팅방의 아이디를 가져와서 리스트에 추가
+                    String roomId = dataSnapshot.getKey();
+                    String name = dataSnapshot.child("name").getValue(String.class);
+                    String chat = dataSnapshot.child("message").getValue(String.class);
+                    String add = dataSnapshot.child("add").getValue(String.class);
+                    String time = dataSnapshot.child("timestamp").getValue(String.class);
+                    roomIds.add(roomId);
+
+                    chatModel = dataSnapshot.getValue(DataModelChat.class);
+                    chatModel = new DataModelChat(roomId, name, chat, add, time);
+                }
+
+                // 어댑터에 데이터를 추가하는 부분
+                for (String roomId : roomIds) {
+                    getChatModelById(roomId, new OnChatModelLoadedListener() {
+                        @Override
+                        public void onChatModelLoaded(DataModelChat chatModel) {
+                            // 얻어온 chatModel을 어댑터에 추가
+                            adapter.addData(chatModel);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
+                // 어댑터 갱신
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 오류 처리
+            }
+        });
+
+        /*
         myChatRoomsQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
@@ -69,7 +126,18 @@ public class FragmentChatting extends Fragment {
                 DataModelChat chatRoom = snapshot.getValue(DataModelChat.class);
                 if (chatRoom != null) {
                     chatRoom.roomId = snapshot.getKey(); // 채팅방의 키를 설정
-                    chatRooms.add(chatRoom);
+                    Log.d("cmk", snapshot.getKey());
+                    // 가져온 chatRoom 객체 사용 예시
+                    String roomId = chatRoom.getRoomId();
+                    int imgSource = chatRoom.getImg();
+                    String name = chatRoom.getName();
+                    String chat = chatRoom.getChat();
+                    String add = chatRoom.getAdd();
+                    String time = chatRoom.getTime();
+                    String userId = chatRoom.getUserId();
+                    chatRooms.add(new DataModelChat(roomId, name, chat, add, time));
+                    adapter = new ChatRecyclerViewAdapter(getActivity(), chatRooms);
+                    //adapter.add(new DataModelChat(roomId, name, chat, add, time));
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -94,6 +162,8 @@ public class FragmentChatting extends Fragment {
                 // 오류 처리
             }
         });
+         */
+
 
         //데이터 모델리스트
 //        ArrayList<DataModelChat> dataModels = new ArrayList<>();
@@ -112,6 +182,35 @@ public class FragmentChatting extends Fragment {
 
         return rootView;
     }
+
+    private void getChatModelById(String roomId, OnChatModelLoadedListener listener) {
+        DatabaseReference chatRoomRef = FirebaseDatabase.getInstance().getReference().child("chatrooms").child(roomId);
+
+        chatRoomRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    DataModelChat chatModel = snapshot.getValue(DataModelChat.class);
+                    listener.onChatModelLoaded(chatModel);
+                } else {
+                    // 해당 채팅방이 존재하지 않을 경우의 처리
+                    listener.onChatModelLoaded(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // 오류 처리
+                listener.onChatModelLoaded(null);
+            }
+        });
+    }
+
+    // 인터페이스 정의
+    interface OnChatModelLoadedListener {
+        void onChatModelLoaded(DataModelChat chatModel);
+    }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

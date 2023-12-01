@@ -78,8 +78,7 @@ public class DataModelChat {
         this.time = time;
     }
 
-    public DataModelChat(int img_source, String name, String chat, String add, String time) {
-        this.img_source = img_source;
+    public DataModelChat(String roomId, String name, String chat, String add, String time) {
         this.name = name;
         this.chat = chat;
         this.add = add;

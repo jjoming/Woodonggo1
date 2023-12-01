@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -53,13 +54,14 @@ public class ChatDetails extends AppCompatActivity {
     ImageView chatImg;
     EditText msgEdit;
     Button sendBtn;
+    String userName; //ㅅㅏㅇ대닉네임
     private DatabaseReference chatRef;
     private String chatRoomUid; //채팅방 하나 id
     String postingId;
     private String myuid;       //나의 id
     private String destUid;     //상대방 uid
     private FirebaseDatabase firebaseDatabase;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
 
 
 
@@ -359,18 +361,16 @@ public class ChatDetails extends AppCompatActivity {
 //        lastMessage.put
 
         // 채팅방 정보 설정
-        //ChatRoom chatRoom = new ChatRoom();
         DataModelChat chatRoom = new DataModelChat();
         chatRoom.roomId = chatRoomKey;
         chatRoom.users = users;
-        //chatRoom.lastMessage = lastMessage;
 
-        chatRoom.setImg(R.drawable.basketball_icon);  // Todo : 상대방 이미지 설정
-        chatRoom.setName(destUid);  // Todo : 상대방 닉네임
-        //chatRoom.setChat("Initial Chat");
-        //chatRoom.setAdd("Additional Information");
-        chatRoom.setTime("Current Time"); // todo : 마지막 메시지 보낸 시간
-        chatRoom.setUserId(myuid);
+        chatRoom.setRoomId(chatRoomKey);
+        chatRoom.setAdd("홍은동");
+        chatRoom.setName(userName);
+        chatRoom.setUserId(destUid);
+
+        Log.d("destId", destUid);
 
 
         // Firebase Realtime Database에 데이터 추가
@@ -380,6 +380,8 @@ public class ChatDetails extends AppCompatActivity {
                 // 채팅방이 성공적으로 생성되었을 때 수행할 동작
                 chatRoomUid = chatRoomKey;
                 sendBtn.setEnabled(true);
+
+                addToMyChatList(chatRoom);
 
                 // 동기화
                 recyclerViewChat.setLayoutManager(new LinearLayoutManager(ChatDetails.this));
@@ -394,6 +396,11 @@ public class ChatDetails extends AppCompatActivity {
                 Log.d("cmk", "채팅방 개설 실패");
             }
         });
+    }
+
+    private void addToMyChatList(DataModelChat chatRoom) {
+        DatabaseReference userChatListRef = firebaseDatabase.getReference("user_chat_list").child(myuid);
+        userChatListRef.child(chatRoom.getRoomId()).setValue(true);
     }
 
     private void retrieveProfilePicture(String id) {
@@ -449,7 +456,7 @@ public class ChatDetails extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        String userName = documentSnapshot.getString("name");
+                        userName = documentSnapshot.getString("name");
                         nickName.setText(userName);
                     } else {
                         // User document does not exist
