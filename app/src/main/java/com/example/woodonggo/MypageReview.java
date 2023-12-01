@@ -3,6 +3,8 @@ package com.example.woodonggo;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
@@ -16,6 +18,7 @@ public class MypageReview extends AppCompatActivity {
 
     CheckBox checkboxTime, checkboxResponse, checkboxManner;
     RadioGroup resultRadioGroup;
+    Button postBtn;
     RadioButton winBtn, sameBtn, loseBtn;
 
     @SuppressLint("MissingInflatedId")
@@ -32,6 +35,15 @@ public class MypageReview extends AppCompatActivity {
         winBtn = findViewById(R.id.winBtn);
         sameBtn = findViewById(R.id.sameBtn);
         loseBtn = findViewById(R.id.loseBtn);
+        postBtn = findViewById(R.id.textPost);
+
+
+        postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToHomeFragment();
+            }
+        });
 
         resultRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -94,5 +106,13 @@ public class MypageReview extends AppCompatActivity {
                 }
             }
         });
+    }
+    private void goToHomeFragment() {
+        // 홈 프래그먼트로 이동하는 코드
+        AppCompatActivity activity = this;
+        activity.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new FragmentHome())
+                .addToBackStack(null)
+                .commit();
     }
 }

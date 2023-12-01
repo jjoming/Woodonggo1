@@ -43,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintLeft_toLeftOf="@+id/guidelineLeft"/>
 
-    <TextView
+    <Button
         android:id="@+id/textPost"
         android:text="등록"
         android:textColor="@color/black"
