@@ -263,6 +263,7 @@ public class ChatDetails extends AppCompatActivity {
         }
     }
 
+
     private void checkChatRoom() {
         firebaseDatabase.getReference().child("chatrooms").orderByChild("users/" + myuid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
