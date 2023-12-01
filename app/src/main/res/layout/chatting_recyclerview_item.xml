@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_chat"
-        android:text="읍면동"
+        android:text="홍은동"
         android:textSize="15sp"
         android:textColor="#737373"
         android:layout_marginLeft="15dp"
@@ -37,29 +37,6 @@
         app:layout_constraintLeft_toRightOf="@id/name_chat"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/point"
-        android:text="・"
-        android:textSize="15sp"
-        android:textColor="#737373"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="27dp"
-        app:layout_constraintLeft_toRightOf="@id/add_chat"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/time_chat"
-        android:text="몇분전"
-        android:textSize="15sp"
-        android:textColor="#737373"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="27dp"
-        app:layout_constraintLeft_toRightOf="@id/point"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:layout_width="wrap_content"

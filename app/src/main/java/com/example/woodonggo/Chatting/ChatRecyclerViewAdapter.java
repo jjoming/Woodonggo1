@@ -95,7 +95,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         }
         //myViewHolder.imageView.setImageResource(dataModels.get(position).getImg());
         myViewHolder.name_chat.setText(dataModels.get(position).getName());
-        myViewHolder.chat_chat.setText(dataModels.get(position).getChat());
+        myViewHolder.chat_chat.setText(dataModels.get(position).getLastMessage());
     }
 
     private void loadProfileImage(String userId, ImageView imgProfile) {
@@ -169,7 +169,6 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         TextView name_chat;
         TextView chat_chat;
         TextView add_chat;
-        TextView time_chat;
         ImageView imageView;
         int img_source;
 
@@ -179,7 +178,6 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
             name_chat =  itemView.findViewById(R.id.name_chat);
             chat_chat = itemView.findViewById(R.id.chat_chat);
             add_chat = itemView.findViewById(R.id.add_chat);
-            time_chat = itemView.findViewById(R.id.time_chat);
         }
     }
 }

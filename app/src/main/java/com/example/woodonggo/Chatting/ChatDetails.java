@@ -261,6 +261,8 @@ public class ChatDetails extends AppCompatActivity {
                         }
                     });
         }
+
+        updateLastMessage(message);
     }
 
 
@@ -321,6 +323,7 @@ public class ChatDetails extends AppCompatActivity {
 
                             // RecyclerView를 스크롤하여 가장 최근의 메시지가 보이도록 함
                             recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
+                            updateLastMessage(messageContent);
                         }
                     }
 
@@ -491,5 +494,13 @@ public class ChatDetails extends AppCompatActivity {
                     // Handle any errors
                     Log.e("FirestoreData", "Error retrieving user data", e);
                 });
+    }
+
+    private void updateLastMessage(String message) {
+        DatabaseReference chatroomRef = firebaseDatabase.getReference().child("chatrooms").child(chatRoomUid);
+        Map<String, Object> lastMessageMap = new HashMap<>();
+        lastMessageMap.put("lastMessage", message);
+        lastMessageMap.put("lastMessageTimestamp", ServerValue.TIMESTAMP);
+        chatroomRef.updateChildren(lastMessageMap);
     }
 }

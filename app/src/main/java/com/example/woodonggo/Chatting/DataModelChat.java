@@ -13,7 +13,17 @@ public class DataModelChat {
 
     public String roomId; // 채팅방의 키
     public Map<String, Boolean> users = new HashMap<>(); // 채팅방 유저 목록
-    public Map<String, DataModelChat> lastMessage = new HashMap<>(); // 채팅방의 마지막 메시지
+    //public Map<String, DataModelChat> lastMessage = new HashMap<>(); // 채팅방의 마지막 메시지
+    private String lastMessage; // 마지막 메시지 내용
+    private long lastMessageTimestamp; // 마지막 메시지의 타임스탬프
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
 
 
     public static class Comment
