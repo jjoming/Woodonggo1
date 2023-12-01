@@ -129,7 +129,15 @@ public class ChatDetails extends AppCompatActivity {
                 ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
                 if (comment != null) {
                     // Firebase에서 받은 메시지를 RecyclerView에 추가
-                    DataModelMessage message = new DataModelMessage(comment.message, false, false, (Date) comment.timestamp);
+                    //DataModelMessage message = new DataModelMessage(comment.message, false, false, (Date) comment.timestamp);
+                    String uid = comment.uid;
+                    String messageContent = comment.message;
+
+                    boolean isMyMessage = myuid.equals(uid);
+                    boolean isDateMessage = false;
+
+                    Date time = new Date((Long) comment.timestamp);
+                    DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
                     adapter.add(message);
                 }
             }
