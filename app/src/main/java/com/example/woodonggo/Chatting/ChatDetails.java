@@ -138,6 +138,8 @@ public class ChatDetails extends AppCompatActivity {
                     Date time = new Date(timestamp);
                     DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
                     adapter.add(message);
+
+                    recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
                 }
             }
 
@@ -201,7 +203,6 @@ public class ChatDetails extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        checkChatRoom();
                                         sendMsgToDataBase(message);
                                         msgEdit.setText(""); // 메시지 전송 후에는 EditText를 초기화
                                     }
