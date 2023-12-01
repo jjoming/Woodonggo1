@@ -128,18 +128,18 @@ public class ChatDetails extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                 ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
                 if (comment != null) {
-//                    String uid = comment.uid;
-//                    String messageContent = comment.message;
-//                    long timestamp = comment.timestamp != null ? (long) comment.timestamp : 0; // 기본값으로 0 설정
-//
-//                    boolean isMyMessage = myuid.equals(uid);
-//                    boolean isDateMessage = false;
-//
-//                    Date time = new Date(timestamp);
-//                    DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
-//                    adapter.add(message);
-//
-//                    recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
+                    String uid = comment.uid;
+                    String messageContent = comment.message;
+                    long timestamp = comment.timestamp != null ? (long) comment.timestamp : 0; // 기본값으로 0 설정
+
+                    boolean isMyMessage = myuid.equals(uid);
+                    boolean isDateMessage = false;
+
+                    Date time = new Date(timestamp);
+                    DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
+                    adapter.add(message);
+
+                    recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
                 }
             }
 

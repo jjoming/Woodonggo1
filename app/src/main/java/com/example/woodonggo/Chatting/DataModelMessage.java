@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class DataModelMessage {
 
-    private String content;
+    private String message;
     private boolean isMyMessage; // 메시지의 소유자 여부
     private boolean isDateMessage; // 날짜 메시지 여부
     private Date time; // 시간을 저장하는 필드
@@ -16,16 +16,16 @@ public class DataModelMessage {
         // 기본 생성자
     }
 
-    public DataModelMessage(String content, boolean isMyMessage, boolean isDateMessage, Date time) {
-        this.content = content;
+    public DataModelMessage(String message, boolean isMyMessage, boolean isDateMessage, Date time) {
+        this.message = message;
         this.isMyMessage = isMyMessage;
         this.isDateMessage = isDateMessage;
         this.time = time;
         //this.date = date;
     }
 
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return message;
     }
 
     public boolean isMyMessage() {

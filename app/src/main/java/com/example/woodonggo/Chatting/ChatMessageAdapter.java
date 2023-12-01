@@ -150,7 +150,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public void bind(DataModelMessage message) {
             // 메시지 및 시간 텍스트 설정
-            messageText.setText(message.getContent());
+            messageText.setText(message.getMessage());
             timeText.setText(message.getTime());
             // 다른 UI 설정...
         }
@@ -168,7 +168,7 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public void bind(DataModelMessage message) {
             // 메시지 및 시간 텍스트 설정
-            messageText.setText(message.getContent());
+            messageText.setText(message.getMessage());
             timeText.setText(message.getTime());
         }
     }
