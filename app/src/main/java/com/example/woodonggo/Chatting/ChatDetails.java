@@ -273,7 +273,7 @@ public class ChatDetails extends AppCompatActivity {
                 boolean chatRoomExists = false;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
-                    if (chatModel.users.containsKey(destUid) && chatModel.users.containsKey(postingId)) {
+                    if (chatModel.users.containsKey(destUid) && chatModel.users.containsKey(postingId) && chatModel.users.containsKey(myuid)) {
                         // 채팅방이 이미 존재할 때
                         chatRoomUid = dataSnapshot.getKey();
                         chatRoomExists = true;
