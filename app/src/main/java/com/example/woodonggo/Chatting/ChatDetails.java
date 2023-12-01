@@ -132,11 +132,12 @@ public class ChatDetails extends AppCompatActivity {
                     //DataModelMessage message = new DataModelMessage(comment.message, false, false, (Date) comment.timestamp);
                     String uid = comment.uid;
                     String messageContent = comment.message;
+                    //Long timestamp = (Long) comment.timestamp;
 
                     boolean isMyMessage = myuid.equals(uid);
                     boolean isDateMessage = false;
 
-                    Date time = new Date((Long) comment.timestamp);
+                    Date time = new Date();
                     DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
                     adapter.add(message);
                 }
