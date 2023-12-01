@@ -128,18 +128,18 @@ public class ChatDetails extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                 ChatModel.Comment comment = snapshot.getValue(ChatModel.Comment.class);
                 if (comment != null) {
-                    String uid = comment.uid;
-                    String messageContent = comment.message;
-                    long timestamp = comment.timestamp != null ? (long) comment.timestamp : 0; // 기본값으로 0 설정
-
-                    boolean isMyMessage = myuid.equals(uid);
-                    boolean isDateMessage = false;
-
-                    Date time = new Date(timestamp);
-                    DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
-                    adapter.add(message);
-
-                    recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
+//                    String uid = comment.uid;
+//                    String messageContent = comment.message;
+//                    long timestamp = comment.timestamp != null ? (long) comment.timestamp : 0; // 기본값으로 0 설정
+//
+//                    boolean isMyMessage = myuid.equals(uid);
+//                    boolean isDateMessage = false;
+//
+//                    Date time = new Date(timestamp);
+//                    DataModelMessage message = new DataModelMessage(messageContent, isMyMessage, isDateMessage, time);
+//                    adapter.add(message);
+//
+//                    recyclerViewChat.scrollToPosition(adapter.getItemCount() - 1);
                 }
             }
 
@@ -322,7 +322,7 @@ public class ChatDetails extends AppCompatActivity {
                 boolean chatRoomExists = false;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
-                    if (chatModel.users.containsKey(destUid) && chatModel.users.containsKey(postingId) && chatModel.users.containsKey(myuid)) {
+                    if (chatModel.users.containsKey(destUid) && chatModel.users.containsKey(postingId)) {
                         // 채팅방이 이미 존재할 때
                         chatRoomUid = dataSnapshot.getKey();
                         chatRoomExists = true;
