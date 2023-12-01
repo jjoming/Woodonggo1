@@ -1,24 +1,17 @@
 package com.example.woodonggo.Raingking;
 
 public class DataModelRank {
-    String ranking;
-    int img;
-    String nick;
+    int ranking;
+    String nick,userId;
 
-    public String getRanking() {
+
+
+    public int getRanking() {
         return ranking;
     }
 
-    public void setRanking(String ranking) {
+    public void setRanking(int ranking) {
         this.ranking = ranking;
-    }
-
-    public int getImg() {
-        return img;
-    }
-
-    public void setImg(int img) {
-        this.img = img;
     }
 
     public String getNick() {
@@ -29,9 +22,18 @@ public class DataModelRank {
         this.nick = nick;
     }
 
-    public DataModelRank(String ranking, int img, String nick) {
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.nick = userId;
+    }
+
+    public DataModelRank(int ranking, String nick, String userId) {
         this.ranking = ranking;
-        this.img = img;
         this.nick = nick;
+        this.userId = userId;
     }
 }

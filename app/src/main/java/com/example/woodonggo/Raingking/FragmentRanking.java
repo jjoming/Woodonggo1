@@ -144,6 +144,7 @@ public class FragmentRanking extends Fragment {
 
 
     private void setRanking(String keyword) {
+        dataModels.clear();
         String scoreField = "";  // scoreField 변수 추가
 
         // 운동 종목에 따라 scoreField 설정
@@ -159,7 +160,7 @@ public class FragmentRanking extends Fragment {
         if (!scoreField.isEmpty()) {
             db.collection("User")
                     .orderBy(scoreField, Query.Direction.DESCENDING)
-                    .limit(3)
+                    .limit(10)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -191,9 +192,23 @@ public class FragmentRanking extends Fragment {
                                     // Update profile image for 3rd rank
                                     fetchUserProfileImageForRank(userId, profile_rank3);
                                 }
+                                if(rankCounter>=4 && rankCounter<=10) {
+                                    DataModelRank dataModel = new DataModelRank(rankCounter, userName, userId);
+                                    dataModels.add(dataModel);
+                                }
+
+                                // Check if the current user's rank is found
+                                if (userId.equals(upload_id)) {
+                                    // Update myrank with the rankCounter
+                                    myrank.setText(String.valueOf(rankCounter));
+                                }
 
                                 rankCounter++;
+
+
+
                             }
+                            adapter.notifyDataSetChanged();
                         } else {
                             Log.d("error", "Error occurred");
                         }
