@@ -63,6 +63,8 @@ public class ChatDetails extends AppCompatActivity {
     private String destUid;     //상대방 uid
     private FirebaseDatabase firebaseDatabase;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm");
+    private boolean isInitialized = false;
+
 
 
 
@@ -191,6 +193,11 @@ public class ChatDetails extends AppCompatActivity {
             public void onClick(View v) {
                 final String message = msgEdit.getText().toString().trim();
 
+                DatabaseReference chatroomsRef = firebaseDatabase.getReference("chatrooms");
+
+                // 새로운 채팅방을 위한 키 생성
+                String chatRoomKey = chatroomsRef.push().getKey();
+
                 if (!TextUtils.isEmpty(message)) {
                     DataModelChat chatModel = new DataModelChat();
                     chatModel.users.put(myuid, true);
@@ -203,6 +210,12 @@ public class ChatDetails extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        // 채팅방이 성공적으로 생성되었을 때 수행할 동작
+                                        chatRoomUid = chatRoomKey;
+                                        addCommentsChildEventListener(chatRoomUid);
+                                        sendBtn.setEnabled(true);
+
+                                        // 메시지 전송
                                         sendMsgToDataBase(message);
                                         msgEdit.setText(""); // 메시지 전송 후에는 EditText를 초기화
                                     }
@@ -218,34 +231,8 @@ public class ChatDetails extends AppCompatActivity {
                         sendMsgToDataBase(message);
                     }
                 }
-
             }
         });
-
-        // 커스텀 어댑터 생성
-        /*
-        adapter = new ChatMessageAdapter();
-
-
-        // Xml에서 추가한 ListView 연결
-        recyclerViewChat = (RecyclerView) findViewById(R.id.recyclerViewChat);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerViewChat.setLayoutManager(layoutManager);
-
-        // ListView에 어댑터 연결
-        recyclerViewChat.setAdapter(adapter);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date currentTime = new Date();
-
-        DataModelMessage myMessage = new DataModelMessage("This is my message", true, false, currentTime, currentTime);
-        DataModelMessage otherMessage = new DataModelMessage("This is another person's message", false, false, currentTime, currentTime);
-        DataModelMessage dateMessage = new DataModelMessage("2023-11-07", false, true, currentTime, currentTime);
-
-        adapter.add(dateMessage);
-        adapter.add(myMessage);
-        adapter.add(otherMessage);*/
 
     }   //onCreate
 
@@ -279,42 +266,6 @@ public class ChatDetails extends AppCompatActivity {
         }
     }
 
-    /*
-    private void checkChatRoom()
-    {
-        //자신 key == true 일때 chatModel 가져온다.
-//        /* chatModel
-//        public Map<String,Boolean> users = new HashMap<>(); //채팅방 유저
-//        public Map<String, ChatModel.Comment> comments = new HashMap<>(); //채팅 메시지
-//
-        firebaseDatabase.getReference().child("chatrooms").orderByChild("users/"+myuid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()) //나, 상대방 id 가져온다.
-                {
-                    ChatModel chatModel = dataSnapshot.getValue(ChatModel.class);
-                    if(chatModel.users.containsKey(destUid)){           //상대방 id 포함돼 있을때 채팅방 key 가져옴
-                        chatRoomUid = dataSnapshot.getKey();
-                        sendBtn.setEnabled(true);
-
-                        //동기화
-                        recyclerViewChat.setLayoutManager(new LinearLayoutManager(ChatDetails.this));
-                        recyclerViewChat.setAdapter(adapter);
-
-                        //메시지 보내기
-                        sendMsgToDataBase();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-    */
-
     private void checkChatRoom() {
         firebaseDatabase.getReference().child("chatrooms").orderByChild("users/" + myuid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -326,26 +277,21 @@ public class ChatDetails extends AppCompatActivity {
                         // 채팅방이 이미 존재할 때
                         chatRoomUid = dataSnapshot.getKey();
                         chatRoomExists = true;
-
-                        //loadChatRoomData(chatRoomUid);
-
-                        addCommentsChildEventListener(chatRoomUid);
-
+                        if (!isInitialized) {
+                            addCommentsChildEventListener(chatRoomUid);
+                            isInitialized = true;
+                        }
                         break;
                     }
                 }
 
                 if (!chatRoomExists) {
-                    // 채팅방이 존재하지 않을 때
                     createChatRoom(postingId, destUid);
                 }
 
                 // 어댑터 설정
                 recyclerViewChat.setLayoutManager(new LinearLayoutManager(ChatDetails.this));
                 recyclerViewChat.setAdapter(adapter);
-
-                // 메시지 전송
-                // sendMsgToDataBase();
             }
 
             @Override
