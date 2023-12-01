@@ -12,27 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.woodonggo.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter<Ranking_RecyclerView_Adapter.MyViewHolder> {
 
-    /*
-  어댑터의 동작원리 및 순서
-  1.(getItemCount) 데이터 개수를 세어 어댑터가 만들어야 할 총 아이템 개수를 얻는다.
-  2.(getItemViewType)[생략가능] 현재 itemview의 viewtype을 판단한다
-  3.(onCreateViewHolder)viewtype에 맞는 뷰 홀더를 생성하여 onBindViewHolder에 전달한다.
-  4.(onBindViewHolder)뷰홀더와 position을 받아 postion에 맞는 데이터를 뷰홀더의 뷰들에 바인딩한다.
-  */
+    private static final String TAG = "RecyclerViewAdapter";
+    private ArrayList<DataModelRank> dataModels;
+    private Context context;
 
-    String TAG = "RecyclerViewAdapter";
-
-    //리사이클러뷰에 넣을 데이터 리스트
-    ArrayList<DataModelRank> dataModels;
-    Context context;
-
-    //생성자를 통하여 데이터 리스트 context를 받음
     public Ranking_RecyclerView_Adapter(FragmentActivity context, ArrayList<DataModelRank> dataModels) {
         this.dataModels = dataModels;
         this.context = context;
@@ -47,58 +39,38 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter<Ranking_R
         notifyDataSetChanged();
     }
 
-    public int getItemCount() {
-        //데이터 리스트의 크기를 전달해주어야 함
-        return dataModels.size();
-    }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG,"onCreateViewHolder");
-
-        //자신이 만든 itemview를 inflate한 다음 뷰홀더 생성
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_recyclerview_item,parent,false);
-        MyViewHolder viewHolder = new MyViewHolder(view);
-
-
-        //생선된 뷰홀더를 리턴하여 onBindViewHolder에 전달한다.
-        return viewHolder;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_recyclerview_item, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Log.d(TAG,"onBindViewHolder");
+        Log.d(TAG, "onBindViewHolder");
 
-        MyViewHolder myViewHolder = (MyViewHolder)holder;
+        MyViewHolder myViewHolder = (MyViewHolder) holder;
 
-        myViewHolder.rank.setText(dataModels.get(position).getRanking());
+        DataModelRank dataModel = dataModels.get(position);
+
+        myViewHolder.rank.setText(String.valueOf(dataModel.getRanking()));
         myViewHolder.rank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 랭킹을 눌렀을 때 나오는 화면
             }
         });
-        myViewHolder.imgView_rank.setImageResource(dataModels.get(position).getImg());
-        myViewHolder.nick_rank.setText(dataModels.get(position).getNick());
+        String rank = getUserIdBasedOnRank(dataModel.getRanking());
+        String userId = dataModel.getUserId();
+        fetchUserProfileImageForRank(rank, myViewHolder.imgView_rank, userId);
+        myViewHolder.nick_rank.setText(dataModel.getNick());
     }
 
-//    @Override
-//    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        Log.d(TAG,"onBindViewHolder");
-//
-//        MyViewHolder myViewHolder = (MyViewHolder)holder;
-//
-//        myViewHolder.rank.setText(dataModels.get(position).getRanking());
-//        myViewHolder.rank.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 랭킹을 눌렀을 때 나오는 화면
-//            }
-//        });
-//        myViewHolder.imgView_rank.setImageResource(dataModels.get(position).getImg());
-//        myViewHolder.nick_rank.setText(dataModels.get(position).getNick());
-//    }
+    @Override
+    public int getItemCount() {
+        return dataModels.size();
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView rank;
@@ -107,11 +79,31 @@ public class Ranking_RecyclerView_Adapter extends RecyclerView.Adapter<Ranking_R
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            rank =  itemView.findViewById(R.id.rank);
+            rank = itemView.findViewById(R.id.rank);
             imgView_rank = itemView.findViewById(R.id.imgView_rank);
             nick_rank = itemView.findViewById(R.id.nick_rank);
         }
     }
 
+    private String getUserIdBasedOnRank(int rank) {
+        return String.valueOf(rank);
+    }
 
+    private void fetchUserProfileImageForRank(String rank, ImageView imageView, String userId) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference profileImageRef = storageReference.child("user_profiles/" + userId + ".jpg");
+
+        profileImageRef.getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    Glide.with(context)
+                            .load(uri)
+                            .into(imageView);
+                })
+                .addOnFailureListener(exception -> {
+                    Glide.with(context)
+                            .load(R.drawable.noprofile)
+                            .into(imageView);
+                });
+    }
 }
