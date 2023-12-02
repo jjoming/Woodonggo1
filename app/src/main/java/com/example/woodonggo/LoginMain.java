@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +63,7 @@ public class LoginMain extends AppCompatActivity {
     EditText id_edit, pw_edit;
     TextView signUpTextView, findId, findPw;
     CheckBox autologin_chk;
+
     private String naver_client_id = "AlrQlFUIJfEvBysmrJ2_";
     private String naver_client_secret = "pGaTJRO0pk";
     private String naver_client_name = "woodonggo";
@@ -86,6 +88,7 @@ public class LoginMain extends AppCompatActivity {
         Context context = LoginMain.this;
         Log.d("getKeyHash", "" + getKeyHash(LoginMain.this));
 
+
         login_btn = findViewById(R.id.login_button);
         signUpTextView = findViewById(R.id.signUp);
         naver_login = findViewById(R.id.naver_Login);
@@ -98,22 +101,26 @@ public class LoginMain extends AppCompatActivity {
         pw_edit = findViewById(R.id.loginPw);
         autologin_chk = findViewById(R.id.check_login);
 
+        //현재 사용자 정보를 가져옴
         firebaseAuth = FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
+
         //DB에서 데이터를 읽거나 쓰기 위해선 DatabaseReference가 필요!
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String id, passwd;
 
-                String id, pw;
+                //에디드텍스트에 입력된 아이디, 패스워드 받아와서 String으로 변환
                 id = id_edit.getText().toString();
-                pw = pw_edit.getText().toString();
-                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(pw)) {
+                passwd = pw_edit.getText().toString();
+
+                if (TextUtils.isEmpty(id) || TextUtils.isEmpty(passwd)) {
                     Toast.makeText(LoginMain.this, "ID와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
-                } else login(id,pw);
+                } else login(id,passwd);
 
                 // todo : 아이디 패스워드 서버와 일치하는지 확인
             }

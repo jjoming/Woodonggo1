@@ -186,6 +186,7 @@
 
     <EditText
         android:id="@+id/edtTitle"
+        android:textCursorDrawable="@drawable/home_posting_edittext_cursor"
         android:fontFamily="@font/pretendard_medium"
         android:hint="대결장소를 작성해 주세요!"
         android:textColor="@color/black"
@@ -226,6 +227,7 @@
 
     <EditText
         android:id="@+id/edtContent"
+        android:textCursorDrawable="@drawable/home_posting_edittext_cursor"
         android:fontFamily="@font/pretendard_medium"
         android:hint="게시글 내용을 작성해주세요! (100자 이내)"
         android:textColor="@color/black"
