@@ -14,6 +14,7 @@
         <!--TODO:에디트텍스트 커스텀-->
         <EditText
             android:id="@+id/editText"
+            android:textCursorDrawable="@drawable/home_posting_edittext_cursor"
             android:background="@drawable/edittext_search"
             android:hint="우리 동네에서 즐길 수 있는 운동은?"
             android:imeOptions="actionSearch"

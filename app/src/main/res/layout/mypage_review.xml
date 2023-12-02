@@ -168,6 +168,7 @@
 
             <EditText
                 android:id="@+id/editReview"
+                android:textCursorDrawable=""
                 android:textSize="15sp"
                 android:textColor="@color/black"
                 android:layout_width="0dp"

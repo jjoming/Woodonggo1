@@ -111,6 +111,7 @@
 
     <EditText
         android:id="@+id/msgEdit"
+        android:textCursorDrawable="@drawable/chatting_detail_edittext_cursor"
         android:elevation="50dp"
         android:hint="메세지를 입력하세요"
         android:inputType="textMultiLine"

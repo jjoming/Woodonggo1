@@ -4,6 +4,20 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,8 +26,7 @@
         app:layout_constraintTop_toBottomOf="@id/imglogo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20sp"
-        />
+        android:layout_marginTop="20sp" />
 
     <ImageView
         android:id="@+id/imglogo"
@@ -39,67 +52,48 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/imglogo"
         app:layout_constraintBottom_toBottomOf="@id/imglogo"
-        android:textColor="@color/navy"
-        />
+        android:textColor="@color/navy" />
 
-    <LinearLayout
-        android:layout_width="300sp"
-        android:layout_height="45sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:layout_marginTop="110sp"
-        android:gravity="left"
-        android:background="@drawable/edittext_custom"
-        android:id="@+id/layout1"
-        >
         <EditText
             android:id="@+id/newpw_et"
-            android:layout_width="wrap_content"
+            android:textCursorDrawable="@drawable/login_edittext_cursor"
+            android:background="@drawable/edittext_custom"
+            android:textSize="15sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_marginTop="110dp"
             android:hint="새 비밀번호"
-            android:layout_marginLeft="10sp"
-            android:background="@null"
-            android:layout_gravity="center"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout2"
-        android:layout_width="300sp"
-        android:layout_height="45sp"
-        android:layout_marginTop="20sp"
-        android:background="@drawable/edittext_custom"
-        android:gravity="left"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout1">
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+            app:layout_constraintRight_toRightOf="@id/guidelineRight"/>
 
         <EditText
             android:id="@+id/newpw_et2"
-            android:layout_width="wrap_content"
+            android:textCursorDrawable="@drawable/login_edittext_cursor"
+            android:background="@drawable/edittext_custom"
+            android:textSize="15sp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10sp"
-            android:background="@null"
-            android:hint="새 비밀번호 확인" />
-    </LinearLayout>
+            android:layout_marginTop="20dp"
+            android:padding="12dp"
+            android:hint="새 비밀번호 확인"
+            app:layout_constraintTop_toBottomOf="@id/newpw_et"
+            app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
+            app:layout_constraintRight_toRightOf="@id/guidelineRight"/>
 
     <Button
         android:id="@+id/certification_btn"
-        android:layout_width="150sp"
-        android:layout_height="50sp"
-        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         android:text="확인"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout2"
-        android:layout_marginTop="20sp"
-        android:layout_marginLeft="150sp"
+        app:layout_constraintRight_toRightOf="@id/guidelineRight"
+        app:layout_constraintTop_toBottomOf="@id/newpw_et2"
+        android:layout_marginTop="20dp"
         android:background="@drawable/loginbutton_custom"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        />
+        android:textSize="15sp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
