@@ -93,6 +93,7 @@
 
     <CheckBox
         android:id="@+id/check_login"
+        android:button="@drawable/login_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -101,7 +102,7 @@
         android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@+id/loginPw"
-        android:layout_marginLeft="-8dp" />
+        android:layout_marginLeft="-4dp" />
 
     <Button
         android:id="@+id/login_button"
