@@ -2,6 +2,8 @@ package com.example.woodonggo.Home;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -85,15 +87,25 @@ public class Home_posting extends AppCompatActivity {
         //db설정.
         db = FirebaseFirestore.getInstance();
 
+        Drawable arrowLeft = getResources().getDrawable(R.drawable.arrow_left_radiobtn);
+        Drawable arrowRight = getResources().getDrawable(R.drawable.arrow_right_radiobtn);
+        arrowLeft.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        arrowRight.setColorFilter(Color.parseColor("#606060"), PorterDuff.Mode.SRC_IN);
+
         //라디오그룹 팀 및 개인
         radioGroupCategory.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.btnTeam) {
                     radioGroupTeam.setVisibility(View.VISIBLE);
                     radioGroupPersonal.setVisibility(View.INVISIBLE);
                     btnTeam.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.arrow_left_radiobtn, 0);
+                    btnTeam.setTextColor(Color.WHITE); //선택된 버튼의 텍스트 컬러를 하얀색으로 변경
+                    btnTeam.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowLeft, null);
+                    btnPersonal.setTextColor(Color.parseColor("#606060")); //선택 해제된 버튼의 텍스트는 회색으로 변경
                     btnPersonal.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_right_radiobtn, 0);
+                    btnPersonal.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowRight, null);
 
                     btnPingpong.setChecked(true);
                     btnPingpong.setTextColor(Color.WHITE);
@@ -102,7 +114,11 @@ public class Home_posting extends AppCompatActivity {
                     radioGroupPersonal.setVisibility(View.VISIBLE);
                     radioGroupTeam.setVisibility(View.INVISIBLE);
                     btnPersonal.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_left_radiobtn, 0);
+                    btnPersonal.setTextColor(Color.WHITE); //선택된 버튼의 텍스트 컬러를 하얀색으로 변경
+                    btnPersonal.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowLeft, null);
+                    btnTeam.setTextColor(Color.parseColor("#606060")); //선택 해제된 버튼의 텍스트는 회색으로 변경
                     btnTeam.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.arrow_right_radiobtn, 0);
+                    btnTeam.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, arrowRight, null);
 
                     btnGolf.setChecked(true);
                     btnGolf.setTextColor(Color.WHITE);

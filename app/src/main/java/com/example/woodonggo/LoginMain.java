@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ import com.kakao.sdk.user.UserApiClient;
 
 public class LoginMain extends AppCompatActivity {
     private static final String TAG = "LoginMain";
+    SharedPreferences loginInformation;
     Button login_btn;
     EditText id_edit, pw_edit;
     TextView signUpTextView, findId, findPw;
@@ -108,6 +110,38 @@ public class LoginMain extends AppCompatActivity {
         //DB에서 데이터를 읽거나 쓰기 위해선 DatabaseReference가 필요!
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+
+        //자동 로그인
+        loginInformation = getSharedPreferences("setting", 0); //SharedPreferences 객체 변수 생성, setting은 파일이름
+
+        if(currentUser != null){
+            currentUser.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                @Override
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                    try {
+                        if(task.isSuccessful()) {
+                            String idToken = task.getResult().getToken();
+                            Log.d(TAG,"아이디 토큰 = " + idToken);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        autologin_chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){ //자동로그인에 체크되어 있다면..
+                    loginInformation = getSharedPreferences("setting", 0);
+                }
+            }
+        });
+
+        //로그인 클릭 이벤트 처리
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +161,8 @@ public class LoginMain extends AppCompatActivity {
                 // todo : 아이디 패스워드 서버와 일치하는지 확인
             }
         });
+        
+        //아이디 찾기 화면으로 이동
         findId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +170,8 @@ public class LoginMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        
+        //패스워드 찾기 화면으로 이동
         findPw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +179,8 @@ public class LoginMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        
+        //회원가입 화면으로 이동
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +188,8 @@ public class LoginMain extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        
+        //카카오 로그인
         kakao_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +201,8 @@ public class LoginMain extends AppCompatActivity {
                 }
             }
         });
+        
+        //네이버 로그인
         naver_login.setOAuthLogin(new OAuthLoginCallback() {
             @Override
             public void onSuccess() {
@@ -195,6 +239,7 @@ public class LoginMain extends AppCompatActivity {
             }
         });
     }
+
     private void login(String id, String pw) {
         DocumentReference userRef, autoLogin;
         userRef = db.collection("User").document(id);
@@ -204,9 +249,10 @@ public class LoginMain extends AppCompatActivity {
                 if(document.exists()) {
                     String storedPw = document.getString("passwd");
                     if (pw.equals(storedPw)) {
-                        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginMain.this);
-                        preferences.edit().putBoolean(PREF_AUTO_LOGIN, autologin_chk.isChecked()).apply();
-                        SharedPreferences.Editor editor = preferences.edit();
+                        loginInformation = getSharedPreferences("setting", 0);
+                        loginInformation = PreferenceManager.getDefaultSharedPreferences(LoginMain.this);
+                        loginInformation.edit().putBoolean(PREF_AUTO_LOGIN, autologin_chk.isChecked()).apply();
+                        SharedPreferences.Editor editor = loginInformation.edit();
                         Log.d("HONG2",id);
                         editor.putString("userId", id);
                         editor.apply();
@@ -259,6 +305,7 @@ public class LoginMain extends AppCompatActivity {
             }
         });
     }
+
     private void gotosignup2(String userId) {
         gotosignup2(userId , null);
     }
