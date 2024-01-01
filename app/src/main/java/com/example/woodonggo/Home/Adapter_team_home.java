@@ -177,15 +177,15 @@ public class Adapter_team_home extends RecyclerView.Adapter<Adapter_team_home.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            writer = itemView.findViewById(R.id.text_name);
-            upload_date = itemView.findViewById(R.id.text_time);
-            content = itemView.findViewById(R.id.text_content);
-            img_profile = itemView.findViewById(R.id.img_profile);
+            writer = itemView.findViewById(R.id.textName);
+            upload_date = itemView.findViewById(R.id.textTime);
+            content = itemView.findViewById(R.id.textContent);
+            img_profile = itemView.findViewById(R.id.imgProfile);
             more = itemView.findViewById(R.id.more);
-            img_category = itemView.findViewById(R.id.img_category);
-            img_like = itemView.findViewById(R.id.img_like);
+            img_category = itemView.findViewById(R.id.imgCategory);
+            img_like = itemView.findViewById(R.id.imgLike);
             img_like.setImageResource(R.drawable.selector_icon_heart);
-            likes = itemView.findViewById(R.id.text_like);
+            likes = itemView.findViewById(R.id.textLike);
 
             //리사이클러뷰 아이템 클릭 이벤트 처리
             itemView.setOnClickListener(new View.OnClickListener() {

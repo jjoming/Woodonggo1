@@ -180,11 +180,11 @@ public class Adapter_personal_home extends RecyclerView.Adapter<Adapter_personal
             super(itemView);
             writer = itemView.findViewById(R.id.text_name);
             upload_date = itemView.findViewById(R.id.text_time);
-            content = itemView.findViewById(R.id.text_content);
+            content = itemView.findViewById(R.id.textContent);
             img_profile = itemView.findViewById(R.id.img_profile);
             more = itemView.findViewById(R.id.more);
-            img_category = itemView.findViewById(R.id.img_category);
-            img_like = itemView.findViewById(R.id.img_like);
+            img_category = itemView.findViewById(R.id.imgCategory);
+            img_like = itemView.findViewById(R.id.imgLike);
             img_like.setImageResource(R.drawable.selector_icon_heart);
             likes = itemView.findViewById(R.id.text_like);
 

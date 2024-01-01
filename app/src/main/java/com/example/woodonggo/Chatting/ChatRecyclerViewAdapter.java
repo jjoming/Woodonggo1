@@ -174,9 +174,9 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imgView_chat);
-            name_chat =  itemView.findViewById(R.id.name_chat);
-            chat_chat = itemView.findViewById(R.id.chat_chat);
+            imageView = itemView.findViewById(R.id.imgChat);
+            name_chat =  itemView.findViewById(R.id.nameChat);
+            chat_chat = itemView.findViewById(R.id.chatContent);
             add_chat = itemView.findViewById(R.id.add_chat);
         }
     }

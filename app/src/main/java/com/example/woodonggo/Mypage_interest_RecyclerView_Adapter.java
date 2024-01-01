@@ -44,11 +44,11 @@ public class Mypage_interest_RecyclerView_Adapter extends RecyclerView.Adapter<M
         public ViewHolder(View itemView) {
             super(itemView);
             profileImage = itemView.findViewById(R.id.profile_image);
-            tvName = itemView.findViewById(R.id.tv_name);
+            tvName = itemView.findViewById(R.id.textName);
             uploadTime = itemView.findViewById(R.id.upload_time);
             tvTitle = itemView.findViewById(R.id.tv_title);
             divider = itemView.findViewById(R.id.divider);
-            moreBtn = itemView.findViewById(R.id.more_btn);
+            moreBtn = itemView.findViewById(R.id.moreBtn);
 
             moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
